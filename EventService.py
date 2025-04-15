@@ -9,25 +9,24 @@ class EventService():
         self.__tableEvent = tableEvent
         self.__dices = dices
 
-    def __getEvent(self, rollResults: list[int]) -> Event:
-        event: Event = self.__tableEvent.getEvent(rollResults[0], rollResults[1])
+    def __getEvent(self, rollResults: list[int]) -> Event | None:
+        event: Event | None = self.__tableEvent.getEvent(rollResults)
         return event
     
-    def __rollDices(self) -> list[int]:
+    def __rollEventDices(self) -> list[int]:
         rollResults: list[int] = []
         for dice in self.__dices:
             result = dice.roll(1)[0]
             rollResults.append(result)
         return rollResults
     
-    def getEvent(self, valueFeat: int, valueSuccess: int) -> Event:
-        event: Event = self.__getEvent([valueFeat, valueSuccess])
+    def getEvent(self, valueFeat: int, valueSuccess: int) -> Event | None:
+        event: Event | None = self.__getEvent([valueFeat, valueSuccess])
         print(event)
         return event
     
-    def rollEvent(self) -> Event:
-        rollResults: list[int] = self.__rollDices()
-        event: Event = self.__getEvent(rollResults)
+    def rollEvent(self) -> Event | None:
+        event: Event | None = self.__tableEvent.randomEvent()
         print(event)
         return event
 

@@ -10,6 +10,10 @@ from DispositionsService import DispositionsService, DispositionsType, MissionRo
 from SheetMissionRoster import SheetMissionRoster
 from EventService import EventService
 
+from EventTheOneRing import EventTheOneRing
+
+from EventFactory import EventFactory
+
 from typing import List
 
 diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
@@ -17,6 +21,7 @@ diceSuccess = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
 # tableEvent: TableEvent = TableEvent()
 tableThread: TableThread = TableThread()
 
+EventFactory.register(id(EventTheOneRing), EventTheOneRing.fromRow)
 
 sheetMissionRoster: SheetMissionRoster = SheetMissionRoster()
 actualMissionRosterBand: MissionRosterBand = MissionRosterBand(readiness=0)
@@ -46,7 +51,7 @@ class DiceApp(cmd.Cmd):
 
         # event: Event = tableEvent.getEvent(rollsFeat[0], rollsSuccess[0])
         # print(event)
-        table = TableEvent()
+        table = TableEvent(id(EventTheOneRing))
         service = EventService(table)
         try:
             strNumFeat, strNumSucc = arg.split()

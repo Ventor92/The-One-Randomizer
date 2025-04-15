@@ -1,7 +1,9 @@
 from typing import List
 import pandas as pd
 from Thread import Thread  # zakładam, że masz klasę Thread w osobnym pliku
+from utils.singleton import singleton
 
+@singleton
 class TableThread:
     def __init__(self, path="data/TableEvent.xlsx", sheet_name="Wątki"):
         self.__table = pd.read_excel(path, sheet_name=sheet_name)
