@@ -1,0 +1,11 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.createEnvironment.contentButton": "show",
+        "python.envFile": "${workspaceFolder}/.venv"
+    }
+}
