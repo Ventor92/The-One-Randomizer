@@ -8,11 +8,13 @@ from SheetMissionRoster import SheetMissionRoster
 from EventService import EventService
 
 from EventTheOneRing import EventTheOneRing
+from ThreadTheOneRing import ThreadTOR
+from MissionTOR import MissionTOR
 
 from RecordFactory import RecordFactory
-from ThreadTheOneRing import ThreadTOR
 from TableEvent import TableEvent
 from TableThread import TableThread
+from TableMission import TableMission
 
 from typing import List
 
@@ -21,6 +23,7 @@ diceSuccess = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
 
 RecordFactory.register(id(EventTheOneRing), EventTheOneRing.fromRow)
 RecordFactory.register(id(ThreadTOR), ThreadTOR.fromRow)
+RecordFactory.register(id(MissionTOR), MissionTOR.fromRow)
 
 sheetMissionRoster: SheetMissionRoster = SheetMissionRoster()
 actualMissionRosterBand: MissionRosterBand = MissionRosterBand(readiness=0)
@@ -67,6 +70,19 @@ class DiceApp(cmd.Cmd):
         except ValueError:
             # print("Error, default number")
             table.rollThread()
+        
+    def do_mission(self, arg):
+        """Wylosuj Wątek"""
+        table: TableMission = TableMission(id(MissionTOR))
+
+        try:
+            strNumFeat, strNumSucc = arg.split()
+            numFeat = int(strNumFeat)
+            numSucc = int(strNumSucc)
+            table.getMission([numFeat, numSucc])
+        except ValueError:
+            # print("Error, default number")
+            table.rollMission()
 
     def do_rollCombo(self, arg):
         """Rzuć wybraną ilością kośćmi TOR. Składnia: rollCombo <numFeat> <numSucc>"""

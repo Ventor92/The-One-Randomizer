@@ -25,6 +25,3 @@ class TableThread(Table):
         results: list[int] = self.roll()
         thread: Thread | None = self.getThread(results)
         return thread
-    
-    # def getThreadsByFeat(self, dieFeatValue: int) -> List[Thread]:
-    #     return [t for t in self.__records if t.dieFeat == dieFeatValue]
