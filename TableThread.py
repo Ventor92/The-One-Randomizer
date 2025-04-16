@@ -1,37 +1,30 @@
-from typing import List
+from typing import List, cast
 import pandas as pd
 from Thread import Thread  # zakładam, że masz klasę Thread w osobnym pliku
 from utils.singleton import singleton
+from Table import Table
+from Record import Record
+from DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
+from DiceSet import DiceSet
+
+from TableLoader import TableLoader
 
 @singleton
-class TableThread:
-    def __init__(self, path="data/TableEvent.xlsx", sheet_name="Wątki"):
-        self.__table = pd.read_excel(path, sheet_name=sheet_name)
-        self.__threads = self.__load_threads()
+class TableThread(Table):
+    def __init__(self, threadClassId:int , path="data/Table.xlsx", sheetName="Wątki", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):
+        super().__init__(threadClassId, path, sheetName, dices)  # Call the parent class's __init__
 
-    def __load_threads(self) -> List[Thread]:
-        threads = []
-        for _, row in self.__table.iterrows():
-            thread = Thread(
-                dieFeat=int(row["dieFeat"]),
-                dieSuccess=int(row["dieSuccess"]),
-                action=str(row["action"]),
-                aspect=str(row["aspect"]),
-                subject=str(row["subject"]),
-                motive=str(row["motive"])
-            )
-            threads.append(thread)
-
-        return threads
-
-    def getAllThreads(self) -> List[Thread]:
-        return self.__threads
-
-    def getThreadsByFeat(self, dieFeatValue: int) -> List[Thread]:
-        return [t for t in self.__threads if t.dieFeat == dieFeatValue]
-
-    def getThread(self, dieFeatValue: int, dieSuccessValue: int) -> Thread | None:
-        for t in self.__threads:
-            if t.dieFeat == dieFeatValue and t.dieSuccess == dieSuccessValue:
+    def getThread(self, results: list[int]) -> Thread | None:
+        for t in self._records:  # Changed __records to _records
+            if isinstance(t, Thread) and t.isThisRecord(results):  # Sprawdzenie, czy t jest typu Thread
+                print(t)
                 return t
         return None
+    
+    def rollThread(self) -> Thread | None:
+        results: list[int] = self.roll()
+        thread: Thread | None = self.getThread(results)
+        return thread
+    
+    # def getThreadsByFeat(self, dieFeatValue: int) -> List[Thread]:
+    #     return [t for t in self.__records if t.dieFeat == dieFeatValue]

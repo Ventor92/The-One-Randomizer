@@ -1,9 +1,9 @@
 from dataclasses import dataclass, fields
 from pandas import Series
 from abc import ABC, abstractmethod
-
+from Record import Record
 @dataclass
-class Event:
+class Event(Record):
     description:str
 
     def __str__(self):
@@ -14,10 +14,10 @@ class Event:
     @classmethod
     def fromRow(cls, row: Series):
         return cls(
-            description = "Default",
+            id = "eventId",
+            description = "Event",
         )
     
     @abstractmethod
-    def isThisEvent(self, results: list[int]) -> bool:
+    def isThisRecord(self, results: list[int]) -> bool:
         pass
-    

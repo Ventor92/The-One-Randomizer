@@ -18,6 +18,7 @@ class EventTheOneRing(Event):
     @classmethod
     def fromRow(cls, row: Series):
         return cls(
+            id = "eventTheOneRingId",
             description = "The One Ring",
             featDieMin=int(row['featDieMin']),
             featDieMax=int(row['featDieMax']),
@@ -37,6 +38,9 @@ class EventTheOneRing(Event):
             f"  Feat Die: ({self.featDieMin}-{self.featDieMax}) Success Die: {self.successDie}\n"
             f"  Def Desc: {self.description}\n"
         )
+    
+    def isThisRecord(self, results: list[int]) -> bool:
+        return self.isThisEvent(results)
     
     def isThisEvent(self, results: list[int]):
 
@@ -61,35 +65,4 @@ class EventTheOneRing(Event):
             return True
         else:
             return False
-    
-    def _findEventsByFeatDie(self, dieFeatValue: int) -> list[Event]:
-        """
-        Zwraca listę zdarzeń, których zakres featDieMin–featDieMax obejmuje wartość 'value'.
-        """
 
-        try:
-            if not (1 <= dieFeatValue <= 12):
-                raise ValueError("dieFeatValue not in rage <1:12>")
-        except ValueError:
-            print("Error, default dieFeatValue 1!")
-            dieFeatValue = 1
-
-        matching = [event for event in self.__events if event.featDieMin <= dieFeatValue <= event.featDieMax]
-        return matching
-    
-    def _findEventBySuccessDie(self, events: list['EventTheOneRing'], dieResultSuccess: int) -> Event | None:
-        """
-        Zwraca pierwszy Event z listy, który ma successDie równy podanej wartości.
-        """
-        try:
-            if not (1 <= dieResultSuccess <= 6):
-                raise ValueError("dieResultSuccess not in rage <1:6>")
-        except ValueError:
-            print("Error, default dieResultSuccess 1!")
-            dieFeatValue = 1
-
-        for event in events:
-            if event.successDie == dieResultSuccess:
-                return event
-        return None  # Jeśli nie znaleziono pasującego eventu
-    

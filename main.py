@@ -3,25 +3,24 @@ import random
 
 from Dice import DiceType, Dice
 from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
-from TableEvent import TableEvent
-from TableThread import TableThread, Thread
-from Event import Event
 from DispositionsService import DispositionsService, DispositionsType, MissionRosterBand
 from SheetMissionRoster import SheetMissionRoster
 from EventService import EventService
 
 from EventTheOneRing import EventTheOneRing
 
-from EventFactory import EventFactory
+from RecordFactory import RecordFactory
+from ThreadTheOneRing import ThreadTOR
+from TableEvent import TableEvent
+from TableThread import TableThread
 
 from typing import List
 
 diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
 diceSuccess = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
-# tableEvent: TableEvent = TableEvent()
-tableThread: TableThread = TableThread()
 
-EventFactory.register(id(EventTheOneRing), EventTheOneRing.fromRow)
+RecordFactory.register(id(EventTheOneRing), EventTheOneRing.fromRow)
+RecordFactory.register(id(ThreadTOR), ThreadTOR.fromRow)
 
 sheetMissionRoster: SheetMissionRoster = SheetMissionRoster()
 actualMissionRosterBand: MissionRosterBand = MissionRosterBand(readiness=0)
@@ -46,28 +45,28 @@ class DiceApp(cmd.Cmd):
     
     def do_event(self, arg):
         """Wylosuj event"""
-        # rollsFeat:List[int] = diceFeat.roll(1)
-        # rollsSuccess:List[int] = diceSuccess.roll(1)
-
-        # event: Event = tableEvent.getEvent(rollsFeat[0], rollsSuccess[0])
-        # print(event)
-        table = TableEvent(id(EventTheOneRing))
-        service = EventService(table)
+        table:TableEvent = TableEvent(id(EventTheOneRing))
         try:
             strNumFeat, strNumSucc = arg.split()
             numFeat = int(strNumFeat)
             numSucc = int(strNumSucc)
-            service.getEvent(numFeat, numSucc)
+            table.getEvent([numFeat, numSucc])
         except ValueError:
             # print("Error, default number")
-            service.rollEvent()
+            table.rollEvent()
 
     def do_thread(self, arg):
         """Wylosuj Wątek"""
-        rollsFeat:List[int] = diceFeat.roll(1)
-        rollsSuccess:List[int] = diceSuccess.roll(1)
-        thread: Thread | None = tableThread.getThread(rollsFeat[0], rollsSuccess[0])
-        print(thread)
+        table: TableThread = TableThread(id(ThreadTOR))
+
+        try:
+            strNumFeat, strNumSucc = arg.split()
+            numFeat = int(strNumFeat)
+            numSucc = int(strNumSucc)
+            table.getThread([numFeat, numSucc])
+        except ValueError:
+            # print("Error, default number")
+            table.rollThread()
 
     def do_rollCombo(self, arg):
         """Rzuć wybraną ilością kośćmi TOR. Składnia: rollCombo <numFeat> <numSucc>"""

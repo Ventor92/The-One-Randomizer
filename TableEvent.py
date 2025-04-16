@@ -4,32 +4,31 @@ from utils.singleton import singleton
 from Dice import Dice
 from DiceSet import DiceSet
 from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
-from EventTableLoader import EventTableLoader
-
-
+from TableLoader import TableLoader
+from Table import Table
 
 @singleton
-class TableEvent:
-    def __init__(self, eventClassId: int, path="data/TableEvent.xlsx", sheetName="Zdarzenia", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):
-        self.__events = EventTableLoader.loadEvents(eventClassId, path, sheetName)
-        self.__diceSet: DiceSet = DiceSet(dices)
+class TableEvent(Table):
+    def __init__(self, eventClassId: int, path="data/Table.xlsx", sheetName="Zdarzenia", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):
+        super().__init__(eventClassId, path, sheetName, dices)  # Call the parent class's __init__
 
-    def getDiceSet(self) -> DiceSet:
-        return self.__diceSet
+    # def getDiceSet(self) -> DiceSet:
+    #     return self.__diceSet
     
-    def __roll(self) -> list[int]:
-        results: list[int] = self.__diceSet.roll()
-        return results
+    # def __roll(self) -> list[int]:
+    #     results: list[int] = self.__diceSet.roll()
+    #     return results
     
-    def randomEvent(self) -> Event | None:
-        results: list[int] = self.__roll()
+    def rollEvent(self) -> Event | None:
+        results: list[int] = self.roll()
         event: Event | None = self.getEvent(results)
         return event
     
     def getEvent(self, results: list[int]) -> Event | None:
-        for event in self.__events:
-            if True == event.isThisEvent(results):
-                return event
-            else:
-                pass
+        for e in self._records:
+            if isinstance(e, Event):
+                if e.isThisRecord(results):  # Sprawdzenie, czy e jest typu Event
+                    print(e)
+                    return e
+        return None
 

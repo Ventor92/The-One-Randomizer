@@ -175,4 +175,4 @@ cython_debug/
 
 # spreadsheet with data
 .data/
-data/TableEvent.xlsx
+data/Table.xlsx
