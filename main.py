@@ -16,6 +16,8 @@ from TableEvent import TableEvent
 from TableThread import TableThread
 from TableMission import TableMission
 
+from JourneyTOR import JourneyTor
+
 from typing import List
 
 diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
@@ -143,7 +145,8 @@ class DiceApp(cmd.Cmd):
                 type:DispositionsType = DispositionsType.WAR
             case _:
                 # raise TypeError(f"{cls.__name__} Zły typ Kompenencji.")
-                type:DispositionsType = DispositionsType.UNKNOWN
+                # type:DispositionsType = DispositionsType.UNKNOWN 
+                type:DispositionsType = DispositionsType.RALLY
                 pass
         
         diceFeat: DiceFeatType = DiceFeatType.NORMAL
@@ -159,10 +162,15 @@ class DiceApp(cmd.Cmd):
 
         DispositionsService.test(actualMissionRosterBand, type, diceFeat)
 
+    def do_travelEvent(self, arg):
+        table:TableEvent = TableEvent(id(EventTheOneRing))
+        journey = JourneyTor(actualMissionRosterBand, table)
+        journey.doTravelEvent()
 
     # Inne komendy mogą być dodane tutaj...
 
 if __name__ == "__main__":
     main()
     app = DiceApp()
+    app.do_chooseMissionRoster("nothing")
     app.cmdloop()  # Rozpoczyna interaktywną pętlę komend

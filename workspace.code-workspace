@@ -6,6 +6,9 @@
     ],
     "settings": {
         "python.createEnvironment.contentButton": "show",
-        "python.envFile": "${workspaceFolder}/.venv"
+        "python.envFile": "${workspaceFolder}/.venv",
+        "cSpell.words": [
+            "MANOEUVRE"
+        ]
     }
 }
