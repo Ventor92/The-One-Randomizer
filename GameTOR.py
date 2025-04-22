@@ -17,16 +17,21 @@ from utils.singleton import singleton
 @singleton
 class GameTOR(Game):
     def __init__(self, title: str = "The One Ring"):
-        super().__init__(title)  # Ensure the title is passed as a string
         dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]
         diceSet = DiceSet(dices) 
 
-        self.tables = [  # Use self.tables instead of super().tables
+        # tableEvent = TableEvent(id(EventTheOneRing)),
+        # tableThread = TableEvent(id(ThreadTOR)),
+        # tableMission = TableEvent(id(MissionTOR)),
+
+        tables: list[Table] = [
             TableEvent(id(EventTheOneRing)),
             # Table(EventTheOneRing, diceSet),
             TableThread(id(ThreadTOR)),
             TableMission(id(MissionTOR)),
         ]
+
+        super().__init__(title, tables)
 
     def _getTable(self, tableType: type[Table] = TableEvent) -> Table:
         for table in self.tables:
