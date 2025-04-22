@@ -1,20 +1,20 @@
 import cmd
 import random
 
-from Dice import DiceType, Dice
-from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
+from DiceService.Dice import DiceType, Dice
+from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
 from DispositionsService import DispositionsService, DispositionsType, MissionRosterBand
 from SheetMissionRoster import SheetMissionRoster
-from EventService import EventService
+from TableService.EventService.EventService import EventService
 
-from EventTheOneRing import EventTheOneRing
-from ThreadTheOneRing import ThreadTOR
-from MissionTOR import MissionTOR
+from TheOneRingDetails.EventTheOneRing import EventTheOneRing
+from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
+from TheOneRingDetails.MissionTOR import MissionTOR
 
-from RecordFactory import RecordFactory
-from TableEvent import TableEvent
-from TableThread import TableThread
-from TableMission import TableMission
+from TableService.RecordFactory import RecordFactory
+from TableService.EventService.TableEvent import TableEvent
+from TableService.ThreadService.TableThread import TableThread
+from TableService.MissionService.TableMission import TableMission
 
 from JourneyTOR import JourneyTor
 
@@ -126,10 +126,11 @@ class DiceApp(cmd.Cmd):
     def do_dispositionsTest(self, arg):
 
         try:
-            str1, str2 = arg.split()
+            str1, str2, str3, str4 = arg.split()
         except ValueError:
             str1 = "" 
             str2 = ""
+
         
         type: DispositionsType = DispositionsType.NONE
         match str1:

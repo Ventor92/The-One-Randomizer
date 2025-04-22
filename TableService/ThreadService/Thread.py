@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 from pandas import Series
-from Record import Record
+from TableService.Record import Record
 
 @dataclass
 class Thread(Record):

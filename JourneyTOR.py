@@ -1,10 +1,10 @@
 from enum import Enum
 from enum import auto
 from dataclasses import dataclass
-from Dice import Dice, DiceType
+from DiceService.Dice import Dice, DiceType
 from MissionRosterBand import MissionRosterBand
 from DispositionsService import DispositionsService, DispositionsType, DiceFeatType
-from TableEvent import TableEvent
+from TableService.EventService.TableEvent import TableEvent
 
 class ParticipantType(Enum):
     NONE = auto()

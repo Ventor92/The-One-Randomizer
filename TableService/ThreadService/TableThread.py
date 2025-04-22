@@ -1,13 +1,13 @@
 from typing import List, cast
 import pandas as pd
-from Thread import Thread  # zakładam, że masz klasę Thread w osobnym pliku
+from TableService.ThreadService.Thread import Thread  # zakładam, że masz klasę Thread w osobnym pliku
 from utils.singleton import singleton
-from Table import Table
-from Record import Record
-from DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
-from DiceSet import DiceSet
+from TableService.Table import Table
+from TableService.Record import Record
+from TheOneRingDetails.DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
+from DiceService.DiceSet import DiceSet
 
-from TableLoader import TableLoader
+from TableService.TableLoader import TableLoader
 
 @singleton
 class TableThread(Table):

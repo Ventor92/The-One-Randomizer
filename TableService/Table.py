@@ -1,9 +1,9 @@
 import pandas as pd
 from utils.singleton import singleton
-from DiceSet import DiceSet, Dice
-from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
-from TableLoader import TableLoader
-from Record import Record
+from DiceService.DiceSet import DiceSet, Dice
+from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from TableService.TableLoader import TableLoader
+from TableService.Record import Record
 
 class Table:
     def __init__(self, eventClassId: int, path="data/Table.xlsx", sheetName="Zdarzenia", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):

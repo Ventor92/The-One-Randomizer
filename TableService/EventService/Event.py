@@ -1,7 +1,7 @@
 from dataclasses import dataclass, fields
 from pandas import Series
 from abc import ABC, abstractmethod
-from Record import Record
+from TableService.Record import Record
 @dataclass
 class Event(Record):
     description:str

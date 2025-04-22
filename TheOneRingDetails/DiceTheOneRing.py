@@ -1,5 +1,5 @@
 from enum import Enum
-from Dice import Dice, DiceType
+from DiceService.Dice import Dice, DiceType
 
 class DiceTheOneRingType(Enum):
     FEAT = DiceType.D12

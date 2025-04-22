@@ -1,7 +1,7 @@
 from MissionRosterBand import MissionRosterBand, DispositionsType
 from SheetMissionRoster import SheetMissionRoster
-from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
-from ResultTOR import ResultTOR, SuccessTORType
+from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
+from TheOneRingDetails.ResultTOR import ResultTOR, SuccessTORType
 
 class DispositionsService:
     def __new__(cls, *args, **kwargs):

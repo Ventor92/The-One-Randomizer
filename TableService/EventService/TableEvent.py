@@ -1,11 +1,11 @@
 import pandas as pd
-from Event import Event
+from TableService.EventService.Event import Event
 from utils.singleton import singleton
-from Dice import Dice
-from DiceSet import DiceSet
-from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
-from TableLoader import TableLoader
-from Table import Table
+from DiceService.Dice import Dice
+from DiceService.DiceSet import DiceSet
+from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from TableService.TableLoader import TableLoader
+from TableService.Table import Table
 
 @singleton
 class TableEvent(Table):

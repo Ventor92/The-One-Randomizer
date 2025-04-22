@@ -1,4 +1,4 @@
-from Record import Record
+from TableService.Record import Record
 from pandas import Series
 
 class RecordFactory:

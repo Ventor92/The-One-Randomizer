@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from Event import Event
+from TableService.EventService.Event import Event
 
 import pandas as pd
 from pandas import Series
-from Thread import Thread
+from TableService.ThreadService.Thread import Thread
 
 @dataclass
 class ThreadTOR(Thread):

@@ -1,5 +1,5 @@
-from TableEvent import TableEvent, Event
-from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, Dice
+from TableService.EventService.TableEvent import TableEvent, Event
+from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, Dice
 
 from utils.singleton import singleton
 
@@ -26,7 +26,7 @@ class EventService():
         return event
     
     def rollEvent(self) -> Event | None:
-        event: Event | None = self.__tableEvent.randomEvent()
+        event: Event | None = self.__tableEvent.rollEvent()
         print(event)
         return event
 

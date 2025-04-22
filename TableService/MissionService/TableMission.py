@@ -1,11 +1,11 @@
 from typing import List, cast
 import pandas as pd
-from Record import Record
+from TableService.Record import Record
 from utils.singleton import singleton
-from Table import Table
-from DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
+from TableService.Table import Table
+from TheOneRingDetails.DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
 
-from TableLoader import TableLoader
+from TableService.TableLoader import TableLoader
 
 @singleton
 class TableMission(Table):

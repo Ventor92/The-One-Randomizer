@@ -1,7 +1,7 @@
 import random
 
-from Dice import Dice, DiceType
-from DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from DiceService.Dice import Dice, DiceType
+from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from utils.singleton import singleton
 
 # class DiceSetFactory():

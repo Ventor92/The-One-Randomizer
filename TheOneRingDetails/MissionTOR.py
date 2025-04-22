@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Record import Record
+from TableService.Record import Record
 from pandas import Series
 
 @dataclass

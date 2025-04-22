@@ -1,6 +1,6 @@
 import pandas as pd
 # from Event import Event
-from RecordFactory import RecordFactory, Record
+from TableService.RecordFactory import RecordFactory, Record
    
 class TableLoader:
 
