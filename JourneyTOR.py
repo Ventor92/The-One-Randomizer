@@ -78,7 +78,7 @@ class JourneyTor():
             str2 = ""
 
         # Convert string to DispositionsType using getattr with a default
-        type: DispositionsType = getattr(DispositionsType, str1.upper(), DispositionsType.UNKNOWN)
+        type: DispositionsType = getattr(DispositionsType, str1.upper(), DispositionsType.NONE)
 
         # Convert string to DiceFeatType using getattr with a default
         diceFeat: DiceFeatType = getattr(DiceFeatType, str2.upper(), DiceFeatType.NORMAL)

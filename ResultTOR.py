@@ -9,6 +9,7 @@ class SuccessTORType(Enum):
     EXTRAORDINARY = 2
     CRITICAL = 3
     FAILURE = 4
+    MISERABLE = 5
     
 @dataclass
 class ResultTOR:
@@ -25,7 +26,7 @@ class ResultTOR:
     diceFeat: DiceFeatType = DiceFeatType.NORMAL
     success: SuccessTORType = SuccessTORType.FAILURE
 
-    def __init__(self, resultsFeat: list[int], resultsSuccess: list[int], diceFeat: DiceFeatType, targetNumber: int = 20):
+    def __init__(self, resultsFeat: list[int], resultsSuccess: list[int], diceFeat: DiceFeatType, targetNumber: int = 20, isMiserable: bool = False):
         self.resultsSuccess = resultsSuccess
         self.resultsFeat = resultsFeat
         self.diceFeat = diceFeat
@@ -33,7 +34,7 @@ class ResultTOR:
         resultFeatTemp: list[int] = [0 if value == 11 else value for value in resultsFeat]
         match diceFeat:
             case DiceFeatType.NORMAL:
-                self.valueFeat = resultsFeat[0]
+                self.valueFeat = resultFeatTemp[0]
                 self.resultsFeat = [resultsFeat[0]]
             case DiceFeatType.FAVOURED:
                 self.valueFeat = max(resultFeatTemp)
@@ -44,7 +45,10 @@ class ResultTOR:
         self.valueTotal = self.valueFeat + self.valueSuccess
         self.specSuccNum = resultsSuccess.count(6)
         self.targetNumber = targetNumber
-        if (self.valueTotal >= self.targetNumber) or (self.valueFeat == 12):
+
+        if (True == isMiserable) and (self.valueFeat in {0, 11}):
+            self.success = SuccessTORType.FAILURE
+        elif (self.valueTotal >= self.targetNumber) or (self.valueFeat == 12):
             specSuccNum = min(self.specSuccNum, SuccessTORType.EXTRAORDINARY.value)
             self.success = SuccessTORType(specSuccNum)
         else:
@@ -55,10 +59,12 @@ class ResultTOR:
             f"ResultRollTOR:\n"
             f"  Result of Feat:{self.diceFeat.name} -> {self.success.name} "
         )
-        if self.success != SuccessTORType.FAILURE:
-            result_str += f"SUCCESS τ:{self.specSuccNum}\n"
-        else:
+        if (self.success == SuccessTORType.FAILURE):
             result_str += f"\n"
+        elif self.success == SuccessTORType.MISERABLE:
+            result_str += f" FAILURE\n"
+        else:
+            result_str += f"SUCCESS τ:{self.specSuccNum}\n"
         result_str += (
             f"  Details:\n"
             f"    TN: {self.targetNumber} vs Total: {self.valueTotal} + τ:{self.specSuccNum}\n"

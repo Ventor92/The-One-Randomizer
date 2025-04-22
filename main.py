@@ -131,7 +131,7 @@ class DiceApp(cmd.Cmd):
             str1 = "" 
             str2 = ""
         
-        type: DispositionsType = DispositionsType.UNKNOWN
+        type: DispositionsType = DispositionsType.NONE
         match str1:
             case DispositionsType.RALLY.name:
                 type:DispositionsType = DispositionsType.RALLY
