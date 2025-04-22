@@ -16,6 +16,10 @@ from TableService.EventService.TableEvent import TableEvent
 from TableService.ThreadService.TableThread import TableThread
 from TableService.MissionService.TableMission import TableMission
 
+from GameFactory import GameFactory
+from Game import Game
+from GameTOR import GameTOR
+
 from JourneyTOR import JourneyTor
 
 from typing import List
@@ -50,25 +54,26 @@ class DiceApp(cmd.Cmd):
     
     def do_event(self, arg):
         """Wylosuj event"""
-        table:TableEvent = TableEvent(id(EventTheOneRing))
+        # table:TableEvent = TableEvent(id(EventTheOneRing))
+        game: Game = GameTOR("TOR")
         try:
-            strNumFeat, strNumSucc = arg.split()
+            strNumFeat, strNumSuccess = arg.split()
             numFeat = int(strNumFeat)
-            numSucc = int(strNumSucc)
-            table.getEvent([numFeat, numSucc])
+            numSuccess = int(strNumSuccess)
+            game.getRecord(TableEvent, [numFeat, numSuccess])
         except ValueError:
             # print("Error, default number")
-            table.rollEvent()
+            game.rollRecord(TableEvent)
 
     def do_thread(self, arg):
         """Wylosuj Wątek"""
         table: TableThread = TableThread(id(ThreadTOR))
 
         try:
-            strNumFeat, strNumSucc = arg.split()
+            strNumFeat, strNumSuccess = arg.split()
             numFeat = int(strNumFeat)
-            numSucc = int(strNumSucc)
-            table.getThread([numFeat, numSucc])
+            numSuccess = int(strNumSuccess)
+            table.getThread([numFeat, numSuccess])
         except ValueError:
             # print("Error, default number")
             table.rollThread()
@@ -78,30 +83,30 @@ class DiceApp(cmd.Cmd):
         table: TableMission = TableMission(id(MissionTOR))
 
         try:
-            strNumFeat, strNumSucc = arg.split()
+            strNumFeat, strNumSuccess = arg.split()
             numFeat = int(strNumFeat)
-            numSucc = int(strNumSucc)
-            table.getMission([numFeat, numSucc])
+            numSuccess = int(strNumSuccess)
+            table.getMission([numFeat, numSuccess])
         except ValueError:
             # print("Error, default number")
             table.rollMission()
 
     def do_rollCombo(self, arg):
-        """Rzuć wybraną ilością kośćmi TOR. Składnia: rollCombo <numFeat> <numSucc>"""
+        """Rzuć wybraną ilością kośćmi TOR. Składnia: rollCombo <numFeat> <numSuccess>"""
 
         numFeat: int = 1;
-        numSucc: int = 1;
+        numSuccess: int = 1;
         targetNumber: int = 1;
         try:
-            strNumFeat, strNumSucc, strTargetNumber = arg.split()
+            strNumFeat, strNumSuccess, strTargetNumber = arg.split()
             numFeat = int(strNumFeat)
-            numSucc = int(strNumSucc)
+            numSuccess = int(strNumSuccess)
             targetNumber = int(strTargetNumber)
         except ValueError:
             print("Error, default number")
         
         rollsFeat:List[int] = diceFeat.roll(numFeat)
-        rollsSuccess:List[int] = diceSuccess.roll(numSucc)
+        rollsSuccess:List[int] = diceSuccess.roll(numSuccess)
 
         successSum:int = sum(rollsSuccess)
         rollsFeatTemp = [0 if x == 11 else x for x in rollsFeat]
@@ -145,7 +150,7 @@ class DiceApp(cmd.Cmd):
             case DispositionsType.WAR.name:
                 type:DispositionsType = DispositionsType.WAR
             case _:
-                # raise TypeError(f"{cls.__name__} Zły typ Kompenencji.")
+                # raise TypeError(f"{cls.__name__} Zły typ Kompetencji.")
                 # type:DispositionsType = DispositionsType.UNKNOWN 
                 type:DispositionsType = DispositionsType.RALLY
                 pass

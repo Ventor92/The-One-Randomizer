@@ -1,13 +1,17 @@
 
 def singleton(cls):
-    instances = {}
+    instance = None
 
-    def get_instance(*args, **kwargs):
-        if cls not in instances:
+    def custom_new(cls_, *args, **kwargs):
+        nonlocal instance
+        if instance is None:
             print("Tworzenie instancji")
-            instances[cls] = cls(*args, **kwargs)
+            instance = super(cls_, cls_).__new__(cls_)  # poprawne wywołanie object.__new__
+            cls_.__init__(instance, *args, **kwargs)    # ręczne wywołanie __init__
         else:
-            print("Zwracam istniejącą instancję")
-        return instances[cls]
+            print("Zwracam istniejącą instancję") 
+            
+        return instance
 
-    return get_instance
+    cls.__new__ = staticmethod(custom_new)
+    return cls
