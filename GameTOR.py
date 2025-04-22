@@ -20,17 +20,14 @@ class GameTOR(Game):
         dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]
         diceSet = DiceSet(dices) 
 
-        # tableEvent = TableEvent(id(EventTheOneRing)),
-        # tableThread = TableEvent(id(ThreadTOR)),
-        # tableMission = TableEvent(id(MissionTOR)),
-
-        tableEvent = TableEvent(id(EventTheOneRing), dices = dices)
+        tableEvent = TableEvent(EventTheOneRing, diceSet = diceSet, path="data/Table.xlsx", sheetName="Zdarzenia")
+        tableThread = TableThread(ThreadTOR, path="data/Table.xlsx", sheetName="Wątki", dices = diceSet.getDiceSet())
+        tableMission = TableMission(MissionTOR, path="data/Table.xlsx", sheetName="Missions", dices = diceSet.getDiceSet())
 
         tables: list[Table] = [
             tableEvent,
-            # Table(EventTheOneRing, diceSet),
-            TableThread(id(ThreadTOR)),
-            TableMission(id(MissionTOR)),
+            tableMission,
+            tableThread
         ]
 
         super().__init__(title, tables)

@@ -5,11 +5,11 @@ class RecordFactory:
     _creators = {}
 
     @classmethod
-    def register(cls, eventClassId: int, creator_func):
-        cls._creators[eventClassId] = creator_func
+    def register(cls, typeRecord: type[Record], creator_func):
+        cls._creators[typeRecord] = creator_func
 
     @classmethod
-    def create(cls, classId: int, row: Series) -> Record:
-        if classId not in cls._creators:
-            raise ValueError(f"Unknown record type: {classId}")
-        return cls._creators[classId](row)
+    def create(cls, typeRecord: type[Record], row: Series) -> Record:
+        if typeRecord not in cls._creators:
+            raise ValueError(f"Unknown record type: {typeRecord}")
+        return cls._creators[typeRecord](row)

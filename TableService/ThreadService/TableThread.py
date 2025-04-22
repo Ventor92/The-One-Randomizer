@@ -11,17 +11,5 @@ from TableService.TableLoader import TableLoader
 
 @singleton
 class TableThread(Table):
-    def __init__(self, threadClassId:int , path="data/Table.xlsx", sheetName="Wątki", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):
-        super().__init__(threadClassId, path, sheetName, dices)  # Call the parent class's __init__
-
-    def getThread(self, results: list[int]) -> Thread | None:
-        for t in self._records:  # Changed __records to _records
-            if isinstance(t, Thread) and t.isThisRecord(results):  # Sprawdzenie, czy t jest typu Thread
-                print(t)
-                return t
-        return None
-    
-    def rollThread(self) -> Thread | None:
-        results: list[int] = self.roll()
-        thread: Thread | None = self.getThread(results)
-        return thread
+    def __init__(self, recordType: type[Record], path="data/Table.xlsx", sheetName="Wątki", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):
+        super().__init__(recordType, path, sheetName, dices)

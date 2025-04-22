@@ -6,9 +6,17 @@ from TableService.TableLoader import TableLoader
 from TableService.Record import Record
 
 class Table:
-    def __init__(self, eventClassId: int, path="data/Table.xlsx", sheetName="Zdarzenia", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):
-        self._records = TableLoader.loadRecords(eventClassId, path, sheetName)  # Changed __records to _records
+    def __init__(self, recordType: type[Record], path, sheetName, dices: list[Dice]):
+        self._recordType = recordType
+        self._records: list[Record] = TableLoader.loadRecords(recordType, path, sheetName)  # Changed __records to _records
         self._diceSet: DiceSet = DiceSet(dices)
+
+    def isRecordType(self, recordType: type[Record]) -> bool:
+
+        if isinstance(self._records[0], recordType):
+            return True
+        else:
+            return False
 
     def getDiceSet(self) -> DiceSet:
         return self._diceSet

@@ -27,9 +27,9 @@ from typing import List
 diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
 diceSuccess = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
 
-RecordFactory.register(id(EventTheOneRing), EventTheOneRing.fromRow)
-RecordFactory.register(id(ThreadTOR), ThreadTOR.fromRow)
-RecordFactory.register(id(MissionTOR), MissionTOR.fromRow)
+RecordFactory.register((EventTheOneRing), EventTheOneRing.fromRow)
+RecordFactory.register((ThreadTOR), ThreadTOR.fromRow)
+RecordFactory.register((MissionTOR), MissionTOR.fromRow)
 
 sheetMissionRoster: SheetMissionRoster = SheetMissionRoster()
 actualMissionRosterBand: MissionRosterBand = MissionRosterBand(readiness=0)
@@ -55,7 +55,7 @@ class DiceApp(cmd.Cmd):
     def do_event(self, arg):
         """Wylosuj event"""
         # table:TableEvent = TableEvent(id(EventTheOneRing))
-        game: Game = GameTOR("TOR")
+        game: Game = GameTOR()
         try:
             strNumFeat, strNumSuccess = arg.split()
             numFeat = int(strNumFeat)
@@ -67,29 +67,29 @@ class DiceApp(cmd.Cmd):
 
     def do_thread(self, arg):
         """Wylosuj Wątek"""
-        table: TableThread = TableThread(id(ThreadTOR))
+        game: Game = GameTOR()
 
         try:
             strNumFeat, strNumSuccess = arg.split()
             numFeat = int(strNumFeat)
             numSuccess = int(strNumSuccess)
-            table.getThread([numFeat, numSuccess])
+            game.getRecord(TableThread, [numFeat, numSuccess])
         except ValueError:
             # print("Error, default number")
-            table.rollThread()
+            game.rollRecord(TableThread)
         
     def do_mission(self, arg):
         """Wylosuj Wątek"""
-        table: TableMission = TableMission(id(MissionTOR))
+        game: Game = GameTOR()
 
         try:
             strNumFeat, strNumSuccess = arg.split()
             numFeat = int(strNumFeat)
             numSuccess = int(strNumSuccess)
-            table.getMission([numFeat, numSuccess])
+            game.getRecord(TableMission, [numFeat, numSuccess])
         except ValueError:
             # print("Error, default number")
-            table.rollMission()
+            game.rollRecord(TableMission)
 
     def do_rollCombo(self, arg):
         """Rzuć wybraną ilością kośćmi TOR. Składnia: rollCombo <numFeat> <numSuccess>"""
@@ -129,49 +129,28 @@ class DiceApp(cmd.Cmd):
         actualMissionRosterBand = DispositionsService.chooseMissionRoster(sheetMissionRoster)
     
     def do_dispositionsTest(self, arg):
-
+        """NONE RALLY WAR EXPERTISE MANOEUVRE VIGILANCE"""
         try:
             str1, str2, str3, str4 = arg.split()
+            type = DispositionsService.str2DispositionType(str1)
+            diceFeat = DispositionsService.str2DiceFeatType(str2)
+            spentHope = int(str3)
+            bonusSuccess = int(str4)
         except ValueError:
-            str1 = "" 
-            str2 = ""
-
-        
-        type: DispositionsType = DispositionsType.NONE
-        match str1:
-            case DispositionsType.RALLY.name:
-                type:DispositionsType = DispositionsType.RALLY
-            case DispositionsType.MANOEUVRE.name:
-                type:DispositionsType = DispositionsType.MANOEUVRE
-            case DispositionsType.EXPERTISE.name:
-                type:DispositionsType = DispositionsType.EXPERTISE
-            case DispositionsType.VIGILANCE.name:
-                type:DispositionsType = DispositionsType.VIGILANCE
-            case DispositionsType.WAR.name:
-                type:DispositionsType = DispositionsType.WAR
-            case _:
-                # raise TypeError(f"{cls.__name__} Zły typ Kompetencji.")
-                # type:DispositionsType = DispositionsType.UNKNOWN 
-                type:DispositionsType = DispositionsType.RALLY
-                pass
-        
-        diceFeat: DiceFeatType = DiceFeatType.NORMAL
-        match str2:
-            case DiceFeatType.FAVOURED.name:
-                diceFeat = DiceFeatType.FAVOURED
-            case DiceFeatType.ILL.name:
-                diceFeat = DiceFeatType.ILL
-            case DiceFeatType.NORMAL.name | _:
-                diceFeat = DiceFeatType.NORMAL
+            type = DispositionsType.NONE
+            diceFeat = DiceFeatType.NORMAL
+            spentHope = 0
+            bonusSuccess = 0
 
         print(f"{type.name} {diceFeat.name}")
 
-        DispositionsService.test(actualMissionRosterBand, type, diceFeat)
+        DispositionsService.test(actualMissionRosterBand, type, diceFeat, spentHope, bonusSuccess)
 
     def do_travelEvent(self, arg):
-        table:TableEvent = TableEvent(id(EventTheOneRing))
-        journey = JourneyTor(actualMissionRosterBand, table)
-        journey.doTravelEvent()
+        # table:TableEvent = TableEvent(EventTheOneRing)
+        # journey = JourneyTor(actualMissionRosterBand, table)
+        # journey.doTravelEvent()
+        pass
 
     # Inne komendy mogą być dodane tutaj...
 

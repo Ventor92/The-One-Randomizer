@@ -8,7 +8,7 @@ class Game:
 
     def _getTable(self, tableType: type[Table]) -> Table:
         for table in self.tables:
-            if isinstance(table, tableType):  # Compare with the class of the singleton
+            if isinstance(table, tableType):
                 return table
         raise ValueError(f"Table of type {tableType} not found in game {self.title}.")
 

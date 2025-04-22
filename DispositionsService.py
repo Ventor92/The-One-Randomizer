@@ -80,12 +80,12 @@ class DispositionsService:
                 levelDisposition:int = missionRosterBand.getVigilance()
                 strDisposition = "Vigilance (Ostrożność)"
             case _:
-                # raise TypeError(f"{cls.__name__} Zły typ Kompenencji.")
+                # raise TypeError(f"{cls.__name__} Zły typ Kompetencji.")
                 levelDisposition:int = 0
                 strDisposition = "UNKNOWN (Nieznany)"
                 pass
         return levelDisposition,strDisposition
-
+    
     @staticmethod
     def chooseMissionRoster(sheetMissionRoster: SheetMissionRoster):
         list = sheetMissionRoster.getMissionRosters()
@@ -96,4 +96,34 @@ class DispositionsService:
         print("Your choose:")
         print(actualMissionRosterBand)
         return actualMissionRosterBand
+    
+    @staticmethod
+    def str2DispositionType(str1):
+        type: DispositionsType = DispositionsType.NONE
+        match str1:
+            case DispositionsType.RALLY.name:
+                type:DispositionsType = DispositionsType.RALLY
+            case DispositionsType.MANOEUVRE.name:
+                type:DispositionsType = DispositionsType.MANOEUVRE
+            case DispositionsType.EXPERTISE.name:
+                type:DispositionsType = DispositionsType.EXPERTISE
+            case DispositionsType.VIGILANCE.name:
+                type:DispositionsType = DispositionsType.VIGILANCE
+            case DispositionsType.WAR.name:
+                type:DispositionsType = DispositionsType.WAR
+            case _:
+                type:DispositionsType = DispositionsType.NONE
+        return type
+
+    @staticmethod
+    def str2DiceFeatType(str2):
+        diceFeat: DiceFeatType = DiceFeatType.NORMAL
+        match str2:
+            case DiceFeatType.FAVOURED.name:
+                diceFeat = DiceFeatType.FAVOURED
+            case DiceFeatType.ILL.name:
+                diceFeat = DiceFeatType.ILL
+            case DiceFeatType.NORMAL.name | _:
+                diceFeat = DiceFeatType.NORMAL
+        return diceFeat
     
