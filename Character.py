@@ -1,4 +1,4 @@
-
+from dataclasses import dataclass
 
 
 class Character:
@@ -6,11 +6,29 @@ class Character:
         self.name = name
 
 class CharacterTOR(Character):
-    def __init__(self, name: str = "Lord of the Rings"):
+    def __init__(self, name: str = "Lord of the Rings", 
+                 hopePts: int = 0,
+                 shadowPts: int = 0,
+                 shadowScars: int = 0):
+        """ Initialize a character with the given name, hope points, shadow points, and shadow scars. """
         super().__init__(name)
-        self.hopePts: int = 0
-        self.shadowPts: int = 0
-        self.shadowScars: int = 0
+        self.hopePts: int = hopePts
+        self.shadowPts: int = shadowPts
+        self.shadowScars: int = shadowScars
+
+        self.treasureWorth: int = 0
+
+    def getHope(self) -> int:
+        return self.hopePts
+    
+    def setHope(self, hope:int) -> None:
+        self.hopePts = hope
+
+    def changeHope(self, hope:int) -> int:
+        self.hopePts += hope
+        if self.hopePts < 0:
+            self.hopePts = 0
+        return self.hopePts
 
 class HeroTOR(CharacterTOR):
     def __init__(self, name: str = "Hero of the Ring"):
@@ -33,24 +51,25 @@ class FatigueTORType(Enum):
     SPENT = auto()
     COLLAPSED = auto()
 
-
+@dataclass
 class AllieTOR():
-    def __init__(self, name: str = "Allie form Band"):
+    id: int = 0
+    idBand: int = 0
 
-        self.active: bool = True
-        self.name: str = name
-        self.injuries: InjuryTORType = InjuryTORType.NONE
-        self.fatigue: FatigueTORType = FatigueTORType.NONE
+    active: bool = True
+    name: str = "Ally of the Ring"
+    injuries: InjuryTORType = InjuryTORType.NONE
+    fatigue: FatigueTORType = FatigueTORType.NONE
 
-        self.hardened: bool = False
+    hardened: bool = False
 
-        self.gift: str = "None"
-        self.giftWasted: bool = False
+    gift: str = "None"
+    giftWasted: bool = False
 
-        self.kinglyGift: str = "None"
-        self.kinglyGiftWasted: bool = False
+    kinglyGift: str = "None"
+    kinglyGiftWasted: bool = False
 
-        self.quirksOrNotes: str = "None"
+    quirksOrNotes: str = "None"
 
     def setInjury(self, injury: InjuryTORType):
         self.injuries = injury
@@ -71,7 +90,7 @@ class AllieTOR():
         self.active = active
 
 
-class Armament(Enum):
+class BandArmamentType(Enum):
     NONE = auto()
     LIGHT = auto()
     READY = auto()
@@ -89,17 +108,43 @@ class BandFacultyType(Enum):
     EXPERTISE = auto()
     VIGILANCE = auto()
 
+class BandDispositionType(Enum):
+    NONE = auto()
+    WAR = auto()
+    EXPERTISE = auto()
+    VIGILANCE = auto()
+    RALLY = auto()
+    MANOEUVRE = auto()
+
+class BandBurdenType(Enum):
+    LIGHT = auto()
+    MEDIUM = auto()
+    HEAVY = auto()
+    OVERBURDENED = auto()
+
+@dataclass
 class BandTOR(CharacterTOR):
-    def __init__(self, name: str = "Band of the Ring"):
+    def __init__(self, id:int, 
+                 name: str = "Band of the Ring", 
+                 armament: BandArmamentType = BandArmamentType.READY,
+                 size: BandSizeType = BandSizeType.MEDIUM,
+                 faculty: BandFacultyType = BandFacultyType.NONE,
+                 eyeAwareness: int = 0,
+                 huntThreshold: int = 14,
+                 hopePts: int = 10,
+                 shadowPts: int = 0,
+                 shadowScars: int = 0):
         super().__init__(name)
+        self.id: int = id
         self.allies: list[AllieTOR] = []
 
-        self.armament: Armament = Armament.LIGHT
-        self.size: BandSizeType = BandSizeType.NONE
-        self.faculty: BandFacultyType = BandFacultyType.NONE
+        self.armament: BandArmamentType = armament
+        self.size: BandSizeType = size
+        self.faculty: BandFacultyType = faculty
 
-        self.eyeAwareness: int = 0
-        self.huntThreshold: int = 14
+        self.eyeAwareness: int = eyeAwareness
+        self.huntThreshold: int = huntThreshold
+
 
     def addAlly(self, ally: AllieTOR):
         self.allies.append(ally)
@@ -120,8 +165,16 @@ class BandTOR(CharacterTOR):
         else:
             print(f"Ally {name} not found in the band.")
 
+    def __calculateReadiness(self) -> int:
+        """Calculate readiness based on the number of hardened active allies."""
+        hardenedAlliesCount = sum(1 for ally in self.allies if ally.active and ally.hardened)
+        return hardenedAlliesCount + 4 
+    
+    def getTargetNumber(self) -> int:
+        targetNumber = 20 - self.__calculateReadiness()
+        return targetNumber
 
-    def setArmament(self, armament: Armament):
+    def setArmament(self, armament: BandArmamentType):
         self.armament = armament
 
     def setSize(self, size: BandSizeType):
@@ -145,6 +198,35 @@ class BandTOR(CharacterTOR):
             self.size = BandSizeType.MEDIUM
         else:
             self.size = BandSizeType.LARGE
+
+    def isCaring(self) -> bool:
+        """Check if the band is caring."""
+        if self.treasureWorth > 0:
+            return True
+        else:
+            return False
+
+    def getBurden(self) -> BandBurdenType:
+        """Calculate burden based on Armament."""
+        burden: BandBurdenType = BandBurdenType.LIGHT
+        match self.armament:
+            case BandArmamentType.READY:
+                burden = BandBurdenType.MEDIUM
+            case BandArmamentType.HEAVY:
+                burden = BandBurdenType.HEAVY
+            case BandArmamentType.NONE | BandArmamentType.LIGHT | _:
+                burden = BandBurdenType.LIGHT
+        
+        if self.isCaring():
+            match burden:
+                case BandBurdenType.LIGHT:
+                    burden = BandBurdenType.MEDIUM
+                case BandBurdenType.MEDIUM:
+                    burden = BandBurdenType.HEAVY
+                case BandBurdenType.HEAVY:
+                    burden = BandBurdenType.OVERBURDENED
+        
+        return burden
 
     def getVigilance(self) -> int:
         vigilance:int = 2
@@ -170,13 +252,13 @@ class BandTOR(CharacterTOR):
         manoeuvre:int = 2
 
         match self.armament:
-            case Armament.NONE:
+            case BandArmamentType.NONE:
                 manoeuvre += 2
-            case Armament.LIGHT:
+            case BandArmamentType.LIGHT:
                 manoeuvre += 1
-            case Armament.READY:
+            case BandArmamentType.READY:
                 manoeuvre += 0
-            case Armament.HEAVY:
+            case BandArmamentType.HEAVY:
                 manoeuvre += -1
 
         match self.size:
@@ -199,13 +281,13 @@ class BandTOR(CharacterTOR):
         war:int = 2
         
         match self.armament:
-            case Armament.NONE:
+            case BandArmamentType.NONE:
                 war += -2
-            case Armament.LIGHT:
+            case BandArmamentType.LIGHT:
                 war += -1
-            case Armament.READY:
+            case BandArmamentType.READY:
                 war += 0
-            case Armament.HEAVY:
+            case BandArmamentType.HEAVY:
                 war += 1
 
         match self.size:
@@ -225,4 +307,44 @@ class BandTOR(CharacterTOR):
                 war += 0
 
         return war
+    
+    def getDispositionLevel(self, disposition: BandDispositionType) -> int:
+        levelDisposition:int = 0
+        match disposition:
+            case BandDispositionType.WAR:
+                levelDisposition = self.getWar()
+            case BandDispositionType.EXPERTISE:
+                levelDisposition = self.getExpertise()
+            case BandDispositionType.VIGILANCE:
+                levelDisposition = self.getVigilance()
+            case BandDispositionType.MANOEUVRE:
+                levelDisposition = self.getManoeuvre()
+            case BandDispositionType.RALLY:
+                levelDisposition = self.getRally()
+            case _:
+                levelDisposition = 0
+        return levelDisposition
+    
+    def isMiserable(self) -> bool:
+        if self.hopePts <= self.shadowPts:
+            return True
+        else:
+            return False 
+        
+    def __str__(self) -> str:
+        """Return a string representation of the band."""
+        allies_info = "\n".join(
+            f"  - {ally.name} (Active: {ally.active}, Hardened: {ally.hardened})"
+            for ally in self.allies
+        )
+        return (
+            f"Name: {self.name} (Band ID {self.id})\n"
+            f"Armament: {self.armament.name} Size: {self.size.name} Faculty: {self.faculty.name}\n"
+            f"Eye Awareness: {self.eyeAwareness} Hunt Threshold: {self.huntThreshold}\n"
+            f"Hope Points: {self.hopePts} Shadow Points: {self.shadowPts} Shadow Scars: {self.shadowScars}\n"
+            f"Conditions: Weary: TODO Miserable: {self.isMiserable()}\n"
+            f"Disposition Levels:\n"
+            f"  - W: {self.getWar()} R: {self.getRally()} E: {self.getExpertise()} M: {self.getManoeuvre()} V: {self.getVigilance()}\n"
+            f"Allies ({len(self.allies)}):\n{allies_info}"
+        )
 

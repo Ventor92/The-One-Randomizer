@@ -47,7 +47,7 @@ class ResultTOR:
         self.targetNumber = targetNumber
 
         if (True == isMiserable) and (self.valueFeat in {0, 11}):
-            self.success = SuccessTORType.FAILURE
+            self.success = SuccessTORType.MISERABLE
         elif (self.valueTotal >= self.targetNumber) or (self.valueFeat == 12):
             specSuccNum = min(self.specSuccNum, SuccessTORType.EXTRAORDINARY.value)
             self.success = SuccessTORType(specSuccNum)

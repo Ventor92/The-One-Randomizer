@@ -18,7 +18,7 @@ from TableService.MissionService.TableMission import TableMission
 
 from GameFactory import GameFactory
 from Game import Game
-from GameTOR import GameTOR
+from GameTOR import GameTOR, BandDispositionType
 
 from JourneyTOR import JourneyTor
 
@@ -91,45 +91,16 @@ class DiceApp(cmd.Cmd):
             # print("Error, default number")
             game.rollRecord(TableMission)
 
-    def do_rollCombo(self, arg):
-        """Rzuć wybraną ilością kośćmi TOR. Składnia: rollCombo <numFeat> <numSuccess>"""
-
-        numFeat: int = 1;
-        numSuccess: int = 1;
-        targetNumber: int = 1;
-        try:
-            strNumFeat, strNumSuccess, strTargetNumber = arg.split()
-            numFeat = int(strNumFeat)
-            numSuccess = int(strNumSuccess)
-            targetNumber = int(strTargetNumber)
-        except ValueError:
-            print("Error, default number")
-        
-        rollsFeat:List[int] = diceFeat.roll(numFeat)
-        rollsSuccess:List[int] = diceSuccess.roll(numSuccess)
-
-        successSum:int = sum(rollsSuccess)
-        rollsFeatTemp = [0 if x == 11 else x for x in rollsFeat]
-        featMax:int = max(rollsFeatTemp)
-        featMin:int = min(rollsFeatTemp)
-        feat:int = featMin
-
-
-        count = rollsSuccess.count(6)
-        if ((successSum + feat) >= targetNumber) or (feat == 12):
-            strResult = f"SUCCESS! Quality: ({count})"
-        else:
-            strResult = f"FAIL!"
-            
-        print(f"Result: {strResult} -> TN:{targetNumber} Total:{successSum+feat}")
-        print(f"Details: Feat:{rollsFeat}->{feat} Success:{rollsSuccess}->{successSum}")
-
     def do_chooseMissionRoster(self, arg):
         global actualMissionRosterBand
         actualMissionRosterBand = DispositionsService.chooseMissionRoster(sheetMissionRoster)
     
     def do_dispositionsTest(self, arg):
-        """NONE RALLY WAR EXPERTISE MANOEUVRE VIGILANCE"""
+        """dispositionsTest 
+        NONE RALLY WAR EXPERTISE MANOEUVRE VIGILANCE
+        ILL NORMAL FAVOURED
+        spentHope bonusSuccess
+        e.g: dispositionsTest EXPERTISE ILL 0 1"""
         try:
             str1, str2, str3, str4 = arg.split()
             type = DispositionsService.str2DispositionType(str1)
@@ -137,14 +108,14 @@ class DiceApp(cmd.Cmd):
             spentHope = int(str3)
             bonusSuccess = int(str4)
         except ValueError:
-            type = DispositionsType.NONE
+            type = BandDispositionType.NONE
             diceFeat = DiceFeatType.NORMAL
             spentHope = 0
             bonusSuccess = 0
 
         print(f"{type.name} {diceFeat.name}")
 
-        DispositionsService.test(actualMissionRosterBand, type, diceFeat, spentHope, bonusSuccess)
+        DispositionsService.testBand(GameTOR().band, type, diceFeat, spentHope, bonusSuccess)
 
     def do_travelEvent(self, arg):
         # table:TableEvent = TableEvent(EventTheOneRing)
@@ -158,4 +129,6 @@ if __name__ == "__main__":
     main()
     app = DiceApp()
     app.do_chooseMissionRoster("nothing")
+    game: Game = GameTOR()
+    game.chooseAssets()
     app.cmdloop()  # Rozpoczyna interaktywną pętlę komend

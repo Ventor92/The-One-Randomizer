@@ -26,3 +26,7 @@ class Game:
         results = table.roll()
         record = self.getRecord(tableType, results)
         return record
+    
+    def chooseAssets(self) -> None:
+        """Choose assets for the game."""
+        pass

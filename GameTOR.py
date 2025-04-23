@@ -12,6 +12,9 @@ from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 
 from DiceService.DiceSet import DiceSet, Dice
 
+from Character import BandTOR, BandDispositionType
+from BandTORLoader import BandTORLoader
+
 from utils.singleton import singleton
 
 @singleton
@@ -30,7 +33,14 @@ class GameTOR(Game):
             tableThread
         ]
 
+        self.band: BandTOR
+        self.loadBand()
+
         super().__init__(title, tables)
+
+    def loadBand(self) -> None:
+        """Load band data into the game."""
+        self.band = BandTORLoader().getBands()[0]
   
     def getEvent(self, results: list[int]) -> EventTheOneRing:
         table = self._getTable(TableEvent)
@@ -39,4 +49,18 @@ class GameTOR(Game):
             return record
         else:
             raise ValueError(f"Record is not of type EventTheOneRing: {record}")
+        
+    def chooseAssets(self) -> None:
+        list = BandTORLoader().getBands()
+        print(list)
+        strNumber:str = input("Choose Band by id >> ")
+        id:int = int(strNumber)
+        band = next((b for b in list if b.id == id), None)
+        if band is None:
+            print("Band with the given id not found.")
+            return
+        print("Your choose:")
+        print(band)
+        self.band = band
+        return 
 
