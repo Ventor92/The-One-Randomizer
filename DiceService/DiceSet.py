@@ -2,7 +2,6 @@ import random
 
 from DiceService.Dice import Dice, DiceType
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
-from utils.singleton import singleton
 
 # class DiceSetFactory():
 #     _creators = {}

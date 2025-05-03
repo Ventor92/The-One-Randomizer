@@ -15,8 +15,6 @@ from DiceService.DiceSet import DiceSet, Dice
 from TheOneRingDetails.BandTOR import BandTOR, BandDispositionType, BandArmamentType, BandSizeType, BandFacultyType, BandBurdenType
 from TheOneRingDetails.BandTORLoader import BandTORLoader
 
-from utils.singleton import singleton
-
 class GameTORService():
     def __new__(cls, *args, **kwargs):
         raise TypeError(f"{cls.__name__} is a static utility class and cannot be instantiated.")

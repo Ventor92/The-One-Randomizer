@@ -1,9 +1,6 @@
 from TableService.EventService.TableEvent import TableEvent, Event
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, Dice
 
-from utils.singleton import singleton
-
-@singleton
 class EventService():
     def __init__(self, tableEvent: TableEvent, dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):
         self.__tableEvent = tableEvent

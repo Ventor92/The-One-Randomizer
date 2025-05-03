@@ -1,17 +1,10 @@
+class SingletonMeta(type):
+    _instances = {}
 
-def singleton(cls):
-    instance = None
-
-    def custom_new(cls_, *args, **kwargs):
-        nonlocal instance
-        if instance is None:
-            instance = super(cls_, cls_).__new__(cls_)  # poprawne wywołanie object.__new__
-            cls_.__init__(instance, *args, **kwargs)    # ręczne wywołanie __init__
-            print(f"Tworzenie instancji {instance.__class__.__name__}")
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            print(f"Tworzenie instancji {cls.__name__}")
+            cls._instances[cls] = super().__call__(*args, **kwargs)
         else:
-            print(f"Zwracam istniejącą instancję {instance.__class__.__name__}") 
-            
-        return instance
-
-    cls.__new__ = staticmethod(custom_new)
-    return cls
+            print(f"Zwracam istniejącą instancję {cls.__name__}")
+        return cls._instances[cls]

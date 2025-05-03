@@ -1,5 +1,5 @@
 import pandas as pd
-from utils.singleton import singleton
+
 from DiceService.DiceSet import DiceSet, Dice
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from TableService.TableLoader import TableLoader
@@ -10,6 +10,7 @@ class Table:
         self._recordType = recordType
         self._records: list[Record] = TableLoader.loadRecords(recordType, path, sheetName)  # Changed __records to _records
         self._diceSet: DiceSet = DiceSet(dices)
+        print(f"Table __init__")
 
     def isRecordType(self, recordType: type[Record]) -> bool:
 

@@ -17,10 +17,9 @@ from TheOneRingDetails.BandTORLoader import BandTORLoader
 
 from TheOneRingDetails.GameTORService import GameTORService
 
-from utils.singleton import singleton
+from utils.singleton import SingletonMeta
 
-@singleton
-class GameTOR(Game):
+class GameTOR(Game, metaclass=SingletonMeta):
     def __init__(self, title: str = "The One Ring"):
         dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]
         diceSet = DiceSet(dices) 
