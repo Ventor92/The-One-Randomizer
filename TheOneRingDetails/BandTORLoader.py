@@ -1,5 +1,6 @@
 import pandas as pd
-from Character import BandTOR, AllieTOR, BandArmamentType, BandSizeType, BandFacultyType
+from TheOneRingDetails.BandTOR import BandTOR, BandArmamentType, BandSizeType, BandFacultyType
+from TheOneRingDetails.AllieTOR import AllieTOR, InjuryTORType, FatigueTORType
 
 class BandTORLoader:
     def __init__(self, filepath: str="data/Band.xlsx", sheetName: str ="Bands"):
@@ -30,26 +31,25 @@ class BandTORLoader:
                 shadowScars=row.get('shadowScars', 0),
             )
         
-            allies: list[AllieTOR] = []
             for _, rowA in self.__tableAllies.iterrows():
                 ally = AllieTOR(
                     id=rowA.get('id', 0),
                     idBand=rowA.get('idBand', 0),
                     active=rowA.get('active', False),
                     name=rowA.get('name', "Loaded Ally"),
-                    injuries=rowA.get('injuries', "NONE"),
-                    fatigue=rowA.get('fatigue', "NONE"),
+                    injuries=InjuryTORType[rowA.get('injuries', InjuryTORType.NONE.name)],
+                    fatigue=FatigueTORType[rowA.get('fatigue', FatigueTORType.NONE.name)],
                     hardened=rowA.get('hardened', False),
-                    gift=rowA.get('gift', "None"),
+                    gift=rowA.get('gift', "DUAP"),
                     giftWasted=rowA.get('giftWasted', False),
                     kinglyGift=rowA.get('kinglyGift', "None"),
                     kinglyGiftWasted=rowA.get('kinglyGiftWasted', False),
                     quirksOrNotes=rowA.get('quirksOrNotes', "None"),
                 )
                 if ally.idBand == band.id:
-                    allies.append(ally)
+                    band.addAlly(ally)
 
-            band.allies = allies
+            band.updateSize()
             bands.append(band)
 
         return bands

@@ -16,9 +16,9 @@ from TableService.EventService.TableEvent import TableEvent
 from TableService.ThreadService.TableThread import TableThread
 from TableService.MissionService.TableMission import TableMission
 
-from GameFactory import GameFactory
-from Game import Game
-from GameTOR import GameTOR, BandDispositionType
+from GameService.GameFactory import GameFactory
+from GameService.Game import Game
+from TheOneRingDetails.GameTOR import GameTOR, BandDispositionType
 
 from JourneyTOR import JourneyTor
 
@@ -91,9 +91,13 @@ class DiceApp(cmd.Cmd):
             # print("Error, default number")
             game.rollRecord(TableMission)
 
-    def do_chooseMissionRoster(self, arg):
-        global actualMissionRosterBand
-        actualMissionRosterBand = DispositionsService.chooseMissionRoster(sheetMissionRoster)
+    def do_chooseAssets(self, arg):
+        game: Game = GameTOR()
+        game.chooseAssets()
+    
+    def do_modifyAssets(self, arg):
+        game: Game = GameTOR()
+        game.modifyAssets()
     
     def do_dispositionsTest(self, arg):
         """dispositionsTest 
@@ -128,7 +132,5 @@ class DiceApp(cmd.Cmd):
 if __name__ == "__main__":
     main()
     app = DiceApp()
-    app.do_chooseMissionRoster("nothing")
-    game: Game = GameTOR()
-    game.chooseAssets()
+    app.do_chooseAssets("nothing")
     app.cmdloop()  # Rozpoczyna interaktywną pętlę komend

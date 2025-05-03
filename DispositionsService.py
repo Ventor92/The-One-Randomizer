@@ -3,7 +3,7 @@ from SheetMissionRoster import SheetMissionRoster
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
 from TheOneRingDetails.ResultTOR import ResultTOR, SuccessTORType
 
-from Character import BandTOR, BandDispositionType
+from TheOneRingDetails.BandTOR import BandTOR, BandDispositionType
 
 class DispositionsService:
     def __new__(cls, *args, **kwargs):

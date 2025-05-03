@@ -27,6 +27,12 @@ class Game:
         record = self.getRecord(tableType, results)
         return record
     
+    @abstractmethod
     def chooseAssets(self) -> None:
         """Choose assets for the game."""
+        pass
+
+    @abstractmethod
+    def modifyAssets(self) -> None:
+        """Modify assets for the game."""
         pass
