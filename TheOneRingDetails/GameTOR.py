@@ -17,6 +17,8 @@ from TheOneRingDetails.BandTORLoader import BandTORLoader
 
 from TheOneRingDetails.GameTORService import GameTORService
 
+from DispositionsService import DispositionsService, DiceFeatType
+
 from utils.singleton import SingletonMeta
 
 class GameTOR(Game, metaclass=SingletonMeta):
@@ -144,4 +146,70 @@ class GameTOR(Game, metaclass=SingletonMeta):
 
     def modifyAssets(self) -> None:
         self.modifyBand()
+
+    def test(self, arg) -> None:
+        """Test method for the game."""
+
+        try:
+            str1, str2, str3, str4 = arg.split()
+            type = DispositionsService.str2DispositionType(str1)
+            diceFeat = DispositionsService.str2DiceFeatType(str2)
+            spentHope = int(str3)
+            bonusSuccess = int(str4)
+        except ValueError:
+            type = BandDispositionType.NONE
+            diceFeat = DiceFeatType.NORMAL
+            spentHope = 0
+            bonusSuccess = 0
+
+        print(f"{type.name} {diceFeat.name}")
+
+        DispositionsService.testBand(self.band, type, diceFeat, spentHope, bonusSuccess)
+        pass
+
+
+
+    def randomTable(self, arg) -> None:
+        """Random table"""
+        if len(arg) >= 1:
+            sliced = arg.split()
+            lenSliced = len(sliced)
+
+            match lenSliced:
+                case 1:
+                    strType = sliced[0]
+
+                    table = self.recognizeTable(strType)
+                    
+                    self.rollRecord(table)
+                case 3:
+                    strType = sliced[0]
+                    strNumFeat = sliced[1]
+                    strNumSuccess = sliced[2]
+
+                    table = self.recognizeTable(strType)
+                    
+                    try:
+                        numFeat = int(strNumFeat)
+                        numSuccess = int(strNumSuccess)
+                    except ValueError:
+                        raise ValueError(f"Invalid argument. Expected: Int as <numFeat> & <numSuccess>")
+
+                    self.getRecord(table, [numFeat, numSuccess])
+                case _:
+                    raise ValueError("Invalid argument. Expected at least: <tableType>")
+                  
+        else:
+            raise ValueError("No arguments. Expected at least: <tableType>")
+
+    def recognizeTable(self, strType):
+        table_mapping = {
+            "EVENT": TableEvent,
+            "MISSION": TableMission,
+            "THREAD": TableThread
+        }
+        try:
+            return table_mapping[strType.upper()]
+        except KeyError:
+            raise ValueError(f"Invalid argument. Type: {strType}")
 

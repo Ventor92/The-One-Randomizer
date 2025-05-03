@@ -59,7 +59,7 @@ class EventTheOneRing(Event):
                 raise ValueError("dieResultSuccess not in rage <1:6>")
         except ValueError:
             print("Error, default dieResultSuccess 1!")
-            dieFeatValue = 1
+            dieResultSuccess = 1
 
         if self.featDieMin <= dieFeatValue <= self.featDieMax and self.successDie == dieResultSuccess:
             return True

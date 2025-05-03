@@ -36,3 +36,13 @@ class Game:
     def modifyAssets(self) -> None:
         """Modify assets for the game."""
         pass
+
+    @abstractmethod
+    def test(self, arg) -> None:
+        """Test method for the game."""
+        pass
+
+    @abstractmethod
+    def randomTable(self, arg) -> None:
+        """Random table"""
+        pass

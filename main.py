@@ -1,38 +1,16 @@
 import cmd
-import random
-
-from DiceService.Dice import DiceType, Dice
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
-from DispositionsService import DispositionsService, DispositionsType, MissionRosterBand
-from SheetMissionRoster import SheetMissionRoster
-from TableService.EventService.EventService import EventService
 
 from TheOneRingDetails.EventTheOneRing import EventTheOneRing
 from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
 from TheOneRingDetails.MissionTOR import MissionTOR
 
 from TableService.RecordFactory import RecordFactory
-from TableService.EventService.TableEvent import TableEvent
-from TableService.ThreadService.TableThread import TableThread
-from TableService.MissionService.TableMission import TableMission
 
-from GameService.GameFactory import GameFactory
-from GameService.Game import Game
-from TheOneRingDetails.GameTOR import GameTOR, BandDispositionType
-
-from JourneyTOR import JourneyTor
-
-from typing import List
-
-diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
-diceSuccess = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
+from GameService.GameController import GameController
 
 RecordFactory.register((EventTheOneRing), EventTheOneRing.fromRow)
 RecordFactory.register((ThreadTOR), ThreadTOR.fromRow)
 RecordFactory.register((MissionTOR), MissionTOR.fromRow)
-
-sheetMissionRoster: SheetMissionRoster = SheetMissionRoster()
-actualMissionRosterBand: MissionRosterBand = MissionRosterBand(readiness=0)
 
 def main():
     print("Witaj w moim dice rollerze!")
@@ -52,74 +30,25 @@ class DiceApp(cmd.Cmd):
         print("Do widzenia!")
         return True
     
-    def do_event(self, arg):
-        """Wylosuj event"""
-        # table:TableEvent = TableEvent(id(EventTheOneRing))
-        game: Game = GameTOR()
-        try:
-            strNumFeat, strNumSuccess = arg.split()
-            numFeat = int(strNumFeat)
-            numSuccess = int(strNumSuccess)
-            game.getRecord(TableEvent, [numFeat, numSuccess])
-        except ValueError:
-            # print("Error, default number")
-            game.rollRecord(TableEvent)
-
-    def do_thread(self, arg):
-        """Wylosuj Wątek"""
-        game: Game = GameTOR()
-
-        try:
-            strNumFeat, strNumSuccess = arg.split()
-            numFeat = int(strNumFeat)
-            numSuccess = int(strNumSuccess)
-            game.getRecord(TableThread, [numFeat, numSuccess])
-        except ValueError:
-            # print("Error, default number")
-            game.rollRecord(TableThread)
-        
-    def do_mission(self, arg):
-        """Wylosuj Wątek"""
-        game: Game = GameTOR()
-
-        try:
-            strNumFeat, strNumSuccess = arg.split()
-            numFeat = int(strNumFeat)
-            numSuccess = int(strNumSuccess)
-            game.getRecord(TableMission, [numFeat, numSuccess])
-        except ValueError:
-            # print("Error, default number")
-            game.rollRecord(TableMission)
+    def do_randomTable (self, arg):
+        """Wylosuj Zasób"""
+        GameController.randomTable(arg)
 
     def do_chooseAssets(self, arg):
-        game: Game = GameTOR()
-        game.chooseAssets()
+        """Wybierz zasoby"""
+        GameController.chooseAssets()
     
     def do_modifyAssets(self, arg):
-        game: Game = GameTOR()
-        game.modifyAssets()
-    
-    def do_dispositionsTest(self, arg):
-        """dispositionsTest 
+        """Modyfikuj zasoby"""
+        GameController.modifyAssets()
+
+    def do_test(self, arg):
+        """test 
         NONE RALLY WAR EXPERTISE MANOEUVRE VIGILANCE
         ILL NORMAL FAVOURED
         spentHope bonusSuccess
         e.g: dispositionsTest EXPERTISE ILL 0 1"""
-        try:
-            str1, str2, str3, str4 = arg.split()
-            type = DispositionsService.str2DispositionType(str1)
-            diceFeat = DispositionsService.str2DiceFeatType(str2)
-            spentHope = int(str3)
-            bonusSuccess = int(str4)
-        except ValueError:
-            type = BandDispositionType.NONE
-            diceFeat = DiceFeatType.NORMAL
-            spentHope = 0
-            bonusSuccess = 0
-
-        print(f"{type.name} {diceFeat.name}")
-
-        DispositionsService.testBand(GameTOR().band, type, diceFeat, spentHope, bonusSuccess)
+        GameController.test(arg)
 
     def do_travelEvent(self, arg):
         # table:TableEvent = TableEvent(EventTheOneRing)

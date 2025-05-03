@@ -1,5 +1,3 @@
-from MissionRosterBand import MissionRosterBand, DispositionsType
-from SheetMissionRoster import SheetMissionRoster
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
 from TheOneRingDetails.ResultTOR import ResultTOR, SuccessTORType
 
