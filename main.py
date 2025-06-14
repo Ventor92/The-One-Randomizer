@@ -47,7 +47,7 @@ class DiceApp(cmd.Cmd):
         NONE RALLY WAR EXPERTISE MANOEUVRE VIGILANCE
         ILL NORMAL FAVOURED
         spentHope bonusSuccess
-        e.g: dispositionsTest EXPERTISE ILL 0 1"""
+        e.g: test EXPERTISE ILL 0 1"""
         GameController.test(arg)
 
     def do_travelEvent(self, arg):

@@ -2,6 +2,7 @@ from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType,
 from TheOneRingDetails.ResultTOR import ResultTOR, SuccessTORType
 
 from TheOneRingDetails.BandTOR import BandTOR, BandDispositionType
+from TheOneRingDetails.EnemyTOR import EnemyTOR
 
 class DispositionsService:
     def __new__(cls, *args, **kwargs):
@@ -47,16 +48,18 @@ class DispositionsService:
         return diceFeat
     
     @staticmethod
-    def testBand(band: BandTOR, 
-             dispositions: BandDispositionType, 
-             featType: DiceFeatType, 
-             spentHope: int = 0, 
-             bonusSuccess: int = 0) -> bool:
+    def testBand(band: BandTOR,
+            enemy: EnemyTOR,
+            dispositions: BandDispositionType, 
+            featType: DiceFeatType, 
+            spentHope: int = 0, 
+            bonusSuccess: int = 0) -> bool:
         levelDisposition = band.getDispositionLevel(dispositions)
         # Twoja logika ładowania danych
         diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
         diceSuccess = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
         targetNumber:int = band.getTargetNumber()
+        enemyMighty:int = enemy.getMighty()
         
         match featType:
             case DiceFeatType.FAVOURED | DiceFeatType.ILL:
@@ -72,7 +75,7 @@ class DispositionsService:
 
         rollsSuccess:list[int] = diceSuccess.roll(levelDisposition + spentHope + bonusSuccess)
 
-        result = ResultTOR(rollsFeat, rollsSuccess, featType, targetNumber, isMiserable)
+        result = ResultTOR(rollsFeat, rollsSuccess, featType, targetNumber, isMiserable, enemyMighty)
         
         match result.success:
             case SuccessTORType.FAILURE | SuccessTORType.MISERABLE:

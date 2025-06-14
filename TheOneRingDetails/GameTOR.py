@@ -9,6 +9,7 @@ from TheOneRingDetails.EventTheOneRing import EventTheOneRing
 from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
 from TheOneRingDetails.MissionTOR import MissionTOR
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from TheOneRingDetails.EnemyTOR import EnemyTOR
 
 from DiceService.DiceSet import DiceSet, Dice
 
@@ -38,6 +39,8 @@ class GameTOR(Game, metaclass=SingletonMeta):
         print("GameTOR __init__")
         self.band: BandTOR
         self.loadBand()
+
+        self.enemy: EnemyTOR | None = None
 
         super().__init__(title, tables)
 
@@ -106,27 +109,6 @@ class GameTOR(Game, metaclass=SingletonMeta):
     
     
     def modifyBand(self) -> None:
-        # strNumber:str = input("Band Armament LIGHT, READY or HEAVY >>")
-        # try:
-        #     armament: BandArmamentType = BandArmamentType[strNumber.upper()]
-        # except KeyError:
-        #     print("Invalid armament type. Please choose LIGHT, READY, or HEAVY.")
-        #     return
-        
-        # strNumber:str = input("Band Faculty WAR, EXPERTISE or VIGILANCE >>")
-        # try:
-        #     faculty: BandFacultyType = BandFacultyType[strNumber.upper()]
-        # except KeyError:
-        #     print("Invalid Faculty type. Please choose WAR, EXPERTISE or VIGILANCE.")
-        #     return
-        
-        # strNumber:str = input("Band Hunt Threshold >>")
-        # try:
-        #     huntThreshold: int = int(strNumber)
-        # except KeyError:
-        #     print("Invalid huntThreshold value. Please choose integer.")
-        #     return
-
         print(self.band)
 
         armament: BandArmamentType = GameTORService.getArmament()
@@ -145,7 +127,26 @@ class GameTOR(Game, metaclass=SingletonMeta):
         self.chooseBand()
 
     def modifyAssets(self) -> None:
-        self.modifyBand()
+        """Modify assets for the game."""
+
+        if self.enemy is None:
+            strNumber:str = input("Enter to fight? (Y/N) >> ")
+            if strNumber.upper() == "Y":
+                self.startFight()
+            else: 
+                pass
+        else:
+            strNumber:str = input("End fight? (Y/N) >> ")
+            if strNumber.upper() == "Y":
+                self.endFight()
+            else: 
+                pass
+
+        strNumber:str = input("Modify Band? (Y/N) >> ")
+        if strNumber.upper() == "Y":
+            self.modifyBand()
+        else:
+            pass
 
     def test(self, arg) -> None:
         """Test method for the game."""
@@ -164,7 +165,8 @@ class GameTOR(Game, metaclass=SingletonMeta):
 
         print(f"{type.name} {diceFeat.name}")
 
-        DispositionsService.testBand(self.band, type, diceFeat, spentHope, bonusSuccess)
+        enemy = self.enemy or EnemyTOR(0, 0)
+        DispositionsService.testBand(self.band, enemy, type, diceFeat, spentHope, bonusSuccess)
         pass
 
 
@@ -212,4 +214,12 @@ class GameTOR(Game, metaclass=SingletonMeta):
             return table_mapping[strType.upper()]
         except KeyError:
             raise ValueError(f"Invalid argument. Type: {strType}")
+        
+    def startFight(self) -> None:
+        strMight:str = input("setup enemy might >> ")
+        strResistance:str = input("setup enemy resistance >> ")
+        self.enemy = EnemyTOR(int(strMight), int(strResistance))
+
+    def endFight(self) -> None:
+        self.enemy = None
 
