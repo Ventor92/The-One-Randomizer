@@ -55,7 +55,7 @@ class DispositionsService:
             spentHope: int = 0, 
             bonusSuccess: int = 0) -> bool:
         levelDisposition = band.getDispositionLevel(dispositions)
-        # Twoja logika ładowania danych
+
         diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
         diceSuccess = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
         targetNumber:int = band.getTargetNumber()

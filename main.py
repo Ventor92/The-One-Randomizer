@@ -3,6 +3,7 @@ import cmd
 from TheOneRingDetails.EventTheOneRing import EventTheOneRing
 from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
 from TheOneRingDetails.MissionTOR import MissionTOR
+from TheOneRingDetails.BenefitTOR import BenefitTOR
 
 from TableService.RecordFactory import RecordFactory
 
@@ -11,6 +12,7 @@ from GameService.GameController import GameController
 RecordFactory.register((EventTheOneRing), EventTheOneRing.fromRow)
 RecordFactory.register((ThreadTOR), ThreadTOR.fromRow)
 RecordFactory.register((MissionTOR), MissionTOR.fromRow)
+RecordFactory.register((BenefitTOR), BenefitTOR.fromRow)
 
 def main():
     print("Witaj w moim dice rollerze!")

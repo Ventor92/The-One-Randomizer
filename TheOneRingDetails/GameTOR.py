@@ -4,12 +4,14 @@ from TableService.Table import Table, Record
 from TableService.MissionService.TableMission import TableMission
 from TableService.EventService.TableEvent import TableEvent
 from TableService.ThreadService.TableThread import TableThread
+from TableService.BenefitService.TableBenefit import TableBenefit
 
 from TheOneRingDetails.EventTheOneRing import EventTheOneRing
 from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
 from TheOneRingDetails.MissionTOR import MissionTOR
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from TheOneRingDetails.EnemyTOR import EnemyTOR
+from TheOneRingDetails.TreasuryTOR import BenefitTOR, TableBenefit, TreasuryTORFactory
 
 from DiceService.DiceSet import DiceSet, Dice
 
@@ -31,10 +33,13 @@ class GameTOR(Game, metaclass=SingletonMeta):
         tableThread = TableThread(ThreadTOR, path="data/Table.xlsx", sheetName="Wątki", dices = diceSet.getDiceSet())
         tableMission = TableMission(MissionTOR, path="data/Table.xlsx", sheetName="Missions", dices = diceSet.getDiceSet())
 
+        diceSetBenefit = DiceSet([DiceTheOneRing(DiceTheOneRingType.SUCCESS), DiceTheOneRing(DiceTheOneRingType.SUCCESS)])
+        tableBenefit = TableBenefit(BenefitTOR, path="data/Table.xlsx", sheetName="Benefits", diceSet=diceSetBenefit)
         tables: list[Table] = [
             tableEvent,
             tableMission,
-            tableThread
+            tableThread,
+            tableBenefit
         ]
         print("GameTOR __init__")
         self.band: BandTOR
@@ -223,3 +228,11 @@ class GameTOR(Game, metaclass=SingletonMeta):
     def endFight(self) -> None:
         self.enemy = None
 
+    def findTreasury(self) -> None:
+        """Find a treasury for the band."""
+        table = self._getTable(TableBenefit)
+        if not isinstance(table, TableBenefit):
+            raise ValueError(f"Expected TableBenefit, got {type(table)}")
+        else:
+            treasury = TreasuryTORFactory.createTreasuryTOR(table, 0)
+            print(treasury)
