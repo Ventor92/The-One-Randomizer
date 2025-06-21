@@ -30,3 +30,9 @@ class GameController:
         """Random table"""
         game: Game = GameController.__getGame()
         GameService.randomTable(game, arg)
+
+    @staticmethod
+    def grantAward(arg):
+        """Grant award to the game."""
+        game: Game = GameController.__getGame()
+        GameService.grantAward(game, arg)

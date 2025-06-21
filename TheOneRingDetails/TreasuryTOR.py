@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 
 from TheOneRingDetails.SkillTOR import SkillTypeTOR
+from TheOneRingDetails.ItemTOR import ItemTOR, ItemSlotTypeTOR, MagicItemType
 
 class TreasurySizeTOR(Enum):
     NONE = 0
@@ -9,18 +10,6 @@ class TreasurySizeTOR(Enum):
     MEDIUM = 2
     LARGE = 3
 
-class MagicItemType(Enum):
-    NONE = auto()
-    UNUSUAL = auto()
-    WONDERFUL = auto()
-
-class MagicItemTOR:
-    def __init__(self, name="Magic Item Name", description="Magic Item Description", isCursed=False, type=MagicItemType.NONE, benefits=None):
-        self.name = name
-        self.description = description
-        self.isCursed = isCursed
-        self.type = type
-        self.benefits = benefits if benefits is not None else []
 
 class TreasureTOR:
     def __init__(self, value=0, magicItems=None):
@@ -47,6 +36,7 @@ from DiceService.DiceSet import DiceSet, Dice
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from TableService.BenefitService.TableBenefit import TableBenefit
 from TheOneRingDetails.BenefitTOR import BenefitTOR
+from TheOneRingDetails.EquipmentTOR import EquipmentTOR
 
 class TreasuryTORFactory:
     # def __init__(self, tableBenefit: TableBenefit):
@@ -119,39 +109,43 @@ class TreasuryTORFactory:
                 return MagicItemType.WONDERFUL
                 # return MagicItemType.WEAPON
             case _:
-                return MagicItemType.NONE
+                return MagicItemType.NORMAL
     
     @staticmethod
-    def __rollMagicItems(diceSetFeat: DiceSet, tableBenefit: TableBenefit) -> list[MagicItemTOR]:
+    def __rollMagicItems(diceSetFeat: DiceSet, tableBenefit: TableBenefit) -> list[ItemTOR]:
         results = diceSetFeat.roll()
-        items: list[MagicItemTOR] = []
+        items: list[ItemTOR] = []
         for result in results:
             match result:
                 case 12:
                     typeItem = TreasuryTORFactory.__specifyMagicItemType()
                     isCursed = False
-                    items.append(MagicItemTOR(name="Unusual Item", description="An unusual magic item.", isCursed=isCursed, type=typeItem))
+                    magicItem = ItemTOR(name=typeItem.name, description="Magic item.", isCursed=isCursed, type=typeItem)
+                    items.append(magicItem)
                 case 11:
                     typeItem = TreasuryTORFactory.__specifyMagicItemType()
                     isCursed = True
-                    items.append(MagicItemTOR(name="Wonderful Item", description="A wonderful magic item.", isCursed=isCursed, type=typeItem))
+                    magicItem = ItemTOR(name=typeItem.name, description="Cursed magic item.", isCursed=isCursed, type=typeItem)
+                    items.append(magicItem)
                 case _:
                     pass
 
         for item in items:
             match item.type:
                 case MagicItemType.UNUSUAL:
-                    benefitNum = 1  # Assuming 2 benefits for unusual items
+                    benefitNum = 1
                 case MagicItemType.WONDERFUL:
                     benefitNum = 2
-                case MagicItemType.NONE:
-                    benefitNum = 0
+                case MagicItemType.NORMAL:
+                    benefitNum = 1
                 case _:
                     benefitNum = 0
             
             for _ in range(benefitNum):  # Assuming 2 benefits for unusual items
                 resultsRollBenefit = tableBenefit.roll()
+                print(f"Rolling for benefit: {resultsRollBenefit}")
                 benefit = tableBenefit.getRecord(resultsRollBenefit)
+                print(f"Benefit rolled: {benefit}")
                 if isinstance(benefit, BenefitTOR):
                     item.benefits.append(benefit.benefit)
                 else:
@@ -164,7 +158,7 @@ class TreasuryTORFactory:
         size: TreasurySizeTOR = TreasuryTORFactory.__specifyTreasurySize(bonus=bonus)
         diceSetMagicItems, diceSetSuccess = TreasuryTORFactory.__specifyDiceSets(size)
         value: int = TreasuryTORFactory.__specifyTreasureValue(diceSetSuccess)
-        magicItems: list[MagicItemTOR] = TreasuryTORFactory.__rollMagicItems(diceSetFeat=diceSetMagicItems, tableBenefit=tableBenefit)
+        magicItems: list[ItemTOR] = TreasuryTORFactory.__rollMagicItems(diceSetFeat=diceSetMagicItems, tableBenefit=tableBenefit)
         treasureTOR = TreasureTOR(value=value, magicItems=magicItems)
         treasury = TreasuryTOR(size=size, treasure=treasureTOR, name="Treasury Name", description="Treasury Description") 
         return treasury

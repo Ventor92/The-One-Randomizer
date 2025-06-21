@@ -1,6 +1,12 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from TheOneRingDetails.BandTOR import BandTOR  # Import tylko dla adnotacji typów
+
+
 class InjuryTORType(Enum):
     NONE = auto()
     FLEETING = auto()
@@ -18,8 +24,8 @@ class FatigueTORType(Enum):
 
 @dataclass
 class AllieTOR():
+    band: 'BandTOR | None' = None  # Type hint for BandTOR, set to None by default
     id: int = 0
-    idBand: int = 0
 
     active: bool = True
     name: str = "Ally of the Ring"

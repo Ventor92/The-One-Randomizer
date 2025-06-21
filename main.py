@@ -4,6 +4,8 @@ from TheOneRingDetails.EventTheOneRing import EventTheOneRing
 from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
 from TheOneRingDetails.MissionTOR import MissionTOR
 from TheOneRingDetails.BenefitTOR import BenefitTOR
+from TheOneRingDetails.HeroTOR import HeroTOR
+from TheOneRingDetails.ItemTOR import ItemTOR
 
 from TableService.RecordFactory import RecordFactory
 
@@ -13,6 +15,8 @@ RecordFactory.register((EventTheOneRing), EventTheOneRing.fromRow)
 RecordFactory.register((ThreadTOR), ThreadTOR.fromRow)
 RecordFactory.register((MissionTOR), MissionTOR.fromRow)
 RecordFactory.register((BenefitTOR), BenefitTOR.fromRow)
+RecordFactory.register((HeroTOR), HeroTOR.fromRow)
+RecordFactory.register((ItemTOR), ItemTOR.fromRow)
 
 def main():
     print("Witaj w moim dice rollerze!")
@@ -57,6 +61,10 @@ class DiceApp(cmd.Cmd):
         # journey = JourneyTor(actualMissionRosterBand, table)
         # journey.doTravelEvent()
         pass
+
+    def do_grantAward(self, arg):
+        """Grant award to the game."""
+        GameController.grantAward(arg)
 
     # Inne komendy mogą być dodane tutaj...
 

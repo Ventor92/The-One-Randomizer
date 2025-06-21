@@ -31,3 +31,9 @@ class CharacterTOR(Character):
             return True
         else:
             return False
+        
+    def addTreasureWorth(self, worth: int) -> None:
+        """Add treasure worth to the character."""
+        self.treasureWorth += worth
+        if self.treasureWorth < 0:
+            self.treasureWorth = 0

@@ -46,3 +46,8 @@ class Game:
     def randomTable(self, arg) -> None:
         """Random table"""
         pass
+
+    @abstractmethod
+    def grantAward(self, arg) -> None:
+        """Grant award to the game."""
+        pass

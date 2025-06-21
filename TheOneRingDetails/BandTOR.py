@@ -61,6 +61,7 @@ class BandTOR(CharacterTOR):
 
     def addAlly(self, ally: AllieTOR):
         self.allies.append(ally)
+        ally.band = self  # Set the band reference in the ally
 
     def activateAlly(self, name: str):
         """Activate ally by name."""

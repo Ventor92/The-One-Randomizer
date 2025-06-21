@@ -15,10 +15,13 @@ from TheOneRingDetails.TreasuryTOR import BenefitTOR, TableBenefit, TreasuryTORF
 
 from DiceService.DiceSet import DiceSet, Dice
 
+from TheOneRingDetails.HeroTOR import HeroTOR
 from TheOneRingDetails.BandTOR import BandTOR, BandDispositionType, BandArmamentType, BandSizeType, BandFacultyType, BandBurdenType
 from TheOneRingDetails.BandTORLoader import BandTORLoader
 
 from TheOneRingDetails.GameTORService import GameTORService
+from TheOneRingDetails.HeroTORService import HeroTORService
+from TheOneRingDetails.ItemTORService import ItemTORService, ItemTOR
 
 from DispositionsService import DispositionsService, DiceFeatType
 
@@ -44,6 +47,8 @@ class GameTOR(Game, metaclass=SingletonMeta):
         print("GameTOR __init__")
         self.band: BandTOR
         self.loadBand()
+
+        self.hero: HeroTOR
 
         self.enemy: EnemyTOR | None = None
 
@@ -128,8 +133,20 @@ class GameTOR(Game, metaclass=SingletonMeta):
 
         print(self.band)
 
+    @staticmethod
+    def linkItemsToOwners(items: list[ItemTOR], heroes: list[HeroTOR]) -> None:
+        """Assign an item to the hero."""
+        for hero in heroes:
+            for item in items:
+                if item.checkOwnership(hero):
+                    hero.addItem(item)
+
+
     def chooseAssets(self) -> None:
         self.chooseBand()
+        self.hero = HeroTORService.chooseHero()
+        items: list[ItemTOR] = ItemTORService.loadItems()
+        GameTOR.linkItemsToOwners(items, [self.hero])
 
     def modifyAssets(self) -> None:
         """Modify assets for the game."""
@@ -173,8 +190,6 @@ class GameTOR(Game, metaclass=SingletonMeta):
         enemy = self.enemy or EnemyTOR(0, 0)
         DispositionsService.testBand(self.band, enemy, type, diceFeat, spentHope, bonusSuccess)
         pass
-
-
 
     def randomTable(self, arg) -> None:
         """Random table"""
@@ -236,3 +251,13 @@ class GameTOR(Game, metaclass=SingletonMeta):
         else:
             treasury = TreasuryTORFactory.createTreasuryTOR(table, 0)
             print(treasury)
+
+        for item in treasury.treasure.magicItems:
+            strMight:str = input(f"{self.hero.name} should take this item:{item}? (Y/n) >> ")
+            if strMight.upper() == "Y":
+                self.hero.addItem(item)
+            else:
+                print(f"Item {item.name} not taken by hero.")
+
+    def grantAward(self, arg) -> None:
+        self.findTreasury()

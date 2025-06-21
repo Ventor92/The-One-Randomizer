@@ -34,7 +34,7 @@ class BandTORLoader:
             for _, rowA in self.__tableAllies.iterrows():
                 ally = AllieTOR(
                     id=rowA.get('id', 0),
-                    idBand=rowA.get('idBand', 0),
+                    band=None,
                     active=rowA.get('active', False),
                     name=rowA.get('name', "Loaded Ally"),
                     injuries=InjuryTORType[rowA.get('injuries', InjuryTORType.NONE.name)],
@@ -46,7 +46,8 @@ class BandTORLoader:
                     kinglyGiftWasted=rowA.get('kinglyGiftWasted', False),
                     quirksOrNotes=rowA.get('quirksOrNotes', "None"),
                 )
-                if ally.idBand == band.id:
+                idBand=rowA['idBand']
+                if idBand == band.id:
                     band.addAlly(ally)
 
             band.updateSize()

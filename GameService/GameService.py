@@ -21,3 +21,8 @@ class GameService:
     def randomTable(game: Game, arg) -> None:
         """Random table"""
         game.randomTable(arg)
+
+    @staticmethod
+    def grantAward(game, arg) -> None:
+        """Grant award to the game."""
+        game.grantAward(arg)
