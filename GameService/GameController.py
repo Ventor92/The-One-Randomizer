@@ -36,3 +36,9 @@ class GameController:
         """Grant award to the game."""
         game: Game = GameController.__getGame()
         GameService.grantAward(game, arg)
+
+    @staticmethod
+    def showCharacter(arg):
+        """Show character details."""
+        game: Game = GameController.__getGame()
+        GameService.showCharacter(game, arg)

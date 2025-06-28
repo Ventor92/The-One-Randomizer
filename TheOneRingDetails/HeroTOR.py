@@ -27,6 +27,9 @@ class HeroTOR(Record, CharacterTOR):
             name = row['name'],
         )
     
+    def __str__(self):
+        return (f"HeroTOR(id={self.id}, name={self.name}, "
+                f"equipment=\r\n\t{self.equipment})")
 
 
 

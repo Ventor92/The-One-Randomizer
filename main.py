@@ -66,6 +66,10 @@ class DiceApp(cmd.Cmd):
         """Grant award to the game."""
         GameController.grantAward(arg)
 
+    def do_showCharacter(self, arg):
+        """Wybierz bohatera"""
+        GameController.showCharacter(arg)
+
     # Inne komendy mogą być dodane tutaj...
 
 if __name__ == "__main__":

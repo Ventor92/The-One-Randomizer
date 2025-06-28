@@ -26,3 +26,8 @@ class GameService:
     def grantAward(game, arg) -> None:
         """Grant award to the game."""
         game.grantAward(arg)
+
+    @staticmethod
+    def showCharacter(game, arg) -> None:
+        """Show character details."""
+        game.showCharacter(arg)

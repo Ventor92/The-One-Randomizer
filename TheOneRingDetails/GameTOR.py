@@ -252,3 +252,12 @@ class GameTOR(Game, metaclass=SingletonMeta):
 
     def grantAward(self, arg) -> None:
         self.findTreasury()
+
+    def showCharacter(self, arg) -> None:
+        """Show character details."""
+        if self.hero is None:
+            raise ValueError("Hero is not set.")
+        else:
+            HeroTORService.showHero(self.hero)
+            print(f"Band: {self.band}")
+            print(f"Enemy: {self.enemy}") if self.enemy else print("No enemy in the game.")

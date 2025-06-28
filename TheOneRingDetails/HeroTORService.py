@@ -51,4 +51,12 @@ class HeroTORService:
         heroes = HeroTORService.__loadHeroes()
         hero: HeroTOR = HeroTORService.__chooseHero(heroes)
         return hero
+    
+    @staticmethod
+    def showHero(hero: HeroTOR) -> None:
+        """Show the details of a hero."""
+        if not isinstance(hero, HeroTOR):
+            raise ValueError(f"Expected HeroTOR, got {type(hero)}")
+        
+        print(f"Hero Details:\n{hero}")
 
