@@ -11,38 +11,39 @@ if TYPE_CHECKING:
     from TheOneRingDetails.HeroTOR import HeroTOR  # Import tylko dla adnotacji typów
 
 class ItemSlotTypeTOR(Enum):
-    NONE = "None"
-    JEWELRY = "Jewelry"
-    WEAPON = "Weapon"
-    ARMOR = "Armor"
-    MISCELLANEOUS = "Miscellaneous"
-    COAT = "Coat"
-    SCABBARD = "Scabbard"
+    NONE = auto()
+    JEWELRY = auto()
+    WEAPON = auto()
+    ARMOR = auto()
+    MISCELLANEOUS = auto()
+    COAT = auto()
+    SCABBARD = auto()
 
-@dataclass
 class Item(Record):
-    id: str = ""
-    name: str = "Unnamed Item"
-    description: str = "No description available."
+    def __init__(self, id="", name="Unnamed Item", description="No description available."):
+        super().__init__(id)
+        self.name = name
+        self.description = description
 
 class MagicItemType(Enum):
-    NORMAL = auto()
-    UNUSUAL = auto()
-    WONDERFUL = auto()
+    NONE = 0
+    NORMAL = 1
+    UNUSUAL = 1
+    WONDERFUL = 2
 
 class ItemTOR(Item):
     def __init__(self, id="", name="Unnamed Item", description="No description available.",
                  slot=ItemSlotTypeTOR.NONE, benefits=None, idOwner="", owner=None,
                  isCursed=False, type=MagicItemType.NORMAL):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.slot = slot
-        self.benefits = benefits if benefits is not None else [SkillTypeTOR.NONE]
-        self.idOwner = idOwner
+        super().__init__(id)
+        self.name: str = name
+        self.description: str = description
+        self.slot: ItemSlotTypeTOR = slot
+        self.benefits: list[SkillTypeTOR] = benefits if benefits is not None else [SkillTypeTOR.NONE]
+        self.idOwner: str = idOwner
         self.owner = owner
-        self.isCursed = isCursed
-        self.type = type
+        self.isCursed:bool = isCursed
+        self.type: MagicItemType = type
 
     def assignOwner(self, owner: 'HeroTOR') -> None:
         """Assign an owner to the item."""
@@ -69,14 +70,17 @@ class ItemTOR(Item):
         ret = cls(
             id=row['id'],
             name=row['name'],
-            description = row['description'],
-            slot=row['slot'],
-            benefits = [row['benefit1'], row['benefit2']],
+            description=row['description'],
+            slot=ItemSlotTypeTOR[row['slot']] if row['slot'] else ItemSlotTypeTOR.NONE,
+            benefits=[
+            SkillTypeTOR[row['benefit1']] if row['benefit1'] else SkillTypeTOR.NONE,
+            SkillTypeTOR[row['benefit2']] if row['benefit2'] else SkillTypeTOR.NONE
+            ],
             idOwner=row['idOwner'],
             isCursed=row.get('isCursed', False),
-            type=row['type'] if 'type' in row else MagicItemType.NORMAL
+            type=MagicItemType[row['type']] if 'type' in row and row['type'] else MagicItemType.NORMAL
         )
-        return ret 
+        return ret
     
     def toRow(self) -> Series:
         row = Series({
@@ -91,3 +95,11 @@ class ItemTOR(Item):
             'type': self.type if self.type else MagicItemType.NORMAL
         })
         return row
+    
+    def __str__(self):
+        # return (f"Item: {self.name} - {self.description}\r\n")
+        return (f"[{self.id}]:{self.name} - {self.description}\r\n"
+                f"\t{self.slot.name}, {self.type.name}{' - CURSED' if self.isCursed else ''},\r\n"
+                f"\tBenefits: \r\n\t\t{', '.join(benefit.name for benefit in self.benefits)}\r\n"
+                f"\t[{self.id}]\r\n"
+            )

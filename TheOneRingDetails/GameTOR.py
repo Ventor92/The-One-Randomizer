@@ -23,6 +23,8 @@ from TheOneRingDetails.GameTORService import GameTORService
 from TheOneRingDetails.HeroTORService import HeroTORService
 from TheOneRingDetails.ItemTORService import ItemTORService, ItemTOR
 
+from TheOneRingDetails.TreasuryTORController import TreasuryTORController
+
 from DispositionsService import DispositionsService, DiceFeatType
 
 from utils.singleton import SingletonMeta
@@ -36,8 +38,7 @@ class GameTOR(Game, metaclass=SingletonMeta):
         tableThread = TableThread(ThreadTOR, path="data/Table.xlsx", sheetName="Wątki", dices = diceSet.getDiceSet())
         tableMission = TableMission(MissionTOR, path="data/Table.xlsx", sheetName="Missions", dices = diceSet.getDiceSet())
 
-        diceSetBenefit = DiceSet([DiceTheOneRing(DiceTheOneRingType.SUCCESS), DiceTheOneRing(DiceTheOneRingType.SUCCESS)])
-        tableBenefit = TableBenefit(BenefitTOR, path="data/Table.xlsx", sheetName="Benefits", diceSet=diceSetBenefit)
+        tableBenefit = TableBenefit(path="data/Table.xlsx", sheetName="Benefits")
         tables: list[Table] = [
             tableEvent,
             tableMission,
@@ -245,19 +246,9 @@ class GameTOR(Game, metaclass=SingletonMeta):
 
     def findTreasury(self) -> None:
         """Find a treasury for the band."""
-        table = self._getTable(TableBenefit)
-        if not isinstance(table, TableBenefit):
-            raise ValueError(f"Expected TableBenefit, got {type(table)}")
-        else:
-            treasury = TreasuryTORFactory.createTreasuryTOR(table, 0)
-            print(treasury)
-
-        for item in treasury.treasure.magicItems:
-            strMight:str = input(f"{self.hero.name} should take this item:{item}? (Y/n) >> ")
-            if strMight.upper() == "Y":
-                self.hero.addItem(item)
-            else:
-                print(f"Item {item.name} not taken by hero.")
+        table = TableBenefit()
+        treasury = TreasuryTORFactory.createTreasuryTOR(table, 0)
+        TreasuryTORController.enterToTreasury(treasury, self.hero)
 
     def grantAward(self, arg) -> None:
         self.findTreasury()

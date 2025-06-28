@@ -31,6 +31,9 @@ class EquipmentTOR:
             return
         for item in self.items:
             print(f"ID: {item.id}, Name: {item.name}, Slot: {item.slot}, Benefits: {item.benefits}, Owner ID: {item.idOwner}")
+
+    def __str__(self):
+        return "\n".join(str(item) for item in self.items) if self.items else "No items in equipment."
     
     
 

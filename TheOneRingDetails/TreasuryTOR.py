@@ -10,7 +10,6 @@ class TreasurySizeTOR(Enum):
     MEDIUM = 2
     LARGE = 3
 
-
 class TreasureTOR:
     def __init__(self, value=0, magicItems=None):
         self.value = value
@@ -110,46 +109,63 @@ class TreasuryTORFactory:
                 # return MagicItemType.WEAPON
             case _:
                 return MagicItemType.NORMAL
-    
+            
+    @staticmethod
+    def __rollBenefit(tableBenefit: TableBenefit) -> SkillTypeTOR:
+        print("Rolling for benefit...")
+        resultsRollBenefit = tableBenefit.roll()
+        benefit = tableBenefit.getRecord(resultsRollBenefit)
+        if isinstance(benefit, BenefitTOR):
+            print(f"Benefit rolled: {benefit}")
+            return benefit.benefit
+        else:
+            raise ValueError(f"Expected BenefitTOR, got {type(benefit)}")
+
+    @staticmethod
+    def __rollBenefitsByItemType(typeItem: MagicItemType, tableBenefit: TableBenefit) -> list[SkillTypeTOR]:
+        print(f"Rolling benefits for item type: {typeItem.name}")
+        benefits: list[SkillTypeTOR] = []
+
+        for _ in range(typeItem.value):
+            benefit = TreasuryTORFactory.__rollBenefit(tableBenefit)
+            benefits.append(benefit)
+
+        return benefits
+
+            
+    @staticmethod
+    def __createMagicItem(isCursed: bool, tableBenefit: TableBenefit) -> ItemTOR:
+        description: str = "Magic item." if not isCursed else "Cursed magic item."
+        typeItem = TreasuryTORFactory.__specifyMagicItemType()
+
+        benefits: list[SkillTypeTOR] = TreasuryTORFactory.__rollBenefitsByItemType(typeItem, tableBenefit)
+        
+        magicItem = ItemTOR(name=typeItem.name, description=description, 
+                            slot=ItemSlotTypeTOR.MISCELLANEOUS,
+                            benefits=benefits, isCursed=isCursed, type=typeItem)
+        return magicItem
+     
     @staticmethod
     def __rollMagicItems(diceSetFeat: DiceSet, tableBenefit: TableBenefit) -> list[ItemTOR]:
         results = diceSetFeat.roll()
+        results = [9,10,11,12]  # Filter for magic items (11 or 12)
         items: list[ItemTOR] = []
         for result in results:
             match result:
                 case 12:
-                    typeItem = TreasuryTORFactory.__specifyMagicItemType()
                     isCursed = False
-                    magicItem = ItemTOR(name=typeItem.name, description="Magic item.", isCursed=isCursed, type=typeItem)
-                    items.append(magicItem)
+                    item = TreasuryTORFactory.__createMagicItem(isCursed, tableBenefit)
                 case 11:
-                    typeItem = TreasuryTORFactory.__specifyMagicItemType()
                     isCursed = True
-                    magicItem = ItemTOR(name=typeItem.name, description="Cursed magic item.", isCursed=isCursed, type=typeItem)
-                    items.append(magicItem)
+                    item = TreasuryTORFactory.__createMagicItem(isCursed, tableBenefit)
                 case _:
+                    item = None
                     pass
-
-        for item in items:
-            match item.type:
-                case MagicItemType.UNUSUAL:
-                    benefitNum = 1
-                case MagicItemType.WONDERFUL:
-                    benefitNum = 2
-                case MagicItemType.NORMAL:
-                    benefitNum = 1
-                case _:
-                    benefitNum = 0
             
-            for _ in range(benefitNum):  # Assuming 2 benefits for unusual items
-                resultsRollBenefit = tableBenefit.roll()
-                print(f"Rolling for benefit: {resultsRollBenefit}")
-                benefit = tableBenefit.getRecord(resultsRollBenefit)
-                print(f"Benefit rolled: {benefit}")
-                if isinstance(benefit, BenefitTOR):
-                    item.benefits.append(benefit.benefit)
-                else:
-                    raise ValueError(f"Expected BenefitTOR, got {type(benefit)}")
+            if item is not None:
+                items.append(item)
+            else:
+                pass
         
         return items
 
@@ -162,10 +178,3 @@ class TreasuryTORFactory:
         treasureTOR = TreasureTOR(value=value, magicItems=magicItems)
         treasury = TreasuryTOR(size=size, treasure=treasureTOR, name="Treasury Name", description="Treasury Description") 
         return treasury
-
-         
-        
-
-
-
-
