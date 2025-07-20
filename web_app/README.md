@@ -30,12 +30,21 @@ web_app
    ```
 
 ## Usage
+1. Activate Virtual Environment
+   ```
+   source .venv/Scripts/activate
+   ```
+   
 1. Start the FastAPI application:
    ```
    uvicorn main_be_app:app --reload
    ```
+2. Start the database MySQL:
+   ``` 
+   net start "MySQL80"
+   ```
 
-2. Access the API documentation at `http://127.0.0.1:8000/docs`.
+3. Access the API documentation at `http://127.0.0.1:8000/docs`.
 
 ## WebSocket Support
 The application includes WebSocket support for real-time communication. The WebSocket routes are defined in `backend/routes/websocket.py`.

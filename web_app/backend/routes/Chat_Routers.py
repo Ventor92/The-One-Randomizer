@@ -9,13 +9,12 @@ from sqlmodel import Session, select
 from ..database.database import create_db_and_tables, get_session
 from ..models.Message import Message
 
-from web_app.backend.models.chatRecord import DiceRollDTO, RecordBase
-from web_app.backend.models.Message import MessageDTO
+from web_app.backend.models.chatRecord import RecordBase
+from web_app.backend.models.Message import MessageDTO, MessageORM
 from web_app.backend.models.DiceRoll import DiceRollDTO, DiceRollORM 
 
-from ..models.Message import MessageORM
-
 from ..services.Chat_Service import Chat_Service
+
 
 import logging
 logger = logging.getLogger("uvicorn")

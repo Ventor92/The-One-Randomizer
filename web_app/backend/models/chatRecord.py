@@ -28,38 +28,3 @@ class RecordBase(SQLModel):
 class ChatRecord(RecordBase):
     user_name: str = "Anonymous"
     role: str = "user"
-
-# class Message(ChatRecord):
-#     content: str = "Wiadomość od użytkownika"
-
-# class MessageORM(Message, table=True):
-#     type: ChatRecordType = ChatRecordType.MESSAGE
-
-# class MessageDTO(Message):
-#     type: Literal["message"] = ChatRecordType.MESSAGE.value 
-
-class RollType(Enum):
-    NONE = auto()
-    STANDARD = auto()
-    SKILL = auto()
-    COIN = auto()
-
-class Outcome(Enum):
-    NONE = 'none'
-    SUCCESS = 'success'
-    SUCCESS_CONSEQUENCE = 'success-consequence'
-    FAILURE = 'failure'
-    COIN = 'coin'
-    STANDARD = 'standard'
-
-# class DiceRoll(ChatRecord, table=True):
-class DiceRollDTO(ChatRecord):
-    dice: DiceType = DiceType.D6    # Default to D6
-    result: int = 0                # liczna wyrzuconych 6-tek 5-tek lub 1-nek
-    breakdown: str = Field(default_factory=lambda: "[]")  # JSON string representation of breakdown
-    modifier: int = 0
-    character: Optional[str] = None
-    purpose: Optional[str] = None
-    outcome: Outcome = Outcome.NONE
-    rollType: RollType = RollType.NONE
-    type: Literal["dice_roll"] = "dice_roll" 
