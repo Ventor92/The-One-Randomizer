@@ -4,15 +4,15 @@ from typing import List
 from enum import Enum
 
 class DiceType(Enum):
-    D2 = 2
-    D3 = 3
-    D4 = 4
-    D6 = 6
-    D8 = 8
-    D10 = 10
-    D12 = 12
-    D20 = 20
-    D100 = 100
+    D2 = "D2"
+    D3 = "D3"
+    D4 = "D4"
+    D6 = "D6"
+    D8 = "D8"
+    D10 = "D10"
+    D12 = "D12"
+    D20 = "D20"
+    D100 = "D100"
 
 class Dice:
     def __init__(self, diceType=DiceType.D6):
