@@ -1,4 +1,3 @@
-from ..database.Chat_DB import Chat_DB
 from ..models.chatRecord import RecordBase
 from ..models.Message import MessageORM, MessageDTO
 from ..models.DiceRoll import DiceRollORM, DiceRollDTO

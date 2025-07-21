@@ -1,10 +1,12 @@
-from typing import Literal, Optional
+from typing import Literal, Optional, List
 from enum import Enum, auto
 
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Column
 
 from DiceService.Dice import Dice, DiceType
 from web_app.backend.models.chatRecord import ChatRecord, ChatRecordType
+
+from sqlalchemy.dialects.mysql import JSON as MySQLJSON
 
 class RollType(str, Enum):
     NONE = "NONE"
@@ -59,11 +61,18 @@ class DiceRoll(ChatRecord):
 
 class DiceRollORM(DiceRoll, table=True):
     type: ChatRecordType = ChatRecordType.DICE_ROLL
+    # breakdown: List[int] = Field(default_factory=list, sa_column_kwargs={"type_": MySQLJSON})
+    breakdown: List[int] = Field(sa_column=Column(MySQLJSON))
+
+    # Needed for Column(JSON)
+    # class Config:
+    #     arbitrary_types_allowed = True
 
     @classmethod
-    def fromDiceRoll(cls, diceRoll: DiceRoll):
+    def fromDiceRoll(cls, diceRoll: DiceRoll, breakdown: List[int] = []):
         obj = cls.model_validate(diceRoll)
         obj.type = ChatRecordType.DICE_ROLL
+        obj.breakdown = breakdown
 
         return obj
     

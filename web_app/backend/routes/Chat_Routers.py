@@ -40,7 +40,7 @@ async def websocket_roll(websocket: WebSocket):
         while True:
             data = await websocket.receive_text()
             dto = DiceRollDTO.model_validate_json(data)
-            diceRollORM = DiceRollORM.fromDiceRoll(dto)
+            diceRollORM = DiceRollORM.fromDiceRoll(dto, dto.breakdown)
             dto = Chat_Service.add_roll(diceRollORM)
             json = dto.model_dump_json()
             await broadcast(json)
@@ -88,7 +88,7 @@ def create_roll(dto: DiceRollDTO):
     """
     Tworzy nowy rzut kością i zapisuje go w bazie danych.
     """
-    diceRollORM = DiceRollORM.fromDiceRoll(dto)
+    diceRollORM = DiceRollORM.fromDiceRoll(dto, dto.breakdown)
     dto = Chat_Service.add_roll(diceRollORM)
     return dto
 
