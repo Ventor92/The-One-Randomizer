@@ -39,9 +39,10 @@ web_app
    ```
    uvicorn main_be_app:app --reload
    ```
-2. Start the database MySQL:
+2. Start docker with database MySQL:
    ``` 
-   net start "MySQL80"
+   cd web_app/docker
+   docker compose up -d
    ```
 
 3. Access the API documentation at `http://127.0.0.1:8000/docs`.
