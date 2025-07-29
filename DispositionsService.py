@@ -48,12 +48,12 @@ class DispositionsService:
         return diceFeat
     
     @staticmethod
-    def testBand(band: BandTOR,
+    def testBandV2(band: BandTOR,
             enemy: EnemyTOR,
             dispositions: BandDispositionType, 
             featType: DiceFeatType, 
             spentHope: int = 0, 
-            bonusSuccess: int = 0) -> bool:
+            bonusSuccess: int = 0) -> ResultTOR:
         levelDisposition = band.getDispositionLevel(dispositions)
 
         diceFeat = DiceTheOneRing(DiceTheOneRingType.FEAT)
@@ -76,6 +76,16 @@ class DispositionsService:
         rollsSuccess:list[int] = diceSuccess.roll(levelDisposition + spentHope + bonusSuccess)
 
         result = ResultTOR(rollsFeat, rollsSuccess, featType, targetNumber, isMiserable, enemyMighty)
+        return result
+    
+    @staticmethod
+    def testBand(band: BandTOR,
+            enemy: EnemyTOR,
+            dispositions: BandDispositionType, 
+            featType: DiceFeatType, 
+            spentHope: int = 0, 
+            bonusSuccess: int = 0) -> bool:
+        result: ResultTOR = DispositionsService.testBandV2(band, enemy, dispositions, featType, spentHope, bonusSuccess)
         
         match result.success:
             case SuccessTORType.FAILURE | SuccessTORType.MISERABLE:

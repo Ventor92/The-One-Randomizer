@@ -11,7 +11,9 @@ from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
 from TheOneRingDetails.MissionTOR import MissionTOR
 from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from TheOneRingDetails.EnemyTOR import EnemyTOR
+from TheOneRingDetails.ClashTORService import ClashTORService, StancesTOR
 from TheOneRingDetails.TreasuryTOR import BenefitTOR, TableBenefit, TreasuryTORFactory
+from TheOneRingDetails.FightTORCtrl import FightTORCtrl
 
 from DiceService.DiceSet import DiceSet, Dice
 
@@ -67,21 +69,35 @@ class GameTOR(Game, metaclass=SingletonMeta):
         else:
             raise ValueError(f"Record is not of type EventTheOneRing: {record}")
         
-    def chooseBand(self) -> None:
+    def chooseBand(self, id: int = 0) -> None:
         """Choose a band from the available bands."""
         bands: list[BandTOR] = BandTORLoader().getBands()
         print(bands)
-        strNumber:str = input("Choose Band by id >> ")
-        id:int = int(strNumber)
-        band = next((b for b in bands if b.id == id), None)
-        if band is None:
-            print("Band with the given id not found.")
-            return
-        print("Your choose:")
-        print(band)
-        self.band = band
-        return
-    
+        if id == 0:
+            while True:
+                strNumber: str = input("Choose Band by id >> ")
+                try:
+                    id = int(strNumber)
+                    band = next((b for b in bands if b.id == id), None)
+                    if band is None:
+                        print("Band with the given id not found.")
+                        continue
+                    print("Your choose:")
+                    print(band)
+                    self.band = band
+                    return
+                except ValueError:
+                    print("Invalid input. Please enter a valid integer id.")
+        else:
+            band = next((b for b in bands if b.id == id), None)
+            if band is None:
+                raise ValueError(f"Band with id {id} not found.")
+            else:
+                print("Your choose:")
+                print(band)
+                self.band = band
+                return
+ 
     def setupAllies(self) -> bool:
         """Setup allies for the band."""
         if not self.band.allies:
@@ -144,8 +160,8 @@ class GameTOR(Game, metaclass=SingletonMeta):
 
 
     def chooseAssets(self) -> None:
-        self.chooseBand()
-        self.hero = HeroTORService.chooseHero()
+        self.chooseBand(1)
+        self.hero = HeroTORService.chooseHero("qqqq1111")
         items: list[ItemTOR] = ItemTORService.loadItems()
         GameTOR.linkItemsToOwners(items, [self.hero])
 
@@ -189,8 +205,10 @@ class GameTOR(Game, metaclass=SingletonMeta):
         print(f"{type.name} {diceFeat.name}")
 
         enemy = self.enemy or EnemyTOR(0, 0)
-        DispositionsService.testBand(self.band, enemy, type, diceFeat, spentHope, bonusSuccess)
-        pass
+        if self.enemy is None:
+            DispositionsService.testBand(self.band, enemy, type, diceFeat, spentHope, bonusSuccess)
+        else:
+            ClashTORService.makeClash(self.band, enemy, StancesTOR.NONE, spentHope, bonusSuccess)
 
     def randomTable(self, arg) -> None:
         """Random table"""
@@ -237,8 +255,8 @@ class GameTOR(Game, metaclass=SingletonMeta):
             raise ValueError(f"Invalid argument. Type: {strType}")
         
     def startFight(self) -> None:
-        strMight:str = input("setup enemy might >> ")
-        strResistance:str = input("setup enemy resistance >> ")
+        strMight:str = input("Setup enemy might >> ")
+        strResistance:str = input("Setup enemy resistance >> ")
         self.enemy = EnemyTOR(int(strMight), int(strResistance))
 
     def endFight(self) -> None:
@@ -261,3 +279,17 @@ class GameTOR(Game, metaclass=SingletonMeta):
             HeroTORService.showHero(self.hero)
             print(f"Band: {self.band}")
             print(f"Enemy: {self.enemy}") if self.enemy else print("No enemy in the game.")
+
+    def takeClash(self) -> None:
+        """Take a clash in the game."""
+        if self.enemy is None:
+            raise ValueError("No enemy to clash with.")
+        else:
+            ClashTORService.makeClash(self.band, self.enemy, StancesTOR.NONE)
+
+    def enterTheFight(self) -> None:
+        """Enter the fight with the enemy."""
+        FightTORCtrl.enterFight(self.band)
+    
+    def takeDecisiveAction(self) -> None:
+        """Take a decisive action in the game."""

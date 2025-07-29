@@ -37,7 +37,10 @@ class DiceApp(cmd.Cmd):
         return True
     
     def do_randomTable (self, arg):
-        """Wylosuj Zasób"""
+        """Wylosuj Zasób
+            "EVENT": TableEvent,
+            "MISSION": TableMission,
+            "THREAD": TableThread"""
         GameController.randomTable(arg)
 
     def do_chooseAssets(self, arg):
@@ -53,7 +56,8 @@ class DiceApp(cmd.Cmd):
         NONE RALLY WAR EXPERTISE MANOEUVRE VIGILANCE
         ILL NORMAL FAVOURED
         spentHope bonusSuccess
-        e.g: test EXPERTISE ILL 0 1"""
+        e.g: test EXPERTISE ILL 0 1
+        e.g: test EXPERTISE NORMAL 0 0"""
         GameController.test(arg)
 
     def do_travelEvent(self, arg):
@@ -69,6 +73,10 @@ class DiceApp(cmd.Cmd):
     def do_showCharacter(self, arg):
         """Wybierz bohatera"""
         GameController.showCharacter(arg)
+
+    def do_enterTheFight(self, arg):
+        """Wejdź do walki"""
+        GameController.enterTheFight(arg)
 
     # Inne komendy mogą być dodane tutaj...
 

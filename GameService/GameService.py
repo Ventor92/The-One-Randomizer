@@ -31,3 +31,8 @@ class GameService:
     def showCharacter(game, arg) -> None:
         """Show character details."""
         game.showCharacter(arg)
+
+    @staticmethod
+    def enterTheFight(game: Game, arg) -> None:
+        """Enter the fight."""
+        game.enterTheFight()
