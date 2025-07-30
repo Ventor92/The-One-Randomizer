@@ -1,6 +1,6 @@
 from ..models.chatRecord import RecordBase
 from ..models.TheNewOrigin.Item import TNOItem_ORM, TNOItemDTO
-from ..models.TheNewOrigin.Character import TNO_Character_ORM, TNO_Character_DTO, TNO_AttributesSheet_ORM, TNO_AttributesSheet_DTO
+from ..models.TheNewOrigin.Character import TNO_Character_ORM, TNO_Character_DTO, TNO_AttributesSheet_ORM, TNO_AttributesSheet_DTO, TNO_SkillsSheet_DTO, TNO_SkillsSheet_ORM
 
 from ..database.Repository_Controller import RepositoryController
 from ..database.Repository_Service import RepositoryService
@@ -57,9 +57,9 @@ class Character_Service:
             
     @staticmethod
     def createCharacter(dto: TNO_Character_DTO) -> TNO_Character_DTO:
-        charORM = TNO_Character_ORM(name=dto.name, user_id=dto.user_id)
-
-        skillsORM = TNO_AttributesSheet_ORM(character=charORM)
+        attrOrm = TNO_AttributesSheet_ORM()
+        skillsOrm = TNO_SkillsSheet_ORM()
+        charORM = TNO_Character_ORM(name=dto.name, user_id=dto.user_id, skillsSheet=skillsOrm, attributesSheet=attrOrm)
 
         engine = RepositoryController.getEngine()
         with Session(engine) as session:
@@ -67,24 +67,6 @@ class Character_Service:
             # CharacterRepository.add(session, charORM)
 
         dto = TNO_Character_DTO.model_validate(charORM)
-
-        return dto
-    
-    @staticmethod
-    def updateCharacterAttribute(dto: TNO_AttributesSheet_DTO, character_id: int) -> TNO_AttributesSheet_DTO:
-        
-        charORM: TNO_Character_ORM | None = None
-        engine = RepositoryController.getEngine()
-
-        with Session(engine) as session:
-            charORM = CharacterRepository.get(session, character_id)
-            if charORM is not None:
-                charORM.updateAttrByDTO(dto)
-                charORM = CharacterRepository.update(session, charORM)
-                attORM = charORM.getAttributesSheet()
-                dto = TNO_AttributesSheet_DTO.model_validate(attORM)
-            else:
-                pass
 
         return dto
     
@@ -99,10 +81,65 @@ class Character_Service:
         with Session(engine) as session:
             charORM = CharacterRepository.get(session, character_id)
             if charORM is not None:
-                attrORM = charORM.getAttributesSheet()
+                attrORM = charORM.getAttributes()
                 dto = TNO_AttributesSheet_DTO.model_validate(attrORM)
             else:
                 pass
 
         return dto
+    
+    @staticmethod
+    def updateCharacterAttribute(dto: TNO_AttributesSheet_DTO, character_id: int) -> TNO_AttributesSheet_DTO:
+        
+        charORM: TNO_Character_ORM | None = None
+        engine = RepositoryController.getEngine()
+
+        with Session(engine) as session:
+            charORM = CharacterRepository.get(session, character_id)
+            if charORM is not None:
+                charORM.updateAttrByDTO(dto)
+                charORM = CharacterRepository.update(session, charORM)
+                attORM = charORM.getAttributes()
+                dto = TNO_AttributesSheet_DTO.model_validate(attORM)
+            else:
+                pass
+
+        return dto
+    
+    @staticmethod
+    def getCharacterSkills(character_id: int) -> TNO_SkillsSheet_DTO:
+        
+        charORM: TNO_Character_ORM | None = None
+        engine = RepositoryController.getEngine()
+
+        dto: TNO_SkillsSheet_DTO = TNO_SkillsSheet_DTO(id = None)
+
+        with Session(engine) as session:
+            charORM = CharacterRepository.get(session, character_id)
+            if charORM is not None:
+                attrORM = charORM.getAttributes()
+                dto = TNO_SkillsSheet_DTO.model_validate(attrORM)
+            else:
+                pass
+
+        return dto
+    
+    @staticmethod
+    def updateCharacterSkills(dto: TNO_SkillsSheet_DTO, character_id: int) -> TNO_SkillsSheet_DTO:
+        
+        charORM: TNO_Character_ORM | None = None
+        engine = RepositoryController.getEngine()
+
+        with Session(engine) as session:
+            charORM = CharacterRepository.get(session, character_id)
+            if charORM is not None:
+                charORM.updateSkillsByDTO(dto)
+                charORM = CharacterRepository.update(session, charORM)
+                attORM = charORM.getSkills()
+                dto = TNO_SkillsSheet_DTO.model_validate(attORM)
+            else:
+                pass
+
+        return dto
+    
             

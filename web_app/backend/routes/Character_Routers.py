@@ -9,7 +9,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from ..database.database import create_db_and_tables, get_session
 
 from web_app.backend.services.Character_Service import Character_Service
-from web_app.backend.models.TheNewOrigin.Character import TNO_Character_ORM, TNO_Character_DTO, TNO_AttributesSheet_DTO
+from web_app.backend.models.TheNewOrigin.Character import TNO_Character_ORM, TNO_Character_DTO, TNO_AttributesSheet_DTO, TNO_SkillsSheet_DTO
 from web_app.backend.models.TheNewOrigin.Item import TNOItem_ORM, TNOItemDTO
 
 # from ..services.Chat_Service import Chat_Service
@@ -72,6 +72,22 @@ def assignAttribute(dto: TNO_AttributesSheet_DTO, char_id: int = Query(None, des
 @router.get("/att", response_model=TNO_AttributesSheet_DTO, summary="Update atrybutów postaci")
 def getAttribute(dto: TNO_AttributesSheet_DTO, char_id: int = Query(None, description="Character Id")):
     dtoResponse = Character_Service.getCharacterAttribute(char_id)
+    if (dtoResponse.id == None) or (dtoResponse.character_id == None):
+        raise HTTPException(status_code=404, detail=f"No character found: {char_id}")
+    else:
+        return dtoResponse
+    
+@router.patch("/skill", response_model=TNO_SkillsSheet_DTO, summary="Update atrybutów postaci")
+def assignSkills(dto: TNO_SkillsSheet_DTO, char_id: int = Query(None, description="Character Id")):
+    dtoResponse = Character_Service.updateCharacterSkills(dto, char_id)
+    if (dtoResponse.id == None) or (dtoResponse.character_id == None):
+        raise HTTPException(status_code=404, detail=f"No character found: {char_id}")
+    else:
+        return dtoResponse
+
+@router.get("/skill", response_model=TNO_SkillsSheet_DTO, summary="Update atrybutów postaci")
+def getSkills(dto: TNO_SkillsSheet_DTO, char_id: int = Query(None, description="Character Id")):
+    dtoResponse = Character_Service.getCharacterSkills(char_id)
     if (dtoResponse.id == None) or (dtoResponse.character_id == None):
         raise HTTPException(status_code=404, detail=f"No character found: {char_id}")
     else:
