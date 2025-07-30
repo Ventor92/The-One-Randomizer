@@ -14,7 +14,7 @@ class ChatRecordType(str, Enum):
 
 class RecordBase(SQLModel):
     id: Optional[int] = Field(default=None, primary_key=True)
-    uuid: str = field(default_factory=lambda: RecordBase.generate_uuid())
+    uuid: str = Field(default_factory=lambda: RecordBase.generate_uuid())
     created_at: datetime = Field(default_factory=lambda: RecordBase.get_current_timestamp())
 
     @staticmethod

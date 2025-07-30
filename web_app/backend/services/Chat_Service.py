@@ -15,9 +15,18 @@ class DiceRollRepository(RepositoryService[DiceRollORM]):
 class Chat_Service:
     def __new__(cls, *args, **kwargs):
         raise NotImplementedError("This class cannot be instantiated. Use static methods only.")
+    
+    @staticmethod
+    def add_message(message: MessageDTO) -> MessageDTO:
+        
+        messageORM = MessageORM.fromMessage(dto)
+        dto = Chat_Service.__add_message(messageORM)
+
+        return dto
+        
 
     @staticmethod
-    def add_message(message: MessageORM) -> MessageDTO:
+    def __add_message(message: MessageORM) -> MessageDTO:
         """
         Adds a message to the chat history.
         :param message: Message object to be added.

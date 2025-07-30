@@ -28,9 +28,6 @@ active_connections: List[WebSocket] = []
 
 RecordUnion = Annotated[Union[MessageDTO, DiceRollDTO], Field(discriminator="type")]
 
-@router.on_event("startup")
-def on_startup():
-    create_db_and_tables()
 
 @router.websocket("/roll")
 async def websocket_roll(websocket: WebSocket):
@@ -56,9 +53,7 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             data = await websocket.receive_text()
             dto = MessageDTO.model_validate_json(data)
-            messageORM = MessageORM.fromMessage(dto)
-            dto = Chat_Service.add_message(messageORM)
-            logger.info(f"Received message: {dto}")
+            dto = Chat_Service.add_message(dto)
             json = dto.model_dump_json()
             await broadcast(json)
     except WebSocketDisconnect:

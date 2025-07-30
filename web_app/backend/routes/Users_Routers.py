@@ -15,9 +15,6 @@ router = APIRouter(
     tags=["database"]
 )
 
-@router.on_event("startup")
-def on_startup():
-    create_db_and_tables()
 
 @router.post("/", response_model=User)
 def create_user(user: User, session: Session = Depends(get_session)):
