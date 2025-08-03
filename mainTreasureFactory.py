@@ -6,10 +6,6 @@ from TheOneRingDetails.TreasuryTOR import TreasuryTORFactory
 
 from TableService.BenefitService.TableBenefit import TableBenefit
 
-from TableService.RecordFactory import RecordFactory
-
-RecordFactory.register((BenefitTOR), BenefitTOR.fromRow)
-
 if __name__ == "__main__":
     # Example usage of the TreasuryTORFactory
     diceSetBenefit = DiceSet([DiceTheOneRing(DiceTheOneRingType.SUCCESS), DiceTheOneRing(DiceTheOneRingType.SUCCESS)])

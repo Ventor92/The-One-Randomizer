@@ -7,16 +7,7 @@ from TheOneRingDetails.BenefitTOR import BenefitTOR
 from TheOneRingDetails.HeroTOR import HeroTOR
 from TheOneRingDetails.ItemTOR import ItemTOR
 
-from TableService.RecordFactory import RecordFactory
-
 from GameService.GameController import GameController
-
-RecordFactory.register((EventTheOneRing), EventTheOneRing.fromRow)
-RecordFactory.register((ThreadTOR), ThreadTOR.fromRow)
-RecordFactory.register((MissionTOR), MissionTOR.fromRow)
-RecordFactory.register((BenefitTOR), BenefitTOR.fromRow)
-RecordFactory.register((HeroTOR), HeroTOR.fromRow)
-RecordFactory.register((ItemTOR), ItemTOR.fromRow)
 
 def main():
     print("Witaj w moim dice rollerze!")
@@ -40,7 +31,11 @@ class DiceApp(cmd.Cmd):
         """Wylosuj Zasób
             "EVENT": TableEvent,
             "MISSION": TableMission,
-            "THREAD": TableThread"""
+            "THREAD": TableThread
+            e.g: randomTable EVENT
+            e.g: randomTable MISSION
+            e.g: randomTable THREAD
+            """
         GameController.randomTable(arg)
 
     def do_chooseAssets(self, arg):

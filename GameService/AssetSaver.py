@@ -1,5 +1,4 @@
 from TableService.Record import Record
-from TableService.RecordFactory import RecordFactory
 import pandas as pd
 from collections.abc import Sequence
 
@@ -14,7 +13,7 @@ class RecordSaver:
         table = pd.read_excel(path, sheet_name)
         record = []
         for _, row in table.iterrows():
-            e = RecordFactory.create(recordType, row)
+            e = recordType.fromRow(row)
             record.append(e)
         return record
 
