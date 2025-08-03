@@ -7,6 +7,7 @@ from web_app.backend.database.database import create_db_and_tables, get_session
 from web_app.backend.routes.Users_Routers import router as user_router
 from web_app.backend.routes.Chat_Routers import router as chat_router
 from web_app.backend.routes.Character_Routers import router as character_router
+from web_app.backend.routes.Table_Router import router as table_router
 
 
 app = FastAPI()
@@ -22,6 +23,8 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(chat_router)
 app.include_router(character_router)
+app.include_router(table_router)
+
 
 create_db_and_tables()
 

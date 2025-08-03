@@ -1,4 +1,5 @@
 from typing import TypeVar, Generic, Type, List, Optional
+
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 

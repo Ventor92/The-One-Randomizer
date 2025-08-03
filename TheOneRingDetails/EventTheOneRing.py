@@ -38,30 +38,30 @@ class EventTheOneRing(Event):
             f"  Feat Die: ({self.featDieMin}-{self.featDieMax}) Success Die: {self.successDie}\n"
             f"  Def Desc: {self.description}\n"
         )
-    
+        
     def isThisRecord(self, results: list[int]) -> bool:
-        return self.isThisEvent(results)
+        resultFeat: int = results[0]
+        resultSuccess: int = results[1]
+        isIt: bool = self.isThisEvent(resultFeat, resultSuccess)
+        return isIt
     
-    def isThisEvent(self, results: list[int]):
-
-        dieFeatValue: int = results[0]
-        dieResultSuccess: int = results[1]
+    def isThisEvent(self, resultFeat: int, resultSuccess: int):
         
         try:
-            if not (1 <= dieFeatValue <= 12):
+            if not (1 <= resultFeat <= 12):
                 raise ValueError("dieFeatValue not in rage <1:12>")
         except ValueError:
-            print("Error, default dieFeatValue 1!")
-            dieFeatValue = 1
+            print("Error, default dieFeatValue 11!")
+            resultFeat = 11
 
         try:
-            if not (1 <= dieResultSuccess <= 6):
+            if not (1 <= resultSuccess <= 6):
                 raise ValueError("dieResultSuccess not in rage <1:6>")
         except ValueError:
             print("Error, default dieResultSuccess 1!")
-            dieResultSuccess = 1
+            resultSuccess = 1
 
-        if self.featDieMin <= dieFeatValue <= self.featDieMax and self.successDie == dieResultSuccess:
+        if self.featDieMin <= resultFeat <= self.featDieMax and self.successDie == resultSuccess:
             return True
         else:
             return False

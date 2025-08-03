@@ -1,7 +1,7 @@
 from enum import Enum, auto
 from typing import Optional, TYPE_CHECKING
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_serializer
 from sqlmodel import Field, Relationship
 
 from web_app.backend.models.chatRecord import RecordBase
@@ -9,12 +9,12 @@ from web_app.backend.models.chatRecord import RecordBase
 if TYPE_CHECKING:
     from web_app.backend.models.TheNewOrigin.Character import TNO_Character_ORM
 
-class StrEnum(str, Enum):
-    @staticmethod
-    def _generate_next_value_(name, start, count, last_values):
-        return name
+# class StrEnum(str, Enum):
+#     @staticmethod
+#     def _generate_next_value_(name, start, count, last_values):
+#         return name
 
-class ItemSlotType(StrEnum):
+class ItemSlotType(Enum):
     NONE = auto()
     JEWELRY = auto()
     WEAPON = auto()
@@ -23,7 +23,7 @@ class ItemSlotType(StrEnum):
     COAT = auto()
     SCABBARD = auto()
 
-class ItemMagicType(StrEnum):
+class ItemMagicType(Enum):
     NONE = auto()
     NORMAL = auto()
     UNUSUAL = auto()
@@ -48,4 +48,12 @@ class TNOItemDTO(BaseModel, ItemFieldsMixin):
     model_config = {
         "from_attributes": True
     }
+
+    @field_serializer("slot")
+    def serialize_slot(self, slot: ItemSlotType, _info):
+        return slot.name
+    
+    @field_serializer("type")
+    def serialize_type(self, type: ItemMagicType, _info):
+        return type.name
 

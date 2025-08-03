@@ -71,7 +71,7 @@ class TNO_AttributeSheet():
 class TNO_AttributesSheet_DTO(BaseModel, TNO_AttributeSheet):
     id: Optional[int] = None
     model_config = {
-        "from_attributes": True
+        "from_attributes": True,
     }
     
 class TNO_AttributesSheet_ORM(RecordBase, TNO_AttributeSheet, table=True):
@@ -98,6 +98,7 @@ class TNO_SkillsSheet():
 
 class TNO_SkillsSheet_DTO(BaseModel, TNO_SkillsSheet):
     id: Optional[int] = None
+    
     model_config = {
         "from_attributes": True
     }

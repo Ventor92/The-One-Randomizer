@@ -1,18 +1,26 @@
 import random
 from typing import List
+from dataclasses import dataclass
 
 from enum import Enum
 
 class DiceType(Enum):
-    D2 = "D2"
-    D3 = "D3"
-    D4 = "D4"
-    D6 = "D6"
-    D8 = "D8"
-    D10 = "D10"
-    D12 = "D12"
-    D20 = "D20"
-    D100 = "D100"
+    D2 = 2
+    D3 = 3
+    D4 = 4
+    D6 = 6
+    D8 = 8
+    D10 = 10
+    D12 = 12
+    D20 = 20
+    D100 = 100
+
+@dataclass
+class RollResult():
+    diceType: DiceType
+    result: int
+
+DiceResults = dict[DiceType, list[int]]
 
 class Dice:
     def __init__(self, diceType=DiceType.D6):
@@ -34,3 +42,4 @@ class Dice:
     def roll(self, numDice: int) -> List[int]:
         roll:List[int] = self._roll(numDice)
         return roll
+    

@@ -8,7 +8,8 @@ from TableService.Record import Record
 class Table:
     def __init__(self, recordType: type[Record], path, sheetName, dices: list[Dice]):
         self._recordType = recordType
-        self._records: list[Record] = TableLoader.loadRecords(recordType, path, sheetName)  # Changed __records to _records
+        # self._records: list[Record] = TableLoader.loadRecords(recordType, path, sheetName)  # Changed __records to _records
+        self._records: list[Record] = []  # Changed __records to _records
         self._diceSet: DiceSet = DiceSet(dices)
         print(f"Table __init__")
 
