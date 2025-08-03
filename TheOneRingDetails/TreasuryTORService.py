@@ -1,5 +1,6 @@
 from TheOneRingDetails.TreasuryTOR import TreasuryTOR, TreasuryTORFactory, ItemTOR
 from TheOneRingDetails.HeroTOR import HeroTOR
+from TheOneRingDetails.ItemTORService import ItemTORService
 
 
 class TreasuryTORService:
@@ -31,6 +32,7 @@ class TreasuryTORService:
             strMight:str = input(f"{hero.name} Should take this item? (Y/n) >> ")
             if strMight.upper() == "Y":
                 hero.addItem(item)
+                ItemTORService.saveItem(item)
             else:
                 print(f"Item {item.name} not taken by hero.")
 

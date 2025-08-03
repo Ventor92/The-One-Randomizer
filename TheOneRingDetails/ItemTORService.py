@@ -1,6 +1,6 @@
 from GameService.AssetSaver import RecordSaver
 
-from TheOneRingDetails.HeroTOR import HeroTOR, ItemTOR
+from TheOneRingDetails.ItemTOR import ItemTOR
 
 
 class ItemTORService:
@@ -22,7 +22,7 @@ class ItemTORService:
         return items
     
     @staticmethod
-    def __saveItem(item: ItemTOR, filepath: str = "data/Band.xlsx", sheetName: str = "Heroes") -> None:
+    def saveItem(item: ItemTOR, filepath: str = "data/Band.xlsx", sheetName: str = "Items") -> None:
         """Save a item to the specified file."""
         records: list[ItemTOR] = [item]
         RecordSaver.saveRecords(records, filepath, sheetName)

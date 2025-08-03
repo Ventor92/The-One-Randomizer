@@ -1,3 +1,5 @@
+
+
 class EnemyTOR:
     def __init__(self, mighty: int, resistance: int):
         self.mighty = mighty
@@ -12,4 +14,4 @@ class EnemyTOR:
             self.resistance = 0
 
     def getMighty(self) -> int:
-        return self.mighty
+        return self.mighty    

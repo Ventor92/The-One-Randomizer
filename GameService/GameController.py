@@ -42,3 +42,9 @@ class GameController:
         """Show character details."""
         game: Game = GameController.__getGame()
         GameService.showCharacter(game, arg)
+
+    @staticmethod
+    def enterTheFight(arg):
+        """Enter the fight."""
+        game: Game = GameController.__getGame()
+        GameService.enterTheFight(game, arg)

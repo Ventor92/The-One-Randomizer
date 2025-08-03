@@ -47,16 +47,21 @@ class TreasuryTORFactory:
         dice = DiceTheOneRing(DiceTheOneRingType.SUCCESS)
         results = dice.roll(1 + bonus)
         result = max(results)
+        size: TreasurySizeTOR = TreasurySizeTOR.NONE
 
         match result:
             case 1 | 2:
-                return TreasurySizeTOR.SMALL
+                size = TreasurySizeTOR.SMALL
             case 3 | 4:
-                return TreasurySizeTOR.MEDIUM
+                size = TreasurySizeTOR.MEDIUM
             case 5 | 6:
-                return TreasurySizeTOR.LARGE
+                size = TreasurySizeTOR.LARGE
             case _:
-                return TreasurySizeTOR.NONE
+                size = TreasurySizeTOR.NONE
+
+        print(f"\tTreasury size: {size.name}")
+        return size
+            
 
     @staticmethod  
     def __specifyDiceSets(TreasurySizeTOR) -> tuple[DiceSet, DiceSet]: 
@@ -93,6 +98,7 @@ class TreasuryTORFactory:
         print("Calculating treasure value...")
         results = diceSetSuccess.roll()
         totalValue = sum(results)
+        print(f"\tTreasure value: {totalValue}")
         return totalValue
     
     @staticmethod
@@ -120,13 +126,15 @@ class TreasuryTORFactory:
             return benefit.benefit
         else:
             raise ValueError(f"Expected BenefitTOR, got {type(benefit)}")
-
+        
     @staticmethod
     def __rollBenefitsByItemType(typeItem: MagicItemType, tableBenefit: TableBenefit) -> list[SkillTypeTOR]:
         print(f"Rolling benefits for item type: {typeItem.name}")
         benefits: list[SkillTypeTOR] = []
 
-        for _ in range(typeItem.value):
+        amountOfBenefits: int = ItemTOR.getAmountOfBenefitsByItemType(typeItem)
+
+        for _ in range(amountOfBenefits):
             benefit = TreasuryTORFactory.__rollBenefit(tableBenefit)
             benefits.append(benefit)
 
@@ -148,7 +156,6 @@ class TreasuryTORFactory:
     @staticmethod
     def __rollMagicItems(diceSetFeat: DiceSet, tableBenefit: TableBenefit) -> list[ItemTOR]:
         results = diceSetFeat.roll()
-        results = [9,10,11,12]  # Filter for magic items (11 or 12)
         items: list[ItemTOR] = []
         for result in results:
             match result:
@@ -163,6 +170,7 @@ class TreasuryTORFactory:
                     pass
             
             if item is not None:
+                print(f"Magic item rolled: {item}")
                 items.append(item)
             else:
                 pass

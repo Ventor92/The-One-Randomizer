@@ -42,6 +42,11 @@ class AllieTOR():
 
     quirksOrNotes: str = "None"
 
+    def incrementInjury(self):
+        """Increment the injury level of the ally."""
+        if self.injuries.value < InjuryTORType.LINGERING.value:
+            self.injuries = InjuryTORType(self.injuries.value + 1)
+
     def setInjury(self, injury: InjuryTORType):
         self.injuries = injury
 

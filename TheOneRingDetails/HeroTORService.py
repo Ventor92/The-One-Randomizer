@@ -27,7 +27,7 @@ class HeroTORService:
         RecordSaver.saveRecords(records, filepath, sheetName)
 
     @staticmethod
-    def __chooseHero(heroes: list[HeroTOR]) -> HeroTOR:
+    def __chooseHero(heroes: list[HeroTOR], uuid:str = "") -> HeroTOR:
         """Choose a hero from list."""
         if not heroes:
             raise ValueError("No heroes available to choose from.")
@@ -36,7 +36,11 @@ class HeroTORService:
         for hero in heroes:
             print(f"{hero.id}: {hero.name}")
         
-        strNumber: str = input("Choose Hero by id >> ")
+        if uuid == "":
+            strNumber: str = input("Choose Hero by id >> ")
+        else:
+            print(f"Using UUID: {uuid}")
+            strNumber = uuid
                 
         chosenOne = next((h for h in heroes if h.id == strNumber), None)
         if chosenOne is None:
@@ -46,10 +50,10 @@ class HeroTORService:
         return chosenOne
 
     @staticmethod
-    def chooseHero() -> HeroTOR:
+    def chooseHero(uuid: str = "") -> HeroTOR:
         """Choose a hero from the available heroes."""
         heroes = HeroTORService.__loadHeroes()
-        hero: HeroTOR = HeroTORService.__chooseHero(heroes)
+        hero: HeroTOR = HeroTORService.__chooseHero(heroes, uuid)
         return hero
     
     @staticmethod

@@ -51,3 +51,8 @@ class Game:
     def grantAward(self, arg) -> None:
         """Grant award to the game."""
         pass
+
+    @abstractmethod
+    def enterTheFight(self) -> None:
+        """Enter the fight."""
+        pass

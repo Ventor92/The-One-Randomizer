@@ -59,6 +59,22 @@ class BandTOR(CharacterTOR):
         self.eyeAwareness: int = eyeAwareness
         self.huntThreshold: int = huntThreshold
 
+    def getAllyByName(self, name: str) -> AllieTOR | None:
+        """Get ally by name."""
+        for ally in self.allies:
+            if ally.name == name:
+                return ally
+        return None
+
+    def injureAlly(self, name: str):
+        """Injure ally by name."""
+        ally = next((ally for ally in self.allies if ally.name == name), None)
+        if ally:
+            ally.incrementInjury()
+            print(f"Ally {name} has been injured. New injury level: {ally.injuries.name}")
+        else:
+            print(f"Ally {name} not found in the band.")
+
     def addAlly(self, ally: AllieTOR):
         self.allies.append(ally)
         ally.band = self  # Set the band reference in the ally
@@ -236,6 +252,16 @@ class BandTOR(CharacterTOR):
             return True
         else:
             return False 
+        
+    def printAllies(self):
+        """Print the list of allies in the band."""
+        if not self.allies:
+            print("No allies in the band.")
+            return
+        
+        print(f"Allies in {self.name}:")
+        for ally in self.allies:
+            print(ally.__str__())
         
     def __str__(self) -> str:
         """Return a string representation of the band."""

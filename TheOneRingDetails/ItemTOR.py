@@ -28,8 +28,8 @@ class Item(Record):
 class MagicItemType(Enum):
     NONE = 0
     NORMAL = 1
-    UNUSUAL = 1
-    WONDERFUL = 2
+    UNUSUAL = 2
+    WONDERFUL = 3
 
 class ItemTOR(Item):
     def __init__(self, id="", name="Unnamed Item", description="No description available.",
@@ -39,7 +39,14 @@ class ItemTOR(Item):
         self.name: str = name
         self.description: str = description
         self.slot: ItemSlotTypeTOR = slot
-        self.benefits: list[SkillTypeTOR] = benefits if benefits is not None else [SkillTypeTOR.NONE]
+        self.benefits: list[SkillTypeTOR] = [SkillTypeTOR.NONE, SkillTypeTOR.NONE]
+        if benefits is None:
+            self.benefits: list[SkillTypeTOR] = [SkillTypeTOR.NONE, SkillTypeTOR.NONE]
+        else:
+            for i, benefit in enumerate(benefits):
+                if i < len(self.benefits):
+                    self.benefits[i] = benefit             
+            
         self.idOwner: str = idOwner
         self.owner = owner
         self.isCursed:bool = isCursed
@@ -68,7 +75,7 @@ class ItemTOR(Item):
             row['benefit2'] = SkillTypeTOR.NONE
         
         ret = cls(
-            id=row['id'],
+            id=str(row['id']),
             name=row['name'],
             description=row['description'],
             slot=ItemSlotTypeTOR[row['slot']] if row['slot'] else ItemSlotTypeTOR.NONE,
@@ -82,17 +89,30 @@ class ItemTOR(Item):
         )
         return ret
     
+    @staticmethod
+    def getAmountOfBenefitsByItemType(typeItem: MagicItemType) -> int:
+        # print(f"Getting amount of benefits for item type: {typeItem.name}")
+        match typeItem:
+            case MagicItemType.NORMAL | MagicItemType.UNUSUAL:
+                amountOfBenefits = 1
+            case MagicItemType.WONDERFUL:
+                amountOfBenefits = 2
+            case _:
+                amountOfBenefits = 0
+
+        return amountOfBenefits
+    
     def toRow(self) -> Series:
         row = Series({
             'id': self.id,
             'name': self.name,
             'description': self.description,
-            'slot': self.slot if self.slot else ItemSlotTypeTOR.MISCELLANEOUS,
-            'benefit1': self.benefits[0] if self.benefits[0] else SkillTypeTOR.NONE,
-            'benefit2': self.benefits[1] if self.benefits[1] else SkillTypeTOR.NONE,
+            'slot': str(self.slot.name) if self.slot else str(ItemSlotTypeTOR.MISCELLANEOUS.name),
+            'benefit1': str(self.benefits[0].name) if self.benefits[0] else str(SkillTypeTOR.NONE.name),
+            'benefit2': str(self.benefits[1].name) if self.benefits[1] else str(SkillTypeTOR.NONE.name),
             'idOwner': self.idOwner if self.idOwner else "",
             'isCursed': self.isCursed if self.isCursed else False,
-            'type': self.type if self.type else MagicItemType.NORMAL
+            'type': str(self.type.name) if self.type else str(MagicItemType.NORMAL.name)
         })
         return row
     

@@ -7,16 +7,7 @@ from TheOneRingDetails.BenefitTOR import BenefitTOR
 from TheOneRingDetails.HeroTOR import HeroTOR
 from TheOneRingDetails.ItemTOR import ItemTOR
 
-from TableService.RecordFactory import RecordFactory
-
 from GameService.GameController import GameController
-
-RecordFactory.register((EventTheOneRing), EventTheOneRing.fromRow)
-RecordFactory.register((ThreadTOR), ThreadTOR.fromRow)
-RecordFactory.register((MissionTOR), MissionTOR.fromRow)
-RecordFactory.register((BenefitTOR), BenefitTOR.fromRow)
-RecordFactory.register((HeroTOR), HeroTOR.fromRow)
-RecordFactory.register((ItemTOR), ItemTOR.fromRow)
 
 def main():
     print("Witaj w moim dice rollerze!")
@@ -37,7 +28,14 @@ class DiceApp(cmd.Cmd):
         return True
     
     def do_randomTable (self, arg):
-        """Wylosuj Zasób"""
+        """Wylosuj Zasób
+            "EVENT": TableEvent,
+            "MISSION": TableMission,
+            "THREAD": TableThread
+            e.g: randomTable EVENT
+            e.g: randomTable MISSION
+            e.g: randomTable THREAD
+            """
         GameController.randomTable(arg)
 
     def do_chooseAssets(self, arg):
@@ -53,7 +51,8 @@ class DiceApp(cmd.Cmd):
         NONE RALLY WAR EXPERTISE MANOEUVRE VIGILANCE
         ILL NORMAL FAVOURED
         spentHope bonusSuccess
-        e.g: test EXPERTISE ILL 0 1"""
+        e.g: test EXPERTISE ILL 0 1
+        e.g: test EXPERTISE NORMAL 0 0"""
         GameController.test(arg)
 
     def do_travelEvent(self, arg):
@@ -69,6 +68,10 @@ class DiceApp(cmd.Cmd):
     def do_showCharacter(self, arg):
         """Wybierz bohatera"""
         GameController.showCharacter(arg)
+
+    def do_enterTheFight(self, arg):
+        """Wejdź do walki"""
+        GameController.enterTheFight(arg)
 
     # Inne komendy mogą być dodane tutaj...
 

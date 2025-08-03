@@ -1,7 +1,10 @@
 from TableService.Record import Record
-from TableService.RecordFactory import RecordFactory
 import pandas as pd
 from collections.abc import Sequence
+
+
+import openpyxl
+
 
 class RecordSaver:
     
@@ -10,7 +13,7 @@ class RecordSaver:
         table = pd.read_excel(path, sheet_name)
         record = []
         for _, row in table.iterrows():
-            e = RecordFactory.create(recordType, row)
+            e = recordType.fromRow(row)
             record.append(e)
         return record
 
@@ -23,11 +26,16 @@ class RecordSaver:
 
         rows = list(map(lambda record: record.toRow(), records))
 
+        print(rows)
         dfAdditional = pd.DataFrame(rows)
-        dfMerged = pd.concat([df, dfAdditional], ignore_index=True)
-        dfUnique = dfMerged.drop_duplicates(subset=['id']) 
+        dfAdditional.set_index('id', drop=True, inplace=True)
+        print(dfAdditional)
+        dfMerged = pd.concat([df, dfAdditional], ignore_index=False)
+        print(dfMerged)
+        dfUnique = dfMerged[~dfMerged.index.duplicated(keep='first')]
         print(dfUnique)
 
-        dfUnique.to_excel(path, sheet_name=sheet_name, index=True)
-        # Implement saving logic here
+        with pd.ExcelWriter(path, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+            dfUnique.to_excel(writer, sheet_name=sheet_name, index=True)
+
         pass
