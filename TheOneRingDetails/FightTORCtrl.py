@@ -130,7 +130,7 @@ class FightTORCtrl(cmd.Cmd):
             case SuccessTORType.FAILURE | SuccessTORType.MISERABLE:
                 print(f"Rally Failed with result: {result.success.name}")
                 print(f"Choose 1 ally to injure.")
-                self.band.printAllies()
+                self.band.printAlliesActive()
                 print(f"Next cmd: injureAlly <allyName>")
             case SuccessTORType.EXTRAORDINARY | SuccessTORType.GREAT | SuccessTORType.CRITICAL | SuccessTORType.NORMAL:
                 print(f"Rally succeeded with result: {result.success.name}")

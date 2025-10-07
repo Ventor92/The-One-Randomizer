@@ -5,10 +5,11 @@
         }
     ],
     "settings": {
-        "python.createEnvironment.contentButton": "show",
-        "python.envFile": "${workspaceFolder}/.venv",
-        "cSpell.words": [
-            "MANOEUVRE"
-        ]
+        "python.envFile": "${workspaceFolder}/.env",
+        "python.analysis.extraPaths": [
+            "${workspaceFolder}",
+        ],
+        "python.analysis.typeCheckingMode": "standard",
+        "python.analysis.logLevel": "Trace"
     }
 }

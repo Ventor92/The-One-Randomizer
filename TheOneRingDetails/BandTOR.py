@@ -22,6 +22,14 @@ class BandFacultyType(Enum):
     EXPERTISE = auto()
     VIGILANCE = auto()
 
+class BandCallingType(Enum):
+    NONE = 0
+    VANGUARDS = auto()          # WAR
+    RECLAIMERS = auto()         # EXPERTISE
+    GUARDIANS = auto()          # VIGILANCE
+    STANDARD_BEARERS = auto()   # RALLY
+    PATHFINDERS = auto()        # MANOEUVRE
+
 class BandDispositionType(Enum):
     NONE = auto()
     WAR = auto()
@@ -41,8 +49,9 @@ class BandTOR(CharacterTOR):
     def __init__(self, id:int, 
                  name: str = "Band of the Ring", 
                  armament: BandArmamentType = BandArmamentType.READY,
-                 size: BandSizeType = BandSizeType.MEDIUM,
+                 size: BandSizeType = BandSizeType.NONE,
                  faculty: BandFacultyType = BandFacultyType.NONE,
+                 calling: BandCallingType = BandCallingType.NONE,
                  eyeAwareness: int = 0,
                  huntThreshold: int = 14,
                  hopePts: int = 10,
@@ -55,6 +64,7 @@ class BandTOR(CharacterTOR):
         self.armament: BandArmamentType = armament
         self.size: BandSizeType = size
         self.faculty: BandFacultyType = faculty
+        self.calling: BandCallingType = calling
 
         self.eyeAwareness: int = eyeAwareness
         self.huntThreshold: int = huntThreshold
@@ -133,10 +143,12 @@ class BandTOR(CharacterTOR):
         active_allies_count = sum(1 for ally in self.allies if ally.active)
         if active_allies_count <= 4:
             self.size = BandSizeType.SMALL
-        elif active_allies_count <= 9:
+        elif active_allies_count <= 8:
             self.size = BandSizeType.MEDIUM
         else:
             self.size = BandSizeType.LARGE
+
+        print(f"Band size updated to: {self.size.name} based on {active_allies_count} active allies.")
 
     def getBurden(self) -> BandBurdenType:
         """Calculate burden based on Armament."""
@@ -251,7 +263,37 @@ class BandTOR(CharacterTOR):
         if self.hopePts <= self.shadowPts:
             return True
         else:
-            return False 
+            return False
+        
+    def isInspired(self, disposition: BandDispositionType) -> bool:
+        """Check if the band is inspired based on the disposition and calling."""
+        if disposition is BandDispositionType.NONE or self.calling is BandCallingType.NONE:
+            return False
+        
+        match disposition:
+            case BandDispositionType.WAR:
+                return self.calling is BandCallingType.VANGUARDS
+            case BandDispositionType.EXPERTISE:
+                return self.calling is BandCallingType.RECLAIMERS
+            case BandDispositionType.VIGILANCE:
+                return self.calling is BandCallingType.GUARDIANS
+            case BandDispositionType.RALLY:
+                return self.calling is BandCallingType.STANDARD_BEARERS
+            case BandDispositionType.MANOEUVRE:
+                return self.calling is BandCallingType.PATHFINDERS
+            case _:
+                return False
+        
+    def printAlliesActive(self):
+        """Print the list of active allies in the band."""
+        active_allies = [ally for ally in self.allies if ally.active]
+        if not active_allies:
+            print("No active allies in the band.")
+            return
+        
+        print(f"Active Allies in {self.name}:")
+        for ally in active_allies:
+            print(ally.__str__())
         
     def printAllies(self):
         """Print the list of allies in the band."""
