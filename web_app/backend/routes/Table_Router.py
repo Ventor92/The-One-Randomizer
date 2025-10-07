@@ -14,6 +14,8 @@ from web_app.backend.models.TheNewOrigin.Character import TNO_Character_ORM, TNO
 from web_app.backend.models.TheNewOrigin.Item import TNOItem_ORM, TNOItemDTO
 
 from web_app.backend.models.TheOneRing.Event import TOR_Event_DTO
+from web_app.backend.models.TheOneRing.Thread import TOR_Thread_DTO
+from web_app.backend.models.TheOneRing.Mission import TOR_Mission_DTO
 from web_app.backend.services.Table_Service import Table_Service
 
 import logging
@@ -28,6 +30,26 @@ router = APIRouter(
 def get_event():
 
     dto: Optional[TOR_Event_DTO] = Table_Service.rollEventTOR()
+
+    if not dto:
+        raise HTTPException(status_code=404, detail="No event found")
+    else:
+        return dto
+    
+@router.get("/tor_thread", response_model=TOR_Thread_DTO, summary="Pobierz The One Ring Thread")
+def getThread():
+
+    dto: Optional[TOR_Thread_DTO] = Table_Service.rollThreadTOR()
+
+    if not dto:
+        raise HTTPException(status_code=404, detail="No event found")
+    else:
+        return dto
+    
+@router.get("/tor_mission", response_model=TOR_Mission_DTO, summary="Pobierz The One Ring Mission")
+def get_mission():
+
+    dto: Optional[TOR_Mission_DTO] = Table_Service.rollMissionTOR()
 
     if not dto:
         raise HTTPException(status_code=404, detail="No event found")

@@ -34,6 +34,7 @@ class Table():
     def __init__(self, diceTypes: list[DiceType], description: str):
         self.dices: list[Dice] = []
         self.description: str = description
+
         for diceType in diceTypes:
             dice = Dice(diceType)
             self.dices.append(dice)
@@ -99,33 +100,14 @@ class Table():
     # def _loadRecords(self, loader: TableLoaderV2) -> list[Record]:
     #     return loader.loadRecords()
 
-class TOR_TableEvent(Table):
-    def __init__(self, loader: TableLoaderV2, diceTypes: list[DiceType] = [DiceType.D12, DiceType.D6], description: str = "Tabela Zdarzeń do The One Ring E2"):
+class RandomTable(Table):
+    def __init__(self, loader: TableLoaderV2, diceTypes: list[DiceType], description: str):
         self.loader = loader
         super().__init__(diceTypes, description)
-
-        self._setRecordType(EventTheOneRing)
-             
-    def getEvent(self, results: DiceResults) -> Optional[EventTheOneRing]:
-
-        record = self.getRecord(results)
-
-        event: Optional[EventTheOneRing] = None
-        if isinstance(record, EventTheOneRing):
-            event = record
-        else:
-            event = None
-            raise
-
-        return event
-
-    def rollEvent(self) -> Optional[EventTheOneRing]:
-
-        results = self.roll()
-        event = self.getEvent(results)
-
-        return event
+                         
+        self._setRecordType(loader.getRecordType())
 
     def loadRecords(self) -> list[Record]:
         return self.loader.loadRecords()
+
 

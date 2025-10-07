@@ -9,6 +9,10 @@ class TableLoaderV2:
     def loadRecords(self) -> list[Record]:
         ...
 
+    @abstractmethod
+    def getRecordType(self) -> type[Record]:
+        ...
+
 class TableLoaderExcel(TableLoaderV2):
     def __init__(self, recordType: type[Record], path: str, sheet_name:str) -> None:
         super().__init__()
@@ -24,6 +28,9 @@ class TableLoaderExcel(TableLoaderV2):
             e = recordType.fromRow(row)
             events.append(e)
         return events
+    
+    def getRecordType(self) -> type[Record]:
+        return self._recordType
     
     def loadRecords(self) -> list[Record]:
         return self._loadRecords(self._recordType, self._path, self._sheet_name)
