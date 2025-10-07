@@ -1,5 +1,5 @@
 import pandas as pd
-from TheOneRingDetails.BandTOR import BandTOR, BandArmamentType, BandSizeType, BandFacultyType
+from TheOneRingDetails.BandTOR import BandTOR, BandArmamentType, BandSizeType, BandFacultyType, BandCallingType
 from TheOneRingDetails.AllieTOR import AllieTOR, InjuryTORType, FatigueTORType
 
 class BandTORLoader:
@@ -29,6 +29,7 @@ class BandTORLoader:
                 hopePts=row.get('hopePts', 12),
                 shadowPts=row.get('shadowPts', 12),
                 shadowScars=row.get('shadowScars', 0),
+                calling=BandCallingType[row.get('calling', BandCallingType.NONE.name)],
             )
         
             for _, rowA in self.__tableAllies.iterrows():

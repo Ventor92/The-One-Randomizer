@@ -78,10 +78,10 @@ class AllieTOR():
         return self.active
     
     def __str__(self) -> str:
-        return (f"{self.id} Name:{self.name:<8} {'HARD' if self.hardened else 'BEG':<8}{'(ACTIVE)' if self.active else '(CAMP)':<10}"
-                f"Inj.:{self.injuries.name + '(' + str(self.injuries.value) + '/5)':<14} Fatg.:{self.fatigue.name+'('+str(self.fatigue.value)+'/4)':<14}"
-                f"N.Gift:{self.gift + ('(*)' if self.giftWasted else '( )'):<18}" 
-                f"K.Gift:{self.kinglyGift + ('(*)' if self.kinglyGiftWasted else '( )'):<18}" 
+        return (f"{self.id:<2} Name: {self.name:<8} {'HARD' if self.hardened else 'BEG':<8}{'(ACTIVE)' if self.active else '(CAMP)':<10}"
+                f"Inj.: {self.injuries.name + '(' + str(self.injuries.value) + '/5)':<14} Fatg.: {self.fatigue.name+'('+str(self.fatigue.value)+'/4)':<14}"
+                f"N.Gift: {self.gift + ('(*)' if self.giftWasted else '( )'):<24}" 
+                f"K.Gift: {self.kinglyGift + ('(*)' if self.kinglyGiftWasted else '( )'):<24}" 
                 # f"Quirks/Notes:'{self.quirksOrNotes}'"
                 )
     

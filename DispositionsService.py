@@ -69,6 +69,12 @@ class DispositionsService:
         rollsFeat:list[int] = diceFeat.roll(featDiceNum)
 
         spentHope = DispositionsService.handleHope(band, spentHope)
+
+        if(spentHope > 0):
+            isInspired:bool = band.isInspired(dispositions)
+            if(isInspired):
+                spentHope *= 2
+        
         isMiserable:bool = band.isMiserable()
 
         # print(f"{strDisposition} {levelDisposition} ")
