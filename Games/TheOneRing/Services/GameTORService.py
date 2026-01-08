@@ -4,16 +4,16 @@ from TableService.Table import Table, Record
 from TableService.MissionService.TableMission import TableMission
 from TableService.EventService.TableEvent import TableEvent
 from TableService.ThreadService.TableThread import TableThread
-
-from TheOneRingDetails.EventTheOneRing import EventTheOneRing
-from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
-from TheOneRingDetails.MissionTOR import MissionTOR
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
-
 from DiceService.DiceSet import DiceSet, Dice
 
-from TheOneRingDetails.BandTOR import BandTOR, BandDispositionType, BandArmamentType, BandSizeType, BandFacultyType, BandBurdenType
-from TheOneRingDetails.BandTORLoader import BandTORLoader
+from ..Details.EventTheOneRing import EventTheOneRing
+from ..Details.ThreadTheOneRing import ThreadTOR
+from ..Details.MissionTOR import MissionTOR
+from ..Details.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from ..Details.BandTOR import BandTOR, BandDispositionType, BandArmamentType, BandSizeType, BandFacultyType, BandBurdenType
+from ..Details.BandTORLoader import BandTORLoader
+
+
 
 class GameTORService():
     def __new__(cls, *args, **kwargs):

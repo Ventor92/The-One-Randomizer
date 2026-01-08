@@ -5,27 +5,24 @@ from TableService.MissionService.TableMission import TableMission
 from TableService.EventService.TableEvent import TableEvent
 from TableService.ThreadService.TableThread import TableThread
 from TableService.BenefitService.TableBenefit import TableBenefit
-
-from TheOneRingDetails.EventTheOneRing import EventTheOneRing
-from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
-from TheOneRingDetails.MissionTOR import MissionTOR
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
-from TheOneRingDetails.EnemyTOR import EnemyTOR
-from TheOneRingDetails.ClashTORService import ClashTORService, StancesTOR
-from TheOneRingDetails.TreasuryTOR import BenefitTOR, TableBenefit, TreasuryTORFactory
-from TheOneRingDetails.FightTORCtrl import FightTORCtrl
-
 from DiceService.DiceSet import DiceSet, Dice
 
-from TheOneRingDetails.HeroTOR import HeroTOR
-from TheOneRingDetails.BandTOR import BandTOR, BandDispositionType, BandArmamentType, BandSizeType, BandFacultyType, BandBurdenType
-from TheOneRingDetails.BandTORLoader import BandTORLoader
+from ..Details.EventTheOneRing import EventTheOneRing
+from ..Details.ThreadTheOneRing import ThreadTOR
+from ..Details.MissionTOR import MissionTOR
+from ..Details.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from ..Details.EnemyTOR import EnemyTOR
+from ..Details.TreasuryTOR import TableBenefit, TreasuryTORFactory
+from ..Details.HeroTOR import HeroTOR
+from ..Details.BandTOR import BandTOR, BandDispositionType, BandArmamentType, BandSizeType, BandFacultyType, BandBurdenType
+from ..Details.BandTORLoader import BandTORLoader
 
-from TheOneRingDetails.GameTORService import GameTORService
-from TheOneRingDetails.HeroTORService import HeroTORService
-from TheOneRingDetails.ItemTORService import ItemTORService, ItemTOR
-
-from TheOneRingDetails.TreasuryTORController import TreasuryTORController
+from .ClashTORService import ClashTORService, StancesTOR
+from .FightTORCtrl import FightTORCtrl
+from .GameTORService import GameTORService
+from .HeroTORService import HeroTORService
+from .ItemTORService import ItemTORService, ItemTOR
+from .TreasuryTORController import TreasuryTORController
 
 from DispositionsService import DispositionsService, DiceFeatType
 

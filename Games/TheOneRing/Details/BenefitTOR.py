@@ -4,7 +4,7 @@ import pandas as pd
 from pandas import Series
 
 from TableService.Record import Record
-from TheOneRingDetails.SkillTOR import SkillTypeTOR
+from .SkillTOR import SkillTypeTOR
 
 @dataclass
 class BenefitTOR(Record):

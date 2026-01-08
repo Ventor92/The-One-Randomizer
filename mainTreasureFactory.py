@@ -1,10 +1,11 @@
-from TheOneRingDetails.BenefitTOR import BenefitTOR
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from DiceService.DiceSet import DiceSet, Dice
-
-from TheOneRingDetails.TreasuryTOR import TreasuryTORFactory
-
 from TableService.BenefitService.TableBenefit import TableBenefit
+
+from Games.TheOneRing.Details.BenefitTOR import BenefitTOR
+from Games.TheOneRing.Details.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from Games.TheOneRing.Details.TreasuryTOR import TreasuryTORFactory
+
+
 
 if __name__ == "__main__":
     # Example usage of the TreasuryTORFactory

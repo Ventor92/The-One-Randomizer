@@ -1,6 +1,6 @@
 from GameService.Game import Game
 from GameService.GameService import GameService
-from TheOneRingDetails.GameTOR import GameTOR
+from Games.TheOneRing.Services.GameTOR import GameTOR
 
 class GameController:
     @staticmethod

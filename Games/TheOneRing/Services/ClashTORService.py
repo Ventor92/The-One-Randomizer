@@ -2,11 +2,11 @@ from enum import Enum
 from dataclasses import dataclass
 
 from DispositionsService import DispositionsService
-from TheOneRingDetails.EnemyTOR import EnemyTOR
-from TheOneRingDetails.BandTOR import BandTOR
-from TheOneRingDetails.BandTOR import BandDispositionType
-from TheOneRingDetails.DiceTheOneRing import DiceFeatType
-from TheOneRingDetails.ResultTOR import ResultTOR, SuccessTORType
+from ..Details.EnemyTOR import EnemyTOR
+from ..Details.BandTOR import BandTOR
+from ..Details.BandTOR import BandDispositionType
+from ..Details.DiceTheOneRing import DiceFeatType
+from ..Details.ResultTOR import ResultTOR, SuccessTORType
 
 class StancesTOR(Enum):
     NONE = "None"

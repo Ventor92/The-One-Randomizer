@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 
-from TheOneRingDetails.SkillTOR import SkillTypeTOR
-from TheOneRingDetails.ItemTOR import ItemTOR, ItemSlotTypeTOR, MagicItemType
+from .SkillTOR import SkillTypeTOR
+from .ItemTOR import ItemTOR, ItemSlotTypeTOR, MagicItemType
 
 class TreasurySizeTOR(Enum):
     NONE = 0
@@ -32,10 +32,10 @@ class TreasuryTOR:
     
 
 from DiceService.DiceSet import DiceSet, Dice
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from TableService.BenefitService.TableBenefit import TableBenefit
-from TheOneRingDetails.BenefitTOR import BenefitTOR
-from TheOneRingDetails.EquipmentTOR import EquipmentTOR
+from .DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from .BenefitTOR import BenefitTOR
+from .EquipmentTOR import EquipmentTOR
 
 class TreasuryTORFactory:
     # def __init__(self, tableBenefit: TableBenefit):

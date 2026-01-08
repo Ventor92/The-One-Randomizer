@@ -4,7 +4,7 @@ from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from TheOneRingDetails.BandTOR import BandTOR  # Import tylko dla adnotacji typów
+    from .BandTOR import BandTOR  # Import tylko dla adnotacji typów
 
 
 class InjuryTORType(Enum):
@@ -86,7 +86,7 @@ class AllieTOR():
                 )
     
     def __repr__(self) -> str:
-        return (f"AllieTOR(id={self.id}, idBand={self.idBand}, active={self.active}, name={self.name!r}, "
+        return (f"AllieTOR(id={self.id}, idBand={self.band.id if self.band else None}, active={self.active}, name={self.name!r}, "
                 f"injuries={self.injuries!r}, fatigue={self.fatigue!r}, hardened={self.hardened}, "
                 f"gift={self.gift!r}, giftWasted={self.giftWasted}, kinglyGift={self.kinglyGift!r}, "
                 f"kinglyGiftWasted={self.kinglyGiftWasted}, quirksOrNotes={self.quirksOrNotes!r})")

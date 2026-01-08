@@ -1,6 +1,6 @@
 from GameService.AssetSaver import RecordSaver
 
-from TheOneRingDetails.ItemTOR import ItemTOR
+from ..Details.ItemTOR import ItemTOR
 
 
 class ItemTORService:

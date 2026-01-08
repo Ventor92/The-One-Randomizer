@@ -1,7 +1,7 @@
 import random
 
 from DiceService.Dice import Dice, DiceType
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
+from Games.TheOneRing.Details.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 
 # class DiceSetFactory():
 #     _creators = {}

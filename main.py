@@ -1,11 +1,11 @@
 import cmd
 
-from TheOneRingDetails.EventTheOneRing import EventTheOneRing
-from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
-from TheOneRingDetails.MissionTOR import MissionTOR
-from TheOneRingDetails.BenefitTOR import BenefitTOR
-from TheOneRingDetails.HeroTOR import HeroTOR
-from TheOneRingDetails.ItemTOR import ItemTOR
+from Games.TheOneRing.Details.EventTheOneRing import EventTheOneRing
+from Games.TheOneRing.Details.ThreadTheOneRing import ThreadTOR
+from Games.TheOneRing.Details.MissionTOR import MissionTOR
+from Games.TheOneRing.Details.BenefitTOR import BenefitTOR
+from Games.TheOneRing.Details.HeroTOR import HeroTOR
+from Games.TheOneRing.Details.ItemTOR import ItemTOR
 
 from GameService.GameController import GameController
 

@@ -3,11 +3,11 @@ from TableService.EventService.Event import Event
 from utils.singleton import SingletonMeta
 from DiceService.Dice import Dice
 from DiceService.DiceSet import DiceSet
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from TableService.TableLoader import TableLoader
 from TableService.Table import Table, Record
 
-from TheOneRingDetails.BenefitTOR import BenefitTOR
+from Games.TheOneRing.Details.BenefitTOR import BenefitTOR
+from Games.TheOneRing.Details.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 
 
 class TableBenefit(Table, metaclass=SingletonMeta):

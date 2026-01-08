@@ -3,12 +3,12 @@ from dataclasses import dataclass
 
 from TableService.Record import Record, Series
 
-from TheOneRingDetails.SkillTOR import SkillTypeTOR
+from .SkillTOR import SkillTypeTOR
 
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from TheOneRingDetails.HeroTOR import HeroTOR  # Import tylko dla adnotacji typów
+    from .HeroTOR import HeroTOR  # Import tylko dla adnotacji typów
 
 class ItemSlotTypeTOR(Enum):
     NONE = auto()

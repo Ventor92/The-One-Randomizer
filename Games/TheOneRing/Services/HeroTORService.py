@@ -1,6 +1,6 @@
 from GameService.AssetSaver import RecordSaver
 
-from TheOneRingDetails.HeroTOR import HeroTOR
+from ..Details.HeroTOR import HeroTOR
 
 class HeroTORService:
     def __new__(cls, *args, **kwargs):

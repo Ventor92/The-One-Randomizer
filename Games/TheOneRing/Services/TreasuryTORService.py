@@ -1,6 +1,7 @@
-from TheOneRingDetails.TreasuryTOR import TreasuryTOR, TreasuryTORFactory, ItemTOR
-from TheOneRingDetails.HeroTOR import HeroTOR
-from TheOneRingDetails.ItemTORService import ItemTORService
+from .ItemTORService import ItemTORService
+
+from ..Details.TreasuryTOR import TreasuryTOR, TreasuryTORFactory
+from ..Details.HeroTOR import HeroTOR
 
 
 class TreasuryTORService:

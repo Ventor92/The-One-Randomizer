@@ -1,8 +1,8 @@
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
-from TheOneRingDetails.ResultTOR import ResultTOR, SuccessTORType
+from Games.TheOneRing.Details.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType, DiceFeatType
+from Games.TheOneRing.Details.ResultTOR import ResultTOR, SuccessTORType
 
-from TheOneRingDetails.BandTOR import BandTOR, BandDispositionType
-from TheOneRingDetails.EnemyTOR import EnemyTOR
+from Games.TheOneRing.Details.BandTOR import BandTOR, BandDispositionType
+from Games.TheOneRing.Details.EnemyTOR import EnemyTOR
 
 class DispositionsService:
     def __new__(cls, *args, **kwargs):

@@ -4,10 +4,11 @@ from TableService.ThreadService.Thread import Thread  # zakładam, że masz klas
 from utils.singleton import SingletonMeta
 from TableService.Table import Table
 from TableService.Record import Record
-from TheOneRingDetails.DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
 from DiceService.DiceSet import DiceSet
 
 from TableService.TableLoader import TableLoader
+
+from Games.TheOneRing.Details.DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
 
 class TableThread(Table, metaclass=SingletonMeta):
     def __init__(self, recordType: type[Record], path="data/Table.xlsx", sheetName="Wątki", dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]):

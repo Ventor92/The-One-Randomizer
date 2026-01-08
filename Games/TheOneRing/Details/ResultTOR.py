@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from DiceService.DiceSet import DiceSet
-from TheOneRingDetails.DiceTheOneRing import DiceFeatType
+from .DiceTheOneRing import DiceFeatType
 
 class SuccessTORType(Enum):
     NORMAL = 0

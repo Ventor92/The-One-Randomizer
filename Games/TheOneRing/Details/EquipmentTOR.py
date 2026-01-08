@@ -1,8 +1,8 @@
 from enum import Enum, auto
 from dataclasses import dataclass
 
-from TheOneRingDetails.SkillTOR import SkillTypeTOR
-from TheOneRingDetails.ItemTOR import ItemTOR, ItemSlotTypeTOR
+from .SkillTOR import SkillTypeTOR
+from .ItemTOR import ItemTOR, ItemSlotTypeTOR
 
   
 class EquipmentTOR:

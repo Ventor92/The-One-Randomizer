@@ -1,9 +1,10 @@
 import cmd
 
-from TheOneRingDetails.BandTOR import BandTOR
-from TheOneRingDetails.EnemyTOR import EnemyTOR
-from TheOneRingDetails.ClashTORService import ClashTORService, StancesTOR
-from TheOneRingDetails.ResultTOR import ResultTOR, SuccessTORType
+from ..Details.BandTOR import BandTOR
+from ..Details.EnemyTOR import EnemyTOR
+from ..Details.ResultTOR import ResultTOR, SuccessTORType
+
+from .ClashTORService import ClashTORService, StancesTOR
 
 class FightTORCtrl(cmd.Cmd):
     intro = "Jestes w kontrolerze walki. Wpisz 'help' lub '?' aby zobaczyć dostępne komendy."

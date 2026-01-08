@@ -1,8 +1,8 @@
 import cmd
 
-from TheOneRingDetails.TreasuryTORService import TreasuryTORService
-from TheOneRingDetails.TreasuryTOR import TreasuryTOR
-from TheOneRingDetails.CharacterTOR import CharacterTOR
+from .TreasuryTORService import TreasuryTORService
+from ..Details.TreasuryTOR import TreasuryTOR
+from ..Details.CharacterTOR import CharacterTOR
 
 class TreasuryTORController(cmd.Cmd):
     intro = "Wszedłeś do skarbca. Co robisz?."

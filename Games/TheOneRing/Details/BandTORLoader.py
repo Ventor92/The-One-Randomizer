@@ -1,6 +1,6 @@
 import pandas as pd
-from TheOneRingDetails.BandTOR import BandTOR, BandArmamentType, BandSizeType, BandFacultyType, BandCallingType
-from TheOneRingDetails.AllieTOR import AllieTOR, InjuryTORType, FatigueTORType
+from .BandTOR import BandTOR, BandArmamentType, BandSizeType, BandFacultyType, BandCallingType
+from .AllieTOR import AllieTOR, InjuryTORType, FatigueTORType
 
 class BandTORLoader:
     def __init__(self, filepath: str="data/Band.xlsx", sheetName: str ="Bands"):

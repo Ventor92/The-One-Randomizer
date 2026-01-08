@@ -1,7 +1,6 @@
 import pandas as pd
 
 from DiceService.DiceSet import DiceSet, Dice
-from TheOneRingDetails.DiceTheOneRing import DiceTheOneRing, DiceTheOneRingType
 from TableService.TableLoader import TableLoader
 from TableService.Record import Record
 

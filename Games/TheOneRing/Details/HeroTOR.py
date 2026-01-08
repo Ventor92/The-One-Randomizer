@@ -1,7 +1,7 @@
 from pandas import Series
 
-from TheOneRingDetails.CharacterTOR import CharacterTOR
-from TheOneRingDetails.EquipmentTOR import EquipmentTOR, ItemTOR
+from .CharacterTOR import CharacterTOR
+from .EquipmentTOR import EquipmentTOR, ItemTOR
 from TableService.Record import Record
 
 class HeroTOR(Record, CharacterTOR):

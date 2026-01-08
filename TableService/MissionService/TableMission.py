@@ -3,7 +3,8 @@ import pandas as pd
 from TableService.Record import Record
 from utils.singleton import SingletonMeta
 from TableService.Table import Table
-from TheOneRingDetails.DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
+
+from Games.TheOneRing.Details.DiceTheOneRing import Dice, DiceTheOneRing, DiceTheOneRingType
 
 from TableService.TableLoader import TableLoader
 

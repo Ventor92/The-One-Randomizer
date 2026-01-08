@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 
-from TheOneRingDetails.CharacterTOR import CharacterTOR
-from TheOneRingDetails.AllieTOR import AllieTOR
+from .CharacterTOR import CharacterTOR
+from .AllieTOR import AllieTOR
 
 class BandArmamentType(Enum):
     NONE = auto()
