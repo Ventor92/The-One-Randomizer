@@ -62,4 +62,15 @@ class ThreadTOR(Thread):
             return False
         
 
+    def toRawDict(self) -> dict:
+        return {
+            "dieFeat": self.dieFeat,
+            "dieSuccess": self.dieSuccess,
+            "action": self.action,
+            "aspect": self.aspect,
+            "subject": self.subject,
+            "motive": self.motive
+        }
+        
+
 

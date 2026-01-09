@@ -52,3 +52,11 @@ class MissionTOR(Record):
             return True
         else:
             return False
+        
+    def toRawDict(self) -> dict:
+        return {
+            "dieFeat": self.dieFeat,
+            "dieSuccessRangeMin": self.dieSuccessRangeMin,
+            "dieSuccessRangeMax": self.dieSuccessRangeMax,
+            "mission": self.mission
+        }

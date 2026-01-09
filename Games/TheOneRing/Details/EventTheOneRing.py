@@ -66,3 +66,14 @@ class EventTheOneRing(Event):
         else:
             return False
 
+    def toRawDict(self) -> dict:
+        return {
+            "featDieMin": self.featDieMin,
+            "featDieMax": self.featDieMax,
+            "event": self.event,
+            "testConsequences": self.testConsequences,
+            "fatigueGained": self.fatigueGained,
+            "successDie": self.successDie,
+            "detailedEvent": self.detailedEvent,
+            "outcome": self.outcome
+        }

@@ -49,4 +49,11 @@ class BenefitTOR(Record):
             return True
         else:
             return False
-
+        
+    def toRawDict(self) -> dict:
+        return {
+            "dieSuccess1": self.dieSuccess1,
+            "dieSuccess2Min": self.dieSuccess2Min,
+            "dieSuccess2Max": self.dieSuccess2Max,
+            "benefit": self.benefit.name
+        }

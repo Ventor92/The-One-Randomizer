@@ -34,7 +34,7 @@ class GameTOR(Game, metaclass=SingletonMeta):
         diceSet = DiceSet(dices) 
 
         tableEvent = TableEvent(EventTheOneRing, diceSet = diceSet, path="data/Table.xlsx", sheetName="Zdarzenia")
-        tableThread = TableThread(ThreadTOR, path="data/Table.xlsx", sheetName="Wątki", dices = diceSet.getDiceSet())
+        tableThread = TableThread(ThreadTOR, path="data/Table.xlsx", sheetName="Watki", dices = diceSet.getDiceSet())
         tableMission = TableMission(MissionTOR, path="data/Table.xlsx", sheetName="Missions", dices = diceSet.getDiceSet())
 
         tableBenefit = TableBenefit(path="data/Table.xlsx", sheetName="Benefits")
@@ -44,6 +44,10 @@ class GameTOR(Game, metaclass=SingletonMeta):
             tableThread,
             tableBenefit
         ]
+
+        for table in tables:
+            table.loadRecords()
+
         print("GameTOR __init__")
         self.band: BandTOR
         self.loadBand()

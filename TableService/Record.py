@@ -37,3 +37,7 @@ class Record:
     @abstractmethod
     def isThisRecord(self, results: list[int]) -> bool:
         pass
+
+    @abstractmethod
+    def toRawDict(self) -> dict:
+        pass
