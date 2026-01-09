@@ -33,8 +33,8 @@ class GameTOR(Game, metaclass=SingletonMeta):
         dices: list[Dice] = [DiceTheOneRing(DiceTheOneRingType.FEAT), DiceTheOneRing(DiceTheOneRingType.SUCCESS)]
         diceSet = DiceSet(dices) 
 
-        tableEvent = TableEvent(EventTheOneRing, diceSet = diceSet, path="data/Table.xlsx", sheetName="Zdarzenia")
-        tableThread = TableThread(ThreadTOR, path="data/Table.xlsx", sheetName="Watki", dices = diceSet.getDiceSet())
+        tableEvent = TableEvent(EventTheOneRing, diceSet = diceSet, path="data/Table.xlsx", sheetName="Events")
+        tableThread = TableThread(ThreadTOR, path="data/Table.xlsx", sheetName="Threads", dices = diceSet.getDiceSet())
         tableMission = TableMission(MissionTOR, path="data/Table.xlsx", sheetName="Missions", dices = diceSet.getDiceSet())
 
         tableBenefit = TableBenefit(path="data/Table.xlsx", sheetName="Benefits")
@@ -211,7 +211,25 @@ class GameTOR(Game, metaclass=SingletonMeta):
         else:
             ClashTORService.makeClash(self.band, enemy, StancesTOR.NONE, spentHope, bonusSuccess)
 
+    def _getTableByRecordType(self, recordType: type[Record]) -> Table:
+        for table in self.tables:
+            if table.isRecordType(recordType):
+                return table
+        raise ValueError(f"No table found for record type: {recordType}")
+
+    def randomRecord(self, recordType: type[Record]) -> Record:
+        """Random record from table by record type."""
+        table = self._getTableByRecordType(recordType)
+        table.roll
+        record = self.rollRecord(table)
+        return record
+    
+
     def randomTable(self, arg) -> None:
+        """Random table"""
+        self.randomTableV2(arg)
+
+    def randomTableV2(self, arg) -> Record:
         """Random table"""
         if len(arg) >= 1:
             sliced = arg.split()
@@ -223,7 +241,7 @@ class GameTOR(Game, metaclass=SingletonMeta):
 
                     table = self.recognizeTable(strType)
                     
-                    self.rollRecord(table)
+                    record = self.rollRecord(table)
                 case 3:
                     strType = sliced[0]
                     strNumFeat = sliced[1]
@@ -237,12 +255,16 @@ class GameTOR(Game, metaclass=SingletonMeta):
                     except ValueError:
                         raise ValueError(f"Invalid argument. Expected: Int as <numFeat> & <numSuccess>")
 
-                    self.getRecord(table, [numFeat, numSuccess])
+                    record = self.getRecord(table, [numFeat, numSuccess])
                 case _:
                     raise ValueError("Invalid argument. Expected at least: <tableType>")
+                    record = None
                   
         else:
             raise ValueError("No arguments. Expected at least: <tableType>")
+            record = None
+
+        return record 
 
     def recognizeTable(self, strType):
         table_mapping = {

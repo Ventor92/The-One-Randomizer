@@ -11,7 +11,7 @@ class MissionTOR(Record):
 
     def __str__(self):  
         return (
-            f"{self.id} Mission :\n"
+            f"Mission :\n"
             f"  Feat Die: {self.dieFeat} Success Die: {self.dieSuccessRangeMin}-{self.dieSuccessRangeMax}\n"
             f"  Mission: {self.mission}\n"
         )

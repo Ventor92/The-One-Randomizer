@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from TableService.EventService.Event import Event
 
 import pandas as pd
 from pandas import Series
