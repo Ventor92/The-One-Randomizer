@@ -1,0 +1,31 @@
+.title {
+    text-style: bold;
+    color: yellow;
+    padding: 1;
+}
+
+MScrnRecord {
+    align: center middle;
+}
+
+MScrnRecord > Container {
+    width: auto;
+    height: auto;
+    align: center middle;
+    padding: 1 2;
+    background: $panel;
+}
+
+MScrnRecord > Container > Label {
+    width: 100%;
+    content-align-horizontal: center;
+}
+
+MScrnRecord > Container > Horizontal {
+    height: auto;
+    width: auto;
+}
+
+MScrnRecord > Container > Horizontal > Button {
+    margin: 1 2;
+}
