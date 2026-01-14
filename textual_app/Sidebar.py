@@ -22,9 +22,6 @@ class Sidebar(Widget):
         # offset-x: -100%;
         offset-y: -100%;
 
-        background: $primary;
-        border-right: vkey $background;    
-
         /* Enable animation */
         transition: offset 200ms;
         

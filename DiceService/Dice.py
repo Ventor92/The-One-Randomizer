@@ -43,3 +43,16 @@ class Dice:
         roll:List[int] = self._roll(numDice)
         return roll
     
+    @classmethod
+    def fromString(cls, dieStr: str) -> 'Dice':
+        dieStr = dieStr.upper().strip()
+        if dieStr.startswith("D"):
+            try:
+                sides = int(dieStr[1:])
+                diceType = DiceType(sides)
+                return cls(diceType)
+            except (ValueError, KeyError):
+                raise ValueError(f"Invalid die string: {dieStr}")
+        else:
+            raise ValueError(f"Invalid die string: {dieStr}")
+    
