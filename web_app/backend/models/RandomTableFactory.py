@@ -5,9 +5,9 @@ from TableService.TableLoader import TableLoaderExcel
 from web_app.backend.models.TableRecord import RandomTable
 from DiceService.Dice import DiceType
 
-from TheOneRingDetails.EventTheOneRing import EventTheOneRing
-from TheOneRingDetails.ThreadTheOneRing import ThreadTOR
-from TheOneRingDetails.MissionTOR import MissionTOR
+from Games.TheOneRing.Details.EventTheOneRing import EventTheOneRing
+from Games.TheOneRing.Details.ThreadTheOneRing import ThreadTOR
+from Games.TheOneRing.Details.MissionTOR import MissionTOR
 
 RECORD_TYPES = {
     "event_tor": EventTheOneRing,

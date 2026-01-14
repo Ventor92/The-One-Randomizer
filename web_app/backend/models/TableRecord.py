@@ -10,7 +10,7 @@ from DiceService.Dice import Dice, DiceType, DiceResults
 from TableService.Record import Record
 from TableService.TableLoader import TableLoaderV2
 
-from TheOneRingDetails.EventTheOneRing import EventTheOneRing
+from Games.TheOneRing.Details.EventTheOneRing import EventTheOneRing
 
 class RecordTableType(Enum):
     UNKNOWN = auto()
