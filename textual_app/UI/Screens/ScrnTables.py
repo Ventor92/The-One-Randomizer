@@ -25,9 +25,10 @@ from textual_app.SectionRandom import SectionRandom
 from textual_app.UI.Events.events import LibraryChosen, RollRequest, TablesResponse, TablesRequest
 
 class ScrnTables(Screen):
-    def __init__(self, library_id: str):
-        super().__init__()
+    def __init__(self, library_id: str, library_name: str = "", *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.library_id = library_id
+        self.library_name = library_name
         GameTOR()
 
 
@@ -38,6 +39,7 @@ class ScrnTables(Screen):
     show_sidebar = reactive(False)
 
     def compose(self) -> ComposeResult:
+        yield Header(show_clock=True, id="header_tables")
         self.sidebar_random = Sidebar(id="sidebar_random")
         self.section_random = SectionRandom(id="section_random")
         with self.sidebar_random:
@@ -53,6 +55,7 @@ class ScrnTables(Screen):
 
 
     def on_mount(self):
+        self.title = self.library_name
         self.post_message(TablesRequest(self.library_id))
 
     def action_close_screen(self) -> None:

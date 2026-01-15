@@ -1,3 +1,5 @@
+from typing import Optional
+
 from textual import on
 from textual.app import App, ComposeResult
 from textual_app.UI.Screens.ScrnHome import ScrnHome
@@ -25,7 +27,10 @@ class MGApp(App):
 
     @on(LibraryChosen)
     def on_lib_chosen(self, message: LibraryChosen):
-        self.push_screen(ScrnTables(message.library_id))
+        library: Optional[Library] = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
+        id = library.id if library else message.library_id
+        name = library.name if library else ""
+        self.push_screen(ScrnTables(id, name))
 
     @on(OpenModalRandomRecord)
     def open_modal_random_record(self, message: OpenModalRandomRecord):
