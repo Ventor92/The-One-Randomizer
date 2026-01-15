@@ -20,9 +20,6 @@ class Library:
     description: Optional[str] = None
     tables: List[Table] = field(default_factory=list)
 
-    
-
-
 class TablesLibrariesConfig:
     def __init__(self, config_path: str = "textual_app/Table_CfgV2.yaml"):
         self._config: dict = self._load_config(config_path)

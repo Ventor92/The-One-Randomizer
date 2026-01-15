@@ -13,12 +13,21 @@ libraries:
           dieSuccess: D6
       benefit_tor:
         path: "data/Table.xlsx"
-        sheet_name: "Benefits"
+        sheet_name: "Benefits_2"
         description: "Tabela Benefitów TOR"
         schema:
         column_dice_map:
           dieSuccess1: D6
           dieSuccess2: D6
+      event_tor:
+        path: "data/Table.xlsx"
+        sheet_name: "Events_2"
+        description: "Tabela Wydarzeń TOR"
+        schema:
+        column_dice_map:
+          featDie: D12
+          successDie: D6
+
 
   tables_thread_tor:
     name: "The One Ring 2e - Thread Only"

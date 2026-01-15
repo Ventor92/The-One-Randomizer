@@ -18,7 +18,8 @@ class MScrnRecord(ModalScreen):
         with Container():
             self.encounter_label = Label(id="encounter_label", content=self.encounter)
             yield self.encounter_label
-            yield Label("Re-roll?")
+            self.question_label = Label(id="question_label", content="Re-roll?")
+            yield self.question_label
             with Horizontal():
                 yield Button.success("Yes", id="yes")
                 yield Button.error("No", id="no")

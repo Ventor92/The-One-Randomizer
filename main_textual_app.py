@@ -43,8 +43,26 @@ class MGApp(App):
         print(table.getDataFrame())
 
         record = table.rollRecord()
+        if record is None:
+            raise Exception(f"No record found after rolling on table '{table.getName()}'.")
+        
+        string = self.generate_roll_summary(table, record)
 
-        self.screen.post_message(UpdateModalLabel(str(record)))
+        self.screen.post_message(UpdateModalLabel(string))
+
+    def generate_roll_summary(self, table, record):
+        string: str = ""
+        for k, v in table._diceMap.items():
+            string += f"{k} ({v.getType().name}):".ljust(20) + f"{record[k]}\n"
+            print(f"{k}: {v.getType().name} -> {record[k]}")
+        
+        dice_columns = list(table._diceMap.keys())
+        record = record.drop(dice_columns)
+
+        for col, val in record.items():
+            string += f"{col}:".ljust(20) + f"{val}\n"
+            print(f"{col}: {val}")
+        return string
 
 
 

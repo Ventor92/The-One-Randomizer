@@ -39,8 +39,9 @@ class ScrnTables(Screen):
 
     def compose(self) -> ComposeResult:
         self.sidebar_random = Sidebar(id="sidebar_random")
+        self.section_random = SectionRandom(id="section_random")
         with self.sidebar_random:
-            yield SectionRandom(id="section_random")
+            yield self.section_random
 
         with Sidebar(id="sidebar_browser"):
             yield Header()
@@ -61,8 +62,7 @@ class ScrnTables(Screen):
     @on(TabbedContent.TabActivated)
     def tab_activated(self, message: TabbedContent.TabActivated):
         self.log(f"Tab activated: {message.pane._title._text}")
-        secRand = self.query_one("#section_random", SectionRandom)
-        secRand.id_table = f"{message.pane.id}"
+        self.section_random.id_table = f"{message.pane.id}"
 
     def action_toggle_sidebar_random(self):
         """Pokazuje / chowa Sidebar Random"""
@@ -76,17 +76,17 @@ class ScrnTables(Screen):
     @on(TablesResponse)
     def tables_response(self, message: TablesResponse):
         self.log(f"TablesResponse received in ScrnTables: {message.tables}")
-        tabs = self.query_one("#table_tabs", TabbedContent)
+        tabs = self.tabbed_content
 
         for table in message.tables:
 
-            name = table.getName()
-            id = table.getId()
+            pane_name = table.getName()
+            pane_id = table.getId()
             dataFrame: pd.DataFrame = table.getDataFrame()
 
             dataTable = Srvc_Table.df2DataTable(dataFrame)
 
-            pane = TabPane(name, id=id, name=name)
+            pane = TabPane(pane_name, id=pane_id, name=pane_name)
             tabs.add_pane(pane)
             pane.mount(dataTable)
 

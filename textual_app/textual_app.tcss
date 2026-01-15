@@ -10,20 +10,30 @@ MScrnRecord {
 
 MScrnRecord > Container {
     width: auto;
+    max-width: 90%;        /* pozwól kontenerowi rosnąć wraz z zawartością */
+    min-width: 60;         /* opcjonalne minimalne wymiary */
     height: auto;
     align: center middle;
     padding: 1 2;
     background: $panel;
+    text-wrap: wrap;
 }
 
-MScrnRecord > Container > Label {
+MScrnRecord > Container > Label#encounter_label {
+    width: 100%;
+    content-align-horizontal: left;
+}
+
+MScrnRecord > Container > Label#question_label {
     width: 100%;
     content-align-horizontal: center;
 }
 
 MScrnRecord > Container > Horizontal {
     height: auto;
-    width: auto;
+    width: 100%;
+    content-align-horizontal: center;
+    align: center middle;
 }
 
 MScrnRecord > Container > Horizontal > Button {
