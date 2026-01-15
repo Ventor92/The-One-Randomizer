@@ -12,6 +12,7 @@ class MScrnRecord(ModalScreen):
         super().__init__(*args, **kwargs)
         self.encounter = encounter
         self.id_table = id_table
+        print(f"MScrnRecord __init__ with encounter: {encounter}, id_table: {id_table}")
 
     def compose(self):
         with Container():

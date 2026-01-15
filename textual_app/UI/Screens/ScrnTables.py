@@ -1,4 +1,5 @@
 import random
+import pandas as pd
 
 from textual import on
 from textual.app import App, ComposeResult
@@ -21,12 +22,12 @@ from textual.reactive import reactive
 from textual_app.Sidebar import Sidebar
 from textual_app.SectionRandom import SectionRandom
 
-from textual_app.UI.Events.events import TableChosen, RollRequest
+from textual_app.UI.Events.events import LibraryChosen, RollRequest, TablesResponse, TablesRequest
 
 class ScrnTables(Screen):
-    def __init__(self, library_name: str):
+    def __init__(self, library_id: str):
         super().__init__()
-        self.library_name = library_name
+        self.library_id = library_id
         GameTOR()
 
 
@@ -51,25 +52,7 @@ class ScrnTables(Screen):
 
 
     def on_mount(self):
-
-        # self.title = "Header Application"
-        self.sub_title = self.library_name
-
-        tables = GameTOR().tables
-
-        tabs = self.query_one("#table_tabs", TabbedContent)
-
-        for table in tables:
-
-            name = table.getName()
-            recordType = table.getRecordType()
-            self.log(name)
-
-            dataTable = Srvc_Table.createDataTable(table)
-            
-            pane = TabPane(name, id=f"tab-{recordType.__name__}", name=recordType.__name__)
-            tabs.add_pane(pane)
-            pane.mount(dataTable)
+        self.post_message(TablesRequest(self.library_id))
 
     def action_close_screen(self) -> None:
         """Close the screen."""
@@ -79,7 +62,7 @@ class ScrnTables(Screen):
     def tab_activated(self, message: TabbedContent.TabActivated):
         self.log(f"Tab activated: {message.pane._title._text}")
         secRand = self.query_one("#section_random", SectionRandom)
-        secRand.id_table = f"{message.pane._title._text}"
+        secRand.id_table = f"{message.pane.id}"
 
     def action_toggle_sidebar_random(self):
         """Pokazuje / chowa Sidebar Random"""
@@ -89,3 +72,22 @@ class ScrnTables(Screen):
             self.sidebar_random.add_class("-visible")
 
         self.sidebar_random.refresh(layout=True)
+
+    @on(TablesResponse)
+    def tables_response(self, message: TablesResponse):
+        self.log(f"TablesResponse received in ScrnTables: {message.tables}")
+        tabs = self.query_one("#table_tabs", TabbedContent)
+
+        for table in message.tables:
+
+            name = table.getName()
+            id = table.getId()
+            dataFrame: pd.DataFrame = table.getDataFrame()
+
+            dataTable = Srvc_Table.df2DataTable(dataFrame)
+
+            pane = TabPane(name, id=id, name=name)
+            tabs.add_pane(pane)
+            pane.mount(dataTable)
+
+        tabs.refresh(layout=True)

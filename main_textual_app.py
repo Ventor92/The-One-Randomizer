@@ -2,23 +2,30 @@ from textual import on
 from textual.app import App, ComposeResult
 from textual_app.UI.Screens.ScrnHome import ScrnHome
 from textual_app.UI.Screens.ScrnTables import ScrnTables
-from textual_app.UI.Events.events import OpenModalRandomRecord, TableChosen
+from textual_app.UI.Events.events import OpenModalRandomRecord, LibraryChosen
 
-from textual_app.UI.Events.events import RollRequest, UpdateModalLabel
+from textual_app.UI.Events.events import RollRequest, UpdateModalLabel, TableIdsRequest, TableIdsResponse, TablesRequest, TablesResponse
 from textual_app.UI.Wigets.MScrnRecord import MScrnRecord
 
 from GameService.GameController import GameController, GameTOR
-
+from textual_app.Application.Srvc_Table import Srvc_Table, GenericTable
+from textual_app.Application.TablesLibrariesConfig import TablesLibrariesConfig, Library
+from TableService.GenericTableLoader import GenericTableLoader
 
 class MGApp(App):
+    def __init__(self):
+        self.tablesLibrariesConfig = TablesLibrariesConfig()
+        self.genericTables: list[GenericTable] = []
+        super().__init__()
 
     CSS_PATH = "textual_app/textual_app.tcss"
 
     def on_mount(self):
         self.push_screen(ScrnHome())
 
-    def on_table_chosen(self, message: TableChosen):
-        self.push_screen(ScrnTables(message.table_name))
+    @on(LibraryChosen)
+    def on_lib_chosen(self, message: LibraryChosen):
+        self.push_screen(ScrnTables(message.library_id))
 
     @on(OpenModalRandomRecord)
     def open_modal_random_record(self, message: OpenModalRandomRecord):
@@ -26,18 +33,79 @@ class MGApp(App):
 
     @on(RollRequest)
     def roll_request(self, message: RollRequest) -> None:
-        self.log("RollRequest received in MGApp")
+        id_table = message.id_table
+        self.log(f"RollRequest received in MGApp for table id: {id_table}")
 
-        game = GameTOR()
-
-        idTableRecord = message.id_table[:-1]
-        text = str(game.randomTableV2(idTableRecord))
-        self.log(self.app.screen)
-
-        self.screen.post_message(UpdateModalLabel(text))
+        table = next((t for t in self.genericTables if t.getId() == id_table), None)
+        if table is None:
+            raise Exception(f"Table with id '{id_table}' not found.")
         
-        self.log("RollRequest processing completed in ScrnTables")
+        print(table.getDataFrame())
 
+        record = table.rollRecord()
+
+        self.screen.post_message(UpdateModalLabel(str(record)))
+
+
+
+    @on(TableIdsRequest)
+    def table_name_list_request(self, message: TableIdsRequest) -> None:
+        self.log("TableIdsRequest received in MGApp")
+
+        libs: dict[str, Library] = self.tablesLibrariesConfig.get_libraries_name_map()
+        responseParam: dict[str, str] = {}
+        for k, v in libs.items():
+            responseParam[v.id] = v.name
+            print(f"Library id: {v.id}, name: {v.name}")
+
+        # libs is expected to be a dict[str, str] (id_name_map)
+        responseMsg = TableIdsResponse(responseParam)
+
+        self.log(f"Available table ids: {list(libs.keys())}")
+
+        self.screen.post_message(responseMsg)
+
+        self.log("Table names request processing completed in MGApp")
+
+
+    @on(TablesRequest)
+    def tables_request(self, message: TablesRequest) -> None:
+        self.log("TablesRequest received in MGApp")
+
+        message.library_id
+        lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
+
+        self.genericTables.clear()
+
+        print(f"Loading tables for library id: {message.library_id}")
+        print(f"Found library: {lib}")
+
+        tables = []
+        if lib is not None:
+            tables = lib.tables
+        else:
+            raise Exception(f"Library with id '{message.library_id}' not found.")
+        
+        for table in tables:
+            df = GenericTableLoader.loadRecords(table.path, table.sheet_name)
+
+            if table.column_dice_map is not None:
+                genericTable = GenericTable(path=table.path, 
+                                            sheetName=table.sheet_name, 
+                                            id=table.id, 
+                                            dataFrame=df, 
+                                            diceMap=table.column_dice_map)
+            else:
+                raise Exception(f"Table '{table.sheet_name}' in library '{lib.name}' is missing 'column_dice_map' configuration.")
+            
+            self.genericTables.append(genericTable)
+
+        print(f"Generic tables loaded: {[t.getName() for t in self.genericTables]}")
+        responseMsg = TablesResponse(self.genericTables)
+
+        self.screen.post_message(responseMsg)
+
+        self.log("Tables request processing completed in MGApp")
 
 if __name__ == "__main__":
     MGApp().run()

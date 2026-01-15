@@ -28,4 +28,4 @@ class GenericTableLoader:
     def loadRecords(path: str, sheet_name:str) -> pd.DataFrame:
         loader = GenericTableLoaderExcel(path, sheet_name)
         dataFrame = loader.loadGenericRecords()
-        return dataFrame  
+        return dataFrame
