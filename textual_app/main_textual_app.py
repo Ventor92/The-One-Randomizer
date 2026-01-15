@@ -2,17 +2,17 @@ from typing import Optional
 
 from textual import on
 from textual.app import App, ComposeResult
-from textual_app.UI.Screens.ScrnHome import ScrnHome
-from textual_app.UI.Screens.ScrnTables import ScrnTables
-from textual_app.UI.Events.events import OpenModalRandomRecord, LibraryChosen
+from UI.Screens.ScrnHome import ScrnHome
+from UI.Screens.ScrnTables import ScrnTables
+from UI.Events.events import OpenModalRandomRecord, LibraryChosen
 
-from textual_app.UI.Events.events import RollRequest, UpdateModalLabel, TableIdsRequest, TableIdsResponse, TablesRequest, TablesResponse
-from textual_app.UI.Wigets.MScrnRecord import MScrnRecord
+from UI.Events.events import RollRequest, UpdateModalLabel, TableIdsRequest, TableIdsResponse, TablesRequest, TablesResponse
+from UI.Wigets.MScrnRecord import MScrnRecord
 
-from GameService.GameController import GameController, GameTOR
-from textual_app.Application.Srvc_Table import Srvc_Table, GenericTable
-from textual_app.Application.TablesLibrariesConfig import TablesLibrariesConfig, Library
-from TableService.GenericTableLoader import GenericTableLoader
+from Application.Srvc_Table import Srvc_Table
+from Application.TablesLibrariesConfig import TablesLibrariesConfig, Library
+from Application.GenericTableLoader import GenericTableLoader
+from Application.GenericTable import GenericTable
 
 class MGApp(App):
     def __init__(self):
@@ -20,7 +20,7 @@ class MGApp(App):
         self.genericTables: list[GenericTable] = []
         super().__init__()
 
-    CSS_PATH = "textual_app/textual_app.tcss"
+    CSS_PATH = "textual_app.tcss"
 
     def on_mount(self):
         self.push_screen(ScrnHome())

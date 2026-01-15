@@ -5,7 +5,7 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Label, Placeholder
 from textual.message import Message
 
-from textual_app.UI.Events.events import RollRequest, UpdateModalLabel
+from UI.Events.events import RollRequest, UpdateModalLabel
 
 class MScrnRecord(ModalScreen):
     def __init__(self, encounter: str, id_table: str, *args, **kwargs):

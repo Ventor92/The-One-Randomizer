@@ -1,6 +1,6 @@
 from textual.message import Message
 
-from TableService.GenericTable import GenericTable
+from Application.GenericTable import GenericTable
 
 class LibraryChosen(Message):
     def __init__(self, library_id: str):

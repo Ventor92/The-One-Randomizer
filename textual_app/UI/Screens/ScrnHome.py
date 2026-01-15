@@ -8,7 +8,7 @@ from textual.widgets import Label, Tabs, Tab, TabPane, DataTable
 from textual import log
 from textual.widgets import TabbedContent
 
-from textual_app.UI.Events.events import Message, LibraryChosen, TableIdsRequest, TableIdsResponse
+from UI.Events.events import Message, LibraryChosen, TableIdsRequest, TableIdsResponse
 
 from rich.table import Table as RichTable
 

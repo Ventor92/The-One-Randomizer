@@ -21,7 +21,7 @@ class Library:
     tables: List[Table] = field(default_factory=list)
 
 class TablesLibrariesConfig:
-    def __init__(self, config_path: str = "textual_app/Table_CfgV2.yaml"):
+    def __init__(self, config_path: str = "Table_CfgV2.yaml"):
         self._config: dict = self._load_config(config_path)
         print(f"[TableFactory] Loaded config for libraries: {list(self._config.keys())}")
 

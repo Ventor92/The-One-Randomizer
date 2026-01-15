@@ -9,28 +9,24 @@ from textual.containers import Vertical, Container
 from textual.widgets import Label, Tabs, Tab, TabPane, DataTable
 from textual import log
 from textual.widgets import TabbedContent
+from textual.reactive import reactive
 
 
 # from rich.table import Table as RichTable
 
-from GameService.GameController import GameController, GameTOR
-from TableService.Table import Table, Record
-from textual_app.Application.Srvc_Table import Srvc_Table
-from textual_app.UI.Wigets.MScrnRecord import MScrnRecord
+from Application.Srvc_Table import Srvc_Table
+from UI.Wigets.MScrnRecord import MScrnRecord
 
-from textual.reactive import reactive
-from textual_app.Sidebar import Sidebar
-from textual_app.SectionRandom import SectionRandom
+from Sidebar import Sidebar
+from SectionRandom import SectionRandom
 
-from textual_app.UI.Events.events import LibraryChosen, RollRequest, TablesResponse, TablesRequest
+from UI.Events.events import LibraryChosen, RollRequest, TablesResponse, TablesRequest
 
 class ScrnTables(Screen):
     def __init__(self, library_id: str, library_name: str = "", *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.library_id = library_id
         self.library_name = library_name
-        GameTOR()
-
 
 
     BINDINGS = [("s", "toggle_sidebar_random", "Toggle Sidebar"),

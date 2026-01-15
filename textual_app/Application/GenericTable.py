@@ -1,8 +1,8 @@
 import ast
 import pandas as pd
 
-from DiceService.DiceSet import Dice
-from TableService.GenericTableLoader import GenericTableLoader
+from Application.DiceService.DiceSet import Dice
+from Application.GenericTableLoader import GenericTableLoader
 
 class GenericTable:
     def __init__(self, path, sheetName, id: str, dataFrame: pd.DataFrame, diceMap: dict[str, str]):

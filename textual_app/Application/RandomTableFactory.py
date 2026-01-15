@@ -11,7 +11,7 @@ class TableFactory:
     _config: dict[str, dict] = {}
 
     @classmethod
-    def load_config(cls, config_path: str = "textual_app/Table_Cfg.yaml"):
+    def load_config(cls, config_path: str = "Table_Cfg.yaml"):
         with open(config_path, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
             cls._config = data.get("tables", {})

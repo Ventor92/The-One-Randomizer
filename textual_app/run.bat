@@ -6,7 +6,7 @@ REM Aktywacja virtualenv
 call activate.bat
 
 REM Przejście do głównego folderu projektu
-cd /d "G:\RPG\The One Ring\Tool\The-One-Randomizer"
+cd /d "G:\RPG\The One Ring\Tool\The-One-Randomizer\textual_app"
 
 REM Uruchomienie aplikacji
 textual run --dev .\main_textual_app.py
