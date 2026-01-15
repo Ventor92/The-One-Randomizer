@@ -1,9 +1,0 @@
-tables:
-  thread_tor:
-    path: "data/Table.xlsx"
-    sheet_name: "Threads"
-    record_type: "ThreadTOR"
-    column_dice_map:
-      dieFeat: D12
-      dieSuccess: D6
-    description: "Tabela Wątków do The One Ring E2"
