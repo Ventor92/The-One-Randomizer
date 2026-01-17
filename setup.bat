@@ -26,7 +26,7 @@ python -m pip install --upgrade pip
 
 :: --- Instalacja pakietow ---
 IF EXIST requirements.txt (
-    pip install -r requirements.txt
+    pip install -r requirements.txt --only-binary=:all:
 ) ELSE (
     echo Brak pliku requirements.txt!
 )
