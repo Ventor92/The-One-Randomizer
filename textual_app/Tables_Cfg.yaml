@@ -4,41 +4,64 @@ libraries:
     description: "Tabele Jedyny Pierścień"
     tables:
       thread_tor:
-        path: "../data/Table.xlsx"
-        sheet_name: "Threads"
-        description: "Tabela Wątków TOR"
-        schema:
-        column_dice_map:
-          dieFeat: D12
-          dieSuccess: D6
-      
       benefit_tor:
-        path: "../data/Table.xlsx"
-        sheet_name: "Benefits_2"
-        description: "Tabela Benefitów TOR"
-        schema:
-        column_dice_map:
-          dieSuccess1: D6
-          dieSuccess2: D6
-      
       event_tor:
-        path: "../data/Table.xlsx"
-        sheet_name: "Events_2"
-        description: "Tabela Wydarzeń TOR"
-        schema:
-        column_dice_map:
-          featDie: D12
-          successDie: D6
 
   tables_thread_tor:
     name: "The One Ring 2e - Thread Only"
     description: "Tylko tabela Wątków z Jedyny Pierścień 2E"
     tables:
       thread_tor:
-        path: "../data/Table.xlsx"
-        sheet_name: "Threads"
-        description: "Tabela Wątków TOR"
-        schema:
-        column_dice_map:
-          dieFeat: D12
-          dieSuccess: D6
+
+  oracles_ironsworn:
+    name: "Ironsworn Oracles"
+    description: "Tabele Oracles Ironsworn"
+    tables:
+      theme_is:
+
+  mwl_tables:
+    name: "MwL Tables"
+    description: "Tabele do kampanii Milenialsi w Lankhmar"
+    tables:
+      theme_is:
+      benefit_tor:
+
+
+tables:
+  thread_tor:
+    path: "../data/Table.xlsx"
+    sheet_name: "Threads"
+    description: "Tabela Wątków TOR"
+    schema:
+    column_dice_map:
+      dieFeat: D12
+      dieSuccess: D6
+  
+  benefit_tor:
+    path: "../data/Table.xlsx"
+    sheet_name: "Benefits_2"
+    description: "Tabela Benefitów TOR"
+    schema:
+    column_dice_map:
+      dieSuccess1: D6
+      dieSuccess2: D6
+  
+  event_tor:
+    path: "../data/Table.xlsx"
+    sheet_name: "Events_2"
+    description: "Tabela Wydarzeń TOR"
+    schema:
+    column_dice_map:
+      featDie: D12
+      successDie: D6
+  
+  theme_is:
+    path: "../data/Table.xlsx"
+    sheet_name: "Theme"
+    description: "Tabela Motywów Ironsworn"
+    schema:
+    column_dice_map:
+      die: D100
+
+
+
