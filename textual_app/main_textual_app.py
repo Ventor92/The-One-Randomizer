@@ -14,11 +14,12 @@ from Application.TablesLibrariesConfig import TablesLibrariesConfig, Library
 from Application.GenericTableLoader import GenericTableLoader
 from Application.GenericTable import GenericTable
 
-class MGApp(App):
+class TheOneRandomizerApp(App):
     def __init__(self):
+        super().__init__()
+        self.title = "The One Randomizer"
         self.tablesLibrariesConfig = TablesLibrariesConfig()
         self.genericTables: list[GenericTable] = []
-        super().__init__()
 
     CSS_PATH = "textual_app.tcss"
 
@@ -68,8 +69,6 @@ class MGApp(App):
             string += f"{col}:".ljust(20) + f"{val}\n"
             print(f"{col}: {val}")
         return string
-
-
 
     @on(TableIdsRequest)
     def table_name_list_request(self, message: TableIdsRequest) -> None:
@@ -131,4 +130,4 @@ class MGApp(App):
         self.log("Tables request processing completed in MGApp")
 
 if __name__ == "__main__":
-    MGApp().run()
+    TheOneRandomizerApp().run()

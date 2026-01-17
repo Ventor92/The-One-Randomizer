@@ -12,16 +12,11 @@ from UI.Events.events import Message, LibraryChosen, TableIdsRequest, TableIdsRe
 
 from rich.table import Table as RichTable
 
-
-
-
 class ScrnHome(Screen):
 
-    __list_library_ids: list[str] = []
-
-
     def compose(self) -> ComposeResult:
-        yield Header(show_clock=True)
+        self.header = Header(show_clock=True)
+        yield self.header
         yield Static("Wybierz grę / bibliotekę tabel:", classes="title")
         yield ListView(id="library_list")
         yield Footer()

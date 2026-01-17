@@ -70,18 +70,12 @@ class GenericTable:
         for column, die in self._diceMap.items():
             roll_results[column] = die.roll(1)[0]
 
-        
-            
-        # mask = True
-        print(f"[GenericTable] Roll results: {roll_results}")
         tmp_df = self._dataFrame.copy()
         for col, val in roll_results.items():
             tmp_df[col] = tmp_df[col].apply(self.parse_cell)
             tmp_df = self.filter_rows_by_column_values(tmp_df, {col: val})
             print(f"[GenericTable] Parsed column '{col}' and val: {val}:")
             print(tmp_df[col])
-            # mask &= (val in self._dataFrame[col])
-            # print(mask)
 
         matched_rows = tmp_df
         print(matched_rows)

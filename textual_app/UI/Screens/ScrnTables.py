@@ -35,7 +35,8 @@ class ScrnTables(Screen):
     show_sidebar = reactive(False)
 
     def compose(self) -> ComposeResult:
-        yield Header(show_clock=True, id="header_tables")
+        self.label = Label(f"Biblioteka: {self.library_name}", id="label_library_name")
+        yield self.label
         self.sidebar_random = Sidebar(id="sidebar_random")
         self.section_random = SectionRandom(id="section_random")
         with self.sidebar_random:
@@ -51,8 +52,11 @@ class ScrnTables(Screen):
 
 
     def on_mount(self):
-        self.title = self.library_name
+        self.__toggle_loading(True)
         self.post_message(TablesRequest(self.library_id))
+
+    def __toggle_loading(self, loading: bool):
+        self.tabbed_content.loading = loading
 
     def action_close_screen(self) -> None:
         """Close the screen."""
@@ -89,4 +93,5 @@ class ScrnTables(Screen):
             tabs.add_pane(pane)
             pane.mount(dataTable)
 
+        self.__toggle_loading(False)
         tabs.refresh(layout=True)

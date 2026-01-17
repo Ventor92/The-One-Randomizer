@@ -5,23 +5,21 @@ class Sidebar(Widget):
 
     DEFAULT_CSS = """
     Sidebar {
-        /* width: 30; */
-        height: 30%;
-        /* Needs to go in its own layer to sit above content */
-        layer: sidebar; 
-        /* Dock the sidebar to the appropriate side */
-        dock: top;
-        /* Offset x to be -100% to move it out of view by default */
-        # offset-x: -100%;
-        offset-y: -100%;
+        /* Start hidden by using zero width so it participates in layout */
+        width: 0;
+        min-width: 0;
+        height: 100%;
+        /* Do not use a separate layer so the sidebar pushes content */
+        /* Dock the sidebar to the left side so it affects layout */
+        dock: left;
+        overflow: hidden;
 
-        /* Enable animation */
-        transition: offset 200ms;
+        /* Animate width so the main content is pushed */
+        transition: width 200ms;
         
         &.-visible {
-            /* Set offset.x to 0 to make it visible when class is applied */
-            # offset-x: 0;
-            offset-y: 0;
+            /* Expand to visible width */
+            width: 30;
         }
 
         & > Horizontal {
