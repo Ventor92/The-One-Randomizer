@@ -20,7 +20,7 @@ from UI.Wigets.MScrnRecord import MScrnRecord
 from Sidebar import Sidebar
 from SectionRandom import SectionRandom
 
-from UI.Events.events import LibraryChosen, RollRequest, TablesResponse, TablesRequest
+from UI.Events.events import CloseScreen, LibraryChosen, OpenModalRandomRecord, RollRequest, TablesResponse, TablesRequest, ToggleSidebar
 
 class ScrnTables(Screen):
     def __init__(self, library_id: str, library_name: str = "", *args, **kwargs):
@@ -30,7 +30,8 @@ class ScrnTables(Screen):
 
 
     BINDINGS = [("s", "toggle_sidebar_random", "Toggle Sidebar"),
-                ("c", "close_screen", "Close Screen")]
+                ("c", "close_screen", "Close Screen"),
+                ("r", "roll", "Roll")]
 
     show_sidebar = reactive(False)
 
@@ -76,6 +77,11 @@ class ScrnTables(Screen):
 
         self.sidebar_random.refresh(layout=True)
 
+    def action_roll(self):
+        table_id = self.section_random.id_table
+        self.post_message(OpenModalRandomRecord(id_table=table_id))
+        self.post_message(RollRequest(id_table=table_id))
+
     @on(TablesResponse)
     def tables_response(self, message: TablesResponse):
         self.log(f"TablesResponse received in ScrnTables: {message.tables}")
@@ -95,3 +101,7 @@ class ScrnTables(Screen):
 
         self.__toggle_loading(False)
         tabs.refresh(layout=True)
+    
+    @on(CloseScreen)
+    def close_screen(self, message: CloseScreen):
+        self.action_close_screen()

@@ -39,3 +39,7 @@ MScrnRecord > Container > Horizontal {
 MScrnRecord > Container > Horizontal > Button {
     margin: 1 2;
 }
+
+MScrnRecord > Container > Footer {
+    width: 100%;
+}

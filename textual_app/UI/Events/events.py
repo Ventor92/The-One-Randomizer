@@ -44,3 +44,9 @@ class TablesResponse(Message):
     def __init__(self, tables: list[GenericTable]):
         self.tables = tables
         super().__init__()
+
+class ToggleSidebar(Message):
+    pass
+
+class CloseScreen(Message):
+    pass
