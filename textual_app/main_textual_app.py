@@ -30,9 +30,9 @@ class TheOneRandomizerApp(App):
     @on(LibraryChosen)
     def on_lib_chosen(self, message: LibraryChosen):
         library: Optional[Library] = self.tablesLibrariesConfig.get_library_by_id(message.library_id) if self.tablesLibrariesConfig else None
-        id = library.id if library else message.library_id
+        library_id = library.id if library else message.library_id
         name = library.name if library else ""
-        self.push_screen(ScrnTables(id, name))
+        self.push_screen(ScrnTables(library_id, name))
 
     @on(OpenModalRandomRecord)
     def open_modal_random_record(self, message: OpenModalRandomRecord):
@@ -79,7 +79,7 @@ class TheOneRandomizerApp(App):
         if self.tablesLibrariesConfig is not None:
             libraries = self.tablesLibrariesConfig.get_libraries()
         else:
-            raise Exception("TablesLibrariesConfig is not initialized.")
+            raise RuntimeError("TablesLibrariesConfig is not initialized in TheOneRandomizerApp during LibrariesRequest handling.")
 
         responseMsg = LibrariesResponse(libraries)
 
@@ -93,11 +93,10 @@ class TheOneRandomizerApp(App):
     def tables_request(self, message: TablesRequest) -> None:
         self.log("TablesRequest received in TheOneRandomizerApp")
 
-
         if self.tablesLibrariesConfig is not None:
             lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
         else:
-            raise Exception("TablesLibrariesConfig is not initialized.")
+            raise RuntimeError("TablesLibrariesConfig is not initialized in TheOneRandomizerApp during TablesRequest handling.")
 
         self.genericTables.clear()
 

@@ -45,8 +45,5 @@ class TablesResponse(Message):
         self.tables = tables
         super().__init__()
 
-class ToggleSidebar(Message):
-    pass
-
 class CloseScreen(Message):
     pass

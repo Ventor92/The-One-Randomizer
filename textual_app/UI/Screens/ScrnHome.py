@@ -1,4 +1,3 @@
-
 from textual import on
 from textual.app import ComposeResult
 from textual.screen import Screen
@@ -31,8 +30,7 @@ class ScrnHome(Screen):
             if library_id is not None:
                 self.post_message(LibraryChosen(library_id))
             else:
-                raise Exception("Library ID is None in selected tree node.")
-        else:
+                raise ValueError("Library ID is None in selected tree node.")
             self.log("Selected tree node is not a library.")
         
     @on(LibrariesResponse)
