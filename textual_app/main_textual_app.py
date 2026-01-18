@@ -18,17 +18,18 @@ class TheOneRandomizerApp(App):
     def __init__(self):
         super().__init__()
         self.title = "The One Randomizer"
-        self.tablesLibrariesConfig = TablesLibrariesConfig()
+        self.tablesLibrariesConfig: Optional[TablesLibrariesConfig] = None
         self.genericTables: list[GenericTable] = []
 
     CSS_PATH = "textual_app.tcss"
 
     def on_mount(self):
         self.push_screen(ScrnHome())
+        self.tablesLibrariesConfig = TablesLibrariesConfig()
 
     @on(LibraryChosen)
     def on_lib_chosen(self, message: LibraryChosen):
-        library: Optional[Library] = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
+        library: Optional[Library] = self.tablesLibrariesConfig.get_library_by_id(message.library_id) if self.tablesLibrariesConfig else None
         id = library.id if library else message.library_id
         name = library.name if library else ""
         self.push_screen(ScrnTables(id, name))
@@ -74,7 +75,7 @@ class TheOneRandomizerApp(App):
     def table_name_list_request(self, message: TableIdsRequest) -> None:
         self.log("TableIdsRequest received in MGApp")
 
-        libs: dict[str, Library] = self.tablesLibrariesConfig.get_libraries_name_map()
+        libs: dict[str, Library] = self.tablesLibrariesConfig.get_libraries_name_map() if self.tablesLibrariesConfig else {}
         responseParam: dict[str, str] = {}
         for k, v in libs.items():
             responseParam[v.id] = v.name
@@ -95,7 +96,10 @@ class TheOneRandomizerApp(App):
         self.log("TablesRequest received in MGApp")
 
         message.library_id
-        lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
+        if self.tablesLibrariesConfig is not None:
+            lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
+        else:
+            raise Exception("TablesLibrariesConfig is not initialized.")
 
         self.genericTables.clear()
 
@@ -130,4 +134,5 @@ class TheOneRandomizerApp(App):
         self.log("Tables request processing completed in MGApp")
 
 if __name__ == "__main__":
+    print("Starting The One Randomizer App...")
     TheOneRandomizerApp().run()
