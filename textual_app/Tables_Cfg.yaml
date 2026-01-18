@@ -18,6 +18,7 @@ libraries:
     description: "Tabele Oracles Ironsworn"
     tables:
       theme_is: {}
+      action_is: {}
 
   mwl_tables:
     name: "MwL Tables"

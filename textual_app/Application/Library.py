@@ -18,3 +18,15 @@ class Library:
     name: str
     description: Optional[str] = None
     tables: List[Table] = field(default_factory=list)
+
+    def get_lib_by_id(self, library_id: str) -> Optional['Library']:
+        if self.id == library_id:
+            return self
+        return None
+    
+    def get_table_by_id(self, table_id: str) -> Optional[Table]:
+
+        for table in self.tables:
+            if table.id == table_id:
+                return table
+        return None
