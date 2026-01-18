@@ -25,9 +25,7 @@ class TheOneRandomizerApp(App):
 
     def on_mount(self):
         self.push_screen(ScrnHome())
-        self.screen.loading = True
         self.tablesLibrariesConfig = TablesLibrariesConfig()
-        self.screen.loading = False
 
     @on(LibraryChosen)
     def on_lib_chosen(self, message: LibraryChosen):

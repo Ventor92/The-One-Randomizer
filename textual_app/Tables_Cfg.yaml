@@ -3,28 +3,28 @@ libraries:
     name: "The One Ring 2e"
     description: "Tabele Jedyny Pierścień"
     tables:
-      thread_tor:
-      benefit_tor:
-      event_tor:
+      thread_tor: {}
+      benefit_tor: {}
+      event_tor: {}
 
   tables_thread_tor:
     name: "The One Ring 2e - Thread Only"
     description: "Tylko tabela Wątków z Jedyny Pierścień 2E"
     tables:
-      thread_tor:
+      thread_tor: {}
 
   oracles_ironsworn:
     name: "Ironsworn Oracles"
     description: "Tabele Oracles Ironsworn"
     tables:
-      theme_is:
+      theme_is: {}
 
   mwl_tables:
     name: "MwL Tables"
     description: "Tabele do kampanii Milenialsi w Lankhmar"
     tables:
-      theme_is:
-      benefit_tor:
+      theme_is: {}
+      benefit_tor: {}
 
 
 tables:
