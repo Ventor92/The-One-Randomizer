@@ -1,9 +1,7 @@
 from textual import on
-from textual.app import App
-from textual.containers import Container, Grid, Horizontal
+from textual.containers import Container, Horizontal
 from textual.screen import ModalScreen
-from textual.widgets import Button, Label, Placeholder, Footer
-from textual.message import Message
+from textual.widgets import Button, Label, Footer
 
 from UI.Events.events import RollRequest, UpdateModalLabel
 

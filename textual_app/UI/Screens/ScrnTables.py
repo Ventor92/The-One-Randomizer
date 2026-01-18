@@ -20,7 +20,7 @@ from UI.Wigets.MScrnRecord import MScrnRecord
 from Sidebar import Sidebar
 from SectionRandom import SectionRandom
 
-from UI.Events.events import CloseScreen, LibraryChosen, OpenModalRandomRecord, RollRequest, TablesResponse, TablesRequest, ToggleSidebar
+from UI.Events.events import CloseScreen, OpenModalRandomRecord, RollRequest, TablesResponse, TablesRequest
 
 class ScrnTables(Screen):
     def __init__(self, library_id: str, library_name: str = "", *args, **kwargs):
