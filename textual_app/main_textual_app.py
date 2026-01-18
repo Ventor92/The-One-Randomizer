@@ -95,7 +95,7 @@ class TheOneRandomizerApp(App):
     def tables_request(self, message: TablesRequest) -> None:
         self.log("TablesRequest received in TheOneRandomizerApp")
 
-        message.library_id
+
         if self.tablesLibrariesConfig is not None:
             lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
         else:

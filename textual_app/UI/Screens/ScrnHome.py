@@ -1,16 +1,10 @@
-import random
+
 from textual import on
-from textual.app import App, ComposeResult
+from textual.app import ComposeResult
 from textual.screen import Screen
-from textual.widgets import Header, Footer, Button, Static, ListView, ListItem, Tree
-from textual.containers import Vertical
-from textual.widgets import Label, Tabs, Tab, TabPane, DataTable
-from textual import log
-from textual.widgets import TabbedContent
+from textual.widgets import Header, Footer, Static, Tree
 
-from UI.Events.events import Message, LibraryChosen, LibrariesRequest, LibrariesResponse
-
-from rich.table import Table as RichTable
+from UI.Events.events import LibraryChosen, LibrariesRequest, LibrariesResponse
 
 class ScrnHome(Screen):
 
