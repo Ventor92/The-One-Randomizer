@@ -25,9 +25,7 @@ class TheOneRandomizerApp(App):
 
     def on_mount(self):
         self.push_screen(ScrnHome())
-        self.screen.loading = True
         self.tablesLibrariesConfig = TablesLibrariesConfig()
-        self.screen.loading = False
 
     @on(LibraryChosen)
     def on_lib_chosen(self, message: LibraryChosen):
@@ -95,7 +93,7 @@ class TheOneRandomizerApp(App):
     def tables_request(self, message: TablesRequest) -> None:
         self.log("TablesRequest received in TheOneRandomizerApp")
 
-        message.library_id
+
         if self.tablesLibrariesConfig is not None:
             lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
         else:

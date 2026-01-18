@@ -1,6 +1,6 @@
 import yaml
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict
 
 from Application.Library import Library, Table
 
@@ -19,9 +19,16 @@ class TablesLibrariesConfig:
         print(f"[TableFactory] Loaded libraries: {list(self._libraries.keys())}; tables: {list(self._tables.keys())}")
 
     def _load_raw(self, config_path: str) -> dict:
-        with open(config_path, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f) or {}
-            return data
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f) or {}
+                return data
+        except FileNotFoundError:
+            print(f"[TablesLibrariesConfig] Configuration file '{config_path}' not found.")
+            return {}
+        except yaml.YAMLError as e:
+            print(f"[TablesLibrariesConfig] Error parsing YAML file '{config_path}': {e}")
+            return {}
 
     def get_table_config(self, name: str) -> dict | None:
         """Return the table definition from the top-level 'tables' section by id."""
