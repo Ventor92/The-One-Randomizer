@@ -1,6 +1,8 @@
 # 🎲 TOR - The One Randomizer 
 Fast access to your's Random Tables
 
+![alt text](image.png)
+
 ## Why
 
 TOR was created to **speed up and simplify rolling on random tables** used in tabletop role-playing games – such as events, encounters, locations, or NPC descriptions.
