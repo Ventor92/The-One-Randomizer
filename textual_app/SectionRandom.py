@@ -9,8 +9,7 @@ class SectionRandom(Widget):
 
     def compose(self) -> ComposeResult:
         with Container(classes="section"):
-            # yield Label("Random Section")
-            # yield Static("Kliknij aby wylosować zdarzenie:")
+
             self.id_table = "random_encounter_table"
             self.result = Static("", id="result")
             

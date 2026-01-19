@@ -44,9 +44,6 @@ MScrnRecord > Container > Footer {
     width: 100%;
 }
 
-Sidebar > SectionRandom  {
-
-}
 
 Sidebar > SectionRandom > Container {
     margin-top: 1;
@@ -60,13 +57,11 @@ Sidebar > SectionRandom > Container {
 }
 
 Sidebar > SectionRandom > Container > Container {
-    # border: round $panel;
     height: auto;
     align: center top;
 }
 
 Sidebar > SectionRandom > Container Button {
 
-    # content-align: center middle;
     margin: 1;    
 }

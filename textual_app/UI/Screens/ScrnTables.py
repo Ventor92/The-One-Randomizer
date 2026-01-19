@@ -20,7 +20,7 @@ from UI.Wigets.MScrnRecord import MScrnRecord
 from Sidebar import Sidebar
 from SectionRandom import SectionRandom
 
-from UI.Events.events import CloseScreen, OpenModalRandomRecord, RollRequest, RollRequestV2, RollResponseV2, TablesResponse, TablesRequest, UpdateModalLabel
+from UI.Events.events import CloseScreen, OpenModalRandomRecord, RollRequest, RollRequestV2, RollResponseV2, TablesResponse, TablesRequest
 
 class ScrnTables(Screen):
     def __init__(self, library_id: str, library_name: str = "", *args, **kwargs):
@@ -84,19 +84,14 @@ class ScrnTables(Screen):
         self.log(f"Tab activated: {message.pane._title._text}")
         self.section_random.id_table = f"{message.pane.id}"
 
-        self.dataTable
 
         pane = self.tabbed_content.get_pane(f"{message.pane.id}")
         dataTable = pane.query_one(DataTable)
 
         columns = dataTable.columns.values()
         labels_columns = [col.label for col in columns]
-        print(f"labels_columns: {labels_columns}")
-        self.dataTable.clear(columns=True)
+        self.log(f"labels_columns: {labels_columns}")
         self.dataTable.add_columns(*labels_columns)
-
-        # self.dataTable.add_row(dataTable.get_row_at(0))
-
 
     def action_toggle_sidebar_random(self):
         """Shows / hides Sidebar Random"""

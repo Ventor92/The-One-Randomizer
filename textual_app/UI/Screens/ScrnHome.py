@@ -10,7 +10,7 @@ class ScrnHome(Screen):
     def compose(self) -> ComposeResult:
         self.header = Header(show_clock=True)
         yield self.header
-        yield Static("Choose library of table:", classes="title")
+        yield Static("Choose a table library:", classes="title")
         self.tree_view = Tree("Libraries and Tables", id="libraries_tables_tree")
         yield self.tree_view
         yield Footer()
