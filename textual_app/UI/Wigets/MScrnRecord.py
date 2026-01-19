@@ -1,9 +1,7 @@
 from textual import on
-from textual.app import App
-from textual.containers import Container, Grid, Horizontal
+from textual.containers import Container, Horizontal
 from textual.screen import ModalScreen
-from textual.widgets import Button, Label, Placeholder
-from textual.message import Message
+from textual.widgets import Button, Label, Footer
 
 from UI.Events.events import RollRequest, UpdateModalLabel
 
@@ -14,6 +12,9 @@ class MScrnRecord(ModalScreen):
         self.id_table = id_table
         print(f"MScrnRecord __init__ with encounter: {encounter}, id_table: {id_table}")
 
+    BINDINGS = [("c", "close_screen", "Close Screen"),
+                ("r", "roll", "Roll")]
+
     def compose(self):
         with Container():
             self.encounter_label = Label(id="encounter_label", content=self.encounter)
@@ -23,6 +24,13 @@ class MScrnRecord(ModalScreen):
             with Horizontal():
                 yield Button.success("Yes", id="yes")
                 yield Button.error("No", id="no")
+            yield Footer()
+
+    def action_roll(self):
+        self.post_message(RollRequest(id_table=self.id_table))
+
+    def action_close_screen(self):
+        self.app.pop_screen()
 
     @on(Button.Pressed)
     def button_pressed(self, event):

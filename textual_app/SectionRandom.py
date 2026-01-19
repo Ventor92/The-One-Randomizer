@@ -1,10 +1,9 @@
 from textual.app import ComposeResult
 from textual.widget import Widget
-from textual.containers import Vertical, Horizontal
-from textual.widgets import Label, Static, Button, TabbedContent, TabPane
-from textual.reactive import reactive
+from textual.containers import Vertical
+from textual.widgets import Label, Static, Button
 
-from UI.Events.events import RollRequest, OpenModalRandomRecord
+from UI.Events.events import CloseScreen, OpenModalRandomRecord
 
 class SectionRandom(Widget):
 
@@ -17,16 +16,14 @@ class SectionRandom(Widget):
             
             yield self.result
 
-            yield Button("Losuj", id="roll")
-            yield Button("Powrót", id="back")
-    
+            self.btn_roll = Button("Losuj", id="roll")
+            yield self.btn_roll
+            self.btn_back = Button("Powrót", id="back")
+            yield self.btn_back
 
     def on_button_pressed(self, event: Button.Pressed):
         if event.button.id == "roll":
             self.post_message(OpenModalRandomRecord(id_table=self.id_table))
 
         if event.button.id == "back":
-            pass
-
-
-    
+            self.screen.post_message(CloseScreen())

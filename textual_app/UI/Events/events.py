@@ -2,6 +2,8 @@ from textual.message import Message
 
 from Application.GenericTable import GenericTable
 
+from Application.Library import Library
+
 class LibraryChosen(Message):
     def __init__(self, library_id: str):
         self.library_id = library_id
@@ -12,12 +14,12 @@ class OpenModalRandomRecord(Message):
         self.id_table = id_table
         super().__init__()
 
-class TableIdsRequest(Message):
+class LibrariesRequest(Message):
     pass
 
-class TableIdsResponse(Message):
-    def __init__(self, id_name_map: dict[str, str]):
-        self.id_name_map = id_name_map
+class LibrariesResponse(Message):
+    def __init__(self, libraries: list[Library]):
+        self.libraries = libraries
         super().__init__()
 
 class RollRequest(Message):
@@ -42,3 +44,6 @@ class TablesResponse(Message):
     def __init__(self, tables: list[GenericTable]):
         self.tables = tables
         super().__init__()
+
+class CloseScreen(Message):
+    pass

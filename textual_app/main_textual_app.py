@@ -4,9 +4,9 @@ from textual import on
 from textual.app import App, ComposeResult
 from UI.Screens.ScrnHome import ScrnHome
 from UI.Screens.ScrnTables import ScrnTables
-from UI.Events.events import OpenModalRandomRecord, LibraryChosen
+from UI.Events.events import LibrariesRequest, OpenModalRandomRecord, LibraryChosen
 
-from UI.Events.events import RollRequest, UpdateModalLabel, TableIdsRequest, TableIdsResponse, TablesRequest, TablesResponse
+from UI.Events.events import RollRequest, UpdateModalLabel, TablesRequest, TablesResponse, LibrariesResponse
 from UI.Wigets.MScrnRecord import MScrnRecord
 
 from Application.Srvc_Table import Srvc_Table
@@ -14,23 +14,25 @@ from Application.TablesLibrariesConfig import TablesLibrariesConfig, Library
 from Application.GenericTableLoader import GenericTableLoader
 from Application.GenericTable import GenericTable
 
-class MGApp(App):
+class TheOneRandomizerApp(App):
     def __init__(self):
-        self.tablesLibrariesConfig = TablesLibrariesConfig()
-        self.genericTables: list[GenericTable] = []
         super().__init__()
+        self.title = "The One Randomizer"
+        self.tablesLibrariesConfig: Optional[TablesLibrariesConfig] = None
+        self.genericTables: list[GenericTable] = []
 
     CSS_PATH = "textual_app.tcss"
 
     def on_mount(self):
         self.push_screen(ScrnHome())
+        self.tablesLibrariesConfig = TablesLibrariesConfig()
 
     @on(LibraryChosen)
     def on_lib_chosen(self, message: LibraryChosen):
-        library: Optional[Library] = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
-        id = library.id if library else message.library_id
+        library: Optional[Library] = self.tablesLibrariesConfig.get_library_by_id(message.library_id) if self.tablesLibrariesConfig else None
+        library_id = library.id if library else message.library_id
         name = library.name if library else ""
-        self.push_screen(ScrnTables(id, name))
+        self.push_screen(ScrnTables(library_id, name))
 
     @on(OpenModalRandomRecord)
     def open_modal_random_record(self, message: OpenModalRandomRecord):
@@ -39,7 +41,7 @@ class MGApp(App):
     @on(RollRequest)
     def roll_request(self, message: RollRequest) -> None:
         id_table = message.id_table
-        self.log(f"RollRequest received in MGApp for table id: {id_table}")
+        self.log(f"RollRequest received in TheOneRandomizerApp for table id: {id_table}")
 
         table = next((t for t in self.genericTables if t.getId() == id_table), None)
         if table is None:
@@ -68,35 +70,33 @@ class MGApp(App):
             string += f"{col}:".ljust(20) + f"{val}\n"
             print(f"{col}: {val}")
         return string
+    
+    @on(LibrariesRequest)
+    def libraries_request(self, message: LibrariesRequest) -> None:
+        self.log("LibrariesRequest received in TheOneRandomizerApp")
 
+        libraries: list[Library] = []
+        if self.tablesLibrariesConfig is not None:
+            libraries = self.tablesLibrariesConfig.get_libraries()
+        else:
+            raise RuntimeError("TablesLibrariesConfig is not initialized in TheOneRandomizerApp during LibrariesRequest handling.")
 
+        responseMsg = LibrariesResponse(libraries)
 
-    @on(TableIdsRequest)
-    def table_name_list_request(self, message: TableIdsRequest) -> None:
-        self.log("TableIdsRequest received in MGApp")
-
-        libs: dict[str, Library] = self.tablesLibrariesConfig.get_libraries_name_map()
-        responseParam: dict[str, str] = {}
-        for k, v in libs.items():
-            responseParam[v.id] = v.name
-            print(f"Library id: {v.id}, name: {v.name}")
-
-        # libs is expected to be a dict[str, str] (id_name_map)
-        responseMsg = TableIdsResponse(responseParam)
-
-        self.log(f"Available table ids: {list(libs.keys())}")
+        self.log(f"Available libraries: {[lib.name for lib in libraries]}")
 
         self.screen.post_message(responseMsg)
 
-        self.log("Table names request processing completed in MGApp")
-
+        self.log("Libraries request processing completed in TheOneRandomizerApp")
 
     @on(TablesRequest)
     def tables_request(self, message: TablesRequest) -> None:
-        self.log("TablesRequest received in MGApp")
+        self.log("TablesRequest received in TheOneRandomizerApp")
 
-        message.library_id
-        lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
+        if self.tablesLibrariesConfig is not None:
+            lib = self.tablesLibrariesConfig.get_library_by_id(message.library_id)
+        else:
+            raise RuntimeError("TablesLibrariesConfig is not initialized in TheOneRandomizerApp during TablesRequest handling.")
 
         self.genericTables.clear()
 
@@ -128,7 +128,8 @@ class MGApp(App):
 
         self.screen.post_message(responseMsg)
 
-        self.log("Tables request processing completed in MGApp")
+        self.log("Tables request processing completed in TheOneRandomizerApp")
 
 if __name__ == "__main__":
-    MGApp().run()
+    print("Starting The One Randomizer App...")
+    TheOneRandomizerApp().run()
