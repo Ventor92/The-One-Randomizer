@@ -23,7 +23,7 @@ class RollResult():
 DiceResults = dict[DiceType, list[int]]
 
 class Dice:
-    def __init__(self, diceType=DiceType.D6, numDice: int =1):
+    def __init__(self, diceType=DiceType.D6, numDice: int = 1):
         self.__diceType = diceType
         self.__numDice = numDice
         self.__lastRoll = [0]
@@ -34,7 +34,7 @@ class Dice:
     def _roll(self, numReroll: int) -> List[int]:
         roll = [self.__random() for _ in range(self.__numDice)]
 
-        roll = [sum([self.__random() for _ in range(self.__numDice)])  for _ in range(numReroll)]
+        roll = [sum([self.__random() for _ in range(self.__numDice)]) for _ in range(numReroll)]
         roll.sort()
         self.__lastRoll = roll
         return roll
