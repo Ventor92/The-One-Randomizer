@@ -4,7 +4,7 @@ from textual import on
 from textual.app import App, ComposeResult
 from UI.Screens.ScrnHome import ScrnHome
 from UI.Screens.ScrnTables import ScrnTables
-from UI.Events.events import LibrariesRequest, OpenModalRandomRecord, LibraryChosen
+from UI.Events.events import LibrariesRequest, OpenModalRandomRecord, LibraryChosen, RollRequestV2, RollResponseV2
 
 from UI.Events.events import RollRequest, UpdateModalLabel, TablesRequest, TablesResponse, LibrariesResponse
 from UI.Wigets.MScrnRecord import MScrnRecord
@@ -37,6 +37,25 @@ class TheOneRandomizerApp(App):
     @on(OpenModalRandomRecord)
     def open_modal_random_record(self, message: OpenModalRandomRecord):
         self.push_screen(MScrnRecord(id="record_screen", encounter="Re-Roll!", id_table=message.id_table))
+
+
+    @on(RollRequestV2)
+    def roll_request_v2(self, message: RollRequestV2) -> None:
+        id_table = message.id_table
+        self.log(f"RollRequestV2 received in TheOneRandomizerApp for table id: {id_table}")
+
+        table = next((t for t in self.genericTables if t.getId() == id_table), None)
+        if table is None:
+            raise Exception(f"Table with id '{id_table}' not found.")
+        
+        record = table.rollRecord()
+
+        if record is None:
+            raise Exception(f"No record found after rolling on table '{table.getName()}'.")
+        
+        record = tuple(record.array)
+
+        self.screen.post_message(RollResponseV2(record))
 
     @on(RollRequest)
     def roll_request(self, message: RollRequest) -> None:
