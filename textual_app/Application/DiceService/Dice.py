@@ -32,7 +32,6 @@ class Dice:
         return random.randint(1, self.__diceType.value)
 
     def _roll(self, numReroll: int) -> List[int]:
-        roll = [self.__random() for _ in range(self.__numDice)]
 
         roll = [sum([self.__random() for _ in range(self.__numDice)]) for _ in range(numReroll)]
         roll.sort()
