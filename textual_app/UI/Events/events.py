@@ -27,6 +27,16 @@ class RollRequest(Message):
         self.id_table = id_table
         super().__init__()
 
+class RollRequestV2(Message):
+    def __init__(self, id_table: str):
+        self.id_table = id_table
+        super().__init__()
+
+class RollResponseV2(Message):
+    def __init__(self, values: tuple):
+        self.values = values
+        super().__init__()
+
 class GoToMainMenu(Message):
     pass
 
