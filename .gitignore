@@ -175,5 +175,6 @@ cython_debug/
 .pypirc
 
 # spreadsheet with data
-.data/
-data/Table.xlsx
+# .data/
+data/*.*
+!data/Table.xlsx
