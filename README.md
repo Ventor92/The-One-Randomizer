@@ -72,5 +72,16 @@ Then:
   - add new libraries  
   - add new tables  
  ---
-> #### Note:
+
+## Licenses
+
+### Code
+The source code is licensed under the MIT License.
+
+### RPG Content
+The content of random tables in `data/tables.xlsx` are based on material from:
+
+- Ironsworn and the official Ironsworn assets Copyright ©2019 Shawn Tomkin and used under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license.
+
+> ### Note:
 > This is a fan utility to help with solo or tabletop play. It is not affiliated with or endorsed by any game publisher. Check the original content licenses for the tables you use.
