@@ -80,7 +80,7 @@ class ScrnTables(Screen):
 
     @on(TabbedContent.TabActivated)
     def tab_activated(self, message: TabbedContent.TabActivated):
-        self.dataTable.clear()
+        self.dataTable.clear(columns=True)
         pane_title = getattr(message.pane, "title", str(message.pane.id))
         self.log(f"Tab activated: {pane_title}")
         self.section_random.id_table = f"{message.pane.id}"
