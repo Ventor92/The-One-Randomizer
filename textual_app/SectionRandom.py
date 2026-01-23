@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.widget import Widget
-from textual.containers import Vertical, Container
+from textual.containers import Container
 from textual.widgets import Label, Static, Button
 
 from UI.Events.events import CloseScreen, OpenModalRandomRecord

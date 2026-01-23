@@ -1,3 +1,4 @@
+from email.mime import message
 import random
 import pandas as pd
 
@@ -80,8 +81,8 @@ class ScrnTables(Screen):
     @on(TabbedContent.TabActivated)
     def tab_activated(self, message: TabbedContent.TabActivated):
         self.dataTable.clear()
-
-        self.log(f"Tab activated: {message.pane._title._text}")
+        pane_title = getattr(message.pane, "title", str(message.pane.id))
+        self.log(f"Tab activated: {pane_title}")
         self.section_random.id_table = f"{message.pane.id}"
 
 

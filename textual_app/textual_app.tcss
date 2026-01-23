@@ -63,5 +63,5 @@ Sidebar > SectionRandom > Container > Container {
 
 Sidebar > SectionRandom > Container Button {
 
-    margin: 1;    
+    margin: 1;
 }
