@@ -23,12 +23,17 @@ class RollResult():
 DiceResults = dict[DiceType, list[int]]
 
 class Dice:
-    def __init__(self, diceType=DiceType.D6):
+    def __init__(self, diceType=DiceType.D6, numDice: int = 1):
         self.__diceType = diceType
+        self.__numDice = numDice
         self.__lastRoll = [0]
 
-    def _roll(self, numDice: int) -> List[int]:
-        roll = [random.randint(1, self.__diceType.value) for _ in range(numDice)]
+    def __random(self) -> int:
+        return random.randint(1, self.__diceType.value)
+
+    def _roll(self, numReroll: int) -> List[int]:
+
+        roll = [sum([self.__random() for _ in range(self.__numDice)]) for _ in range(numReroll)]
         roll.sort()
         self.__lastRoll = roll
         return roll
@@ -50,7 +55,17 @@ class Dice:
             try:
                 sides = int(dieStr[1:])
                 diceType = DiceType(sides)
-                return cls(diceType)
+                numDice = 1
+                return cls(diceType, numDice)
+            except (ValueError, KeyError):
+                raise ValueError(f"Invalid die string: {dieStr}")
+        elif "D" in dieStr:
+            try:
+                parts = dieStr.split("D")
+                numDice = int(parts[0]) if parts[0] else 1
+                sides = int(parts[1])
+                diceType = DiceType(sides)
+                return cls(diceType, numDice)
             except (ValueError, KeyError):
                 raise ValueError(f"Invalid die string: {dieStr}")
         else:

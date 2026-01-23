@@ -1,6 +1,6 @@
 .title {
     text-style: bold;
-    color: yellow;
+    color: auto;
     padding: 1;
 }
 
@@ -42,4 +42,26 @@ MScrnRecord > Container > Horizontal > Button {
 
 MScrnRecord > Container > Footer {
     width: 100%;
+}
+
+
+Sidebar > SectionRandom > Container {
+    margin-top: 1;
+    margin-bottom: 1;
+
+    align: center top;
+    height: 100%;
+    width: 100%;
+    border: round $panel;
+
+}
+
+Sidebar > SectionRandom > Container > Container {
+    height: auto;
+    align: center top;
+}
+
+Sidebar > SectionRandom > Container Button {
+
+    margin: 1;
 }

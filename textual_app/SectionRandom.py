@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.widget import Widget
-from textual.containers import Vertical
+from textual.containers import Container
 from textual.widgets import Label, Static, Button
 
 from UI.Events.events import CloseScreen, OpenModalRandomRecord
@@ -8,18 +8,17 @@ from UI.Events.events import CloseScreen, OpenModalRandomRecord
 class SectionRandom(Widget):
 
     def compose(self) -> ComposeResult:
-        with Vertical(classes="section"):
-            yield Label("Random Section")
-            yield Static("Kliknij aby wylosować zdarzenie:")
+        with Container(classes="section"):
+
             self.id_table = "random_encounter_table"
             self.result = Static("", id="result")
             
             yield self.result
-
-            self.btn_roll = Button("Losuj", id="roll")
-            yield self.btn_roll
-            self.btn_back = Button("Powrót", id="back")
-            yield self.btn_back
+            self.btn_roll = Button("Roll", id="roll")
+            self.btn_back = Button("Back", id="back")
+            with Container():
+                yield self.btn_roll
+                yield self.btn_back
 
     def on_button_pressed(self, event: Button.Pressed):
         if event.button.id == "roll":

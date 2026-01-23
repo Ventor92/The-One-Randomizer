@@ -19,7 +19,7 @@ class Sidebar(Widget):
         
         &.-visible {
             /* Expand to visible width */
-            width: 30;
+            width: 22;
         }
 
         & > Horizontal {
